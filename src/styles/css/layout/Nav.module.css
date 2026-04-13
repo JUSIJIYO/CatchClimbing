@@ -1,0 +1,33 @@
+.nav{
+    width: 900px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.navList{
+    display: flex;
+    gap: 8px;
+}
+
+.navList > a { 
+    text-decoration-line: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    font-size: 16px;
+    color: #2C3E50;
+    width: 118px;
+    height: 40px;
+}
+
+.active {
+  background: rgba(44, 62, 80, 0.1);
+  border-radius: 14px;
+  width: 118px;
+  height: 40px;
+
+}
