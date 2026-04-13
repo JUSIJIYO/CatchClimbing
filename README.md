@@ -41,7 +41,7 @@ Conventional Commits 스펙을 기반으로 작성합니다.[myeongjae](https://
 
 ## 커밋 메시지 구조
 
-`type: subject
+`[type]: subject#이슈번호
 
 body (선택)
 
@@ -69,12 +69,10 @@ footer (선택)`
 
 ## 예시
 
-`feature: 소셜 로그인 기능 추가
+`[feature]: 소셜 로그인 기능 추가#이슈번호
 
 카카오, 구글 OAuth 2.0 연동
 리다이렉트 URI 및 토큰 저장 로직 포함
-
-issue #21`
 
 ---
 
