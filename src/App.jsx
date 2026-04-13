@@ -4,6 +4,7 @@ import Header from './components/layout/Header';
 import Modal from './components/common/Modal';
 import ChkModal from './components/common/ChkModal';
 import ConfirmModal from './components/common/ConfirmModal';
+import Nav from "./components/layout/Nav"
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Modal />
       <ChkModal />
       <ConfirmModal />
+      <Nav />
     </>
   );
 }
