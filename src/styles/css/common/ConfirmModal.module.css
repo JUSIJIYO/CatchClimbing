@@ -1,0 +1,81 @@
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modalContainer {
+  width: 90%;
+  max-width: 480px;
+  background: #fff;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  -ms-border-radius: 14px;
+  -o-border-radius: 14px;
+}
+
+.modalHeader {
+  padding: 40px 24px 16px;
+  text-align: center;
+}
+
+.doneIcon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+}
+
+.doneTitle {
+  font-size: clamp(24px, 2.5vw, 28px);
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.modalContent {
+  padding: 10px 24px 20px;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doneMessage {
+  margin: 0;
+  color: #67798d;
+  font-size: clamp(18px, 2.2vw, 24px);
+  word-break: keep-all;
+  line-height: 1.4;
+}
+
+.modalActions {
+  display: flex;
+  padding: clamp(12px, 2.5vw, 20px);
+  justify-content: center;
+}
+
+.modalActions > button {
+  width: 100%; /* 확인 버튼 하나일 땐 꽉 채우거나 조절 */
+  max-width: 200px; /* 너무 넓어지지 않게 제한 */
+  height: clamp(40px, 6vw, 45px);
+  border-radius: 14px;
+  font-size: clamp(14px, 1.8vw, 18px);
+  cursor: pointer;
+  background: #2c3e50;
+  color: white;
+  border: none;
+}

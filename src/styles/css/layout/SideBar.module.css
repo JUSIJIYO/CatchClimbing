@@ -1,0 +1,32 @@
+.sidebar-ct {
+    display : flex;
+    flex-direction: column;
+    border-right: 0.8px solid #E5E7EB;
+    background: #FFF;
+    width : 256px;
+    height : 100vh;
+    padding : 16px;
+}
+
+.sidebar-link {
+    display : flex;
+    gap : 16px;
+    align-items: center;
+    padding-left: 16px;
+    height : 40px;
+    text-decoration-line: none;
+    color : #364153;
+
+    font-family: "Pretendard Variable";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    
+}
+
+.active {
+    border-radius: 10px;
+    background: #2C3E50;
+    color: #FFFFFF;
+}

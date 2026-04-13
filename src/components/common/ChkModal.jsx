@@ -1,9 +1,23 @@
-import React from 'react'
+import React from 'react';
+import styles from '../../styles/css/common/ChkModal.module.css';
 
-function CheckModal() {
+export default function CheckModal({ title, message, onConfirm }) {
   return (
-    <div></div>
-  )
-}
+    <section className={styles['modalBackground']}>
+      <article className={styles['modalContainer']}>
+        <header className={styles['modalHeader']}>
+          <h2>{title}</h2>
+          {/* <h2>제목</h2> */}
+        </header>
 
-export default CheckModal
+        <main className={styles['modalContent']}>
+          <p>{message}</p>
+        </main>
+
+        <footer className={styles['modalActions']}>
+          <button onClick={onConfirm}>확인</button>
+        </footer>
+      </article>
+    </section>
+  );
+}
