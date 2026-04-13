@@ -10,21 +10,21 @@ function Header() {
 
   return (
     <>
-      <header className={styles.header}>
-        <div className={styles.left}>
-          <img src={logo} alt="logo" className={styles.logo} />
-          <img src={title} alt="title" className={styles.title} />
+      <header className={styles['header']}>
+        <div className={styles['left']}>
+          <img src={logo} alt="logo" className={styles['logo']} />
+          <img src={title} alt="title" className={styles['title']} />
         </div>
 
         <div>
           <button
-            className={`${styles.button} ${isLogin ? styles.logout : styles.login}`}
+            className={`${styles['button']} ${isLogin ? styles['logout'] : styles['login']}`}
             onClick={() => setIsLogin(!isLogin)}
           >
             <img
               src={isLogin ? logoutIcon : loginIcon}
               alt="icon"
-              className={styles.icon}
+              className={styles['icon']}
             />
             {isLogin ? '로그아웃' : '로그인'}
           </button>
