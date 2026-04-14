@@ -1,10 +1,16 @@
 import React from 'react';
 import styles from '../../styles/css/branch/BranchCard.module.css';
 import locationIcon from '../../assets/icon/location.svg';
+import { useNavigate } from 'react-router-dom';
 
 function BranchCard({ branch }) {
+  const navigate = useNavigate();
+
   return (
-    <article className={styles.card}>
+    <article
+      className={styles.card}
+      onClick={() => navigate(`/branch/${branch.id}`)}
+    >
       <img
         className={styles.image}
         src={branch.image || '/default.jpg'}
