@@ -5,16 +5,18 @@ import Modal from './components/common/Modal';
 import ChkModal from './components/common/ChkModal';
 import ConfirmModal from './components/common/ConfirmModal';
 import Nav from './components/layout/Nav';
+import BranchListPage from './pages/branch/BranchListPage.jsx';
 
 function App() {
   return (
     <>
       {/* <RouterProvider router={router} /> */}
       <Header />
-      <Modal />
+      {/* <Modal />
       <ChkModal />
       <ConfirmModal />
-      <Nav />
+      <Nav /> */}
+      <BranchListPage />
     </>
   );
 }
