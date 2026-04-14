@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../styles/css/branch/BranchDetailPage.module.css';
 
 function BranchDetailPage() {
   const { id } = useParams();
   const [tab, setTab] = useState('info');
+  const navigate = useNavigate();
 
   const branch = {
     name: '서밋 클라이밍 센터',
@@ -15,7 +16,7 @@ function BranchDetailPage() {
   return (
     <>
       <section className={styles['banner']}>
-        <button className={styles.backButton}>
+        <button className={styles.backButton} onClick={() => navigate('/')}>
           <img src="/src/assets/icon/backButton.svg" alt="뒤로가기" />
         </button>
         <img src={branch.image} alt={branch.name} />
