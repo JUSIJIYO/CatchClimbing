@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-function BranchProfessorItem() {
-  return (
-    <div></div>
-  )
+function BranchPrfItem({ prf }) {
+  return <div>{prf.name}</div>;
 }
 
-export default BranchProfessorItem
+export default BranchPrfItem;
