@@ -1,13 +1,15 @@
-div{
-    margin-left: 20px;
+
+.container{
+    max-width: 395px;
 }
 
-.classcard-item{
+.classcard-item{ 
     border: 1px solid #000000;
     border-radius: 16px;
     background-color: white;
-    width: 395px;
+    width: 100%;
     height: 240px;
+    margin-left: 20px;
 }
 
 .classcard-level{
@@ -15,19 +17,21 @@ div{
     width: 65px;
     height: 28px;
     border-radius: 20px;
-    margin-left: 230px;
     text-align: center;
+    justify-content: flex-start;
 }
 
 .header{
     margin-top: 20px;
     display: flex;
     height: 60px;
+    
 }
 
 .left{
-    flex-direction: column;
-    
+    display: flex;
+    flex-direction: column; 
+    margin-left: 20px;
 }
 
 .classcard-branchName{
@@ -51,15 +55,16 @@ div{
 .classcard-openDate{
     margin-bottom: 8px;
 }
+
 .footer{
     display: flex;
     gap: 8px;
-    height: 70px;
-    
+     justify-content: center;
 }
 
 .classcard-detail-button{
-    width: 175px;
+    max-width: 175px;
+    width:100%;
     height: 36px;
     background-color: white;
     border-radius: 14px;
@@ -71,7 +76,8 @@ div{
 }
 
 .classcard-register-button{
-    width: 175px;
+    max-width: 175px;
+    width: 100%;
     height: 36px;
     background-color: #2C3E50;
     border-radius: 14px;
