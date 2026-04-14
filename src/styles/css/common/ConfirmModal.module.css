@@ -14,6 +14,7 @@
 .modalContainer {
   width: 90%;
   max-width: 480px;
+  min-width: 180px;
   background: #fff;
   border-radius: 14px;
   display: flex;
@@ -28,7 +29,7 @@
 }
 
 .modalHeader {
-  padding: 40px 24px 16px;
+  padding: 20px 24px 12px;
   text-align: center;
 }
 
@@ -46,7 +47,7 @@
 }
 
 .modalContent {
-  padding: 10px 24px 20px;
+  padding: 20px 24px;
   text-align: center;
   flex: 1;
   display: flex;
@@ -64,13 +65,12 @@
 
 .modalActions {
   display: flex;
+  gap: 16px;
   padding: clamp(12px, 2.5vw, 20px);
-  justify-content: center;
 }
 
 .modalActions > button {
-  width: 100%; /* 확인 버튼 하나일 땐 꽉 채우거나 조절 */
-  max-width: 200px; /* 너무 넓어지지 않게 제한 */
+  flex: 1;
   height: clamp(40px, 6vw, 45px);
   border-radius: 14px;
   font-size: clamp(14px, 1.8vw, 18px);
