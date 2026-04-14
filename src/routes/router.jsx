@@ -1,35 +1,35 @@
-import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
-import DashBoardPage from "../pages/admin/DashBoardPage";
-import BranchDetailPage from "../pages/branch/BranchDetailPage";
-import AuthLayout from "../layouts/AuthLayout";
-import BranchListPage from "../pages/branch/BranchListPage";
+import { createBrowserRouter } from 'react-router-dom';
+import MainLayout from '../layouts/MainLayout';
+import DashBoardPage from '../pages/admin/DashBoardPage';
+import BranchDetailPage from '../pages/branch/BranchDetailPage';
+import AuthLayout from '../layouts/AuthLayout';
+import BranchListPage from '../pages/branch/BranchListPage';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <MainLayout />,
     children: [
       {
-        index : true,
-        element : <BranchListPage/>
+        index: true,
+        element: <BranchListPage />,
       },
       {
-        path: "branch",
+        path: 'branch/:id',
         element: <BranchDetailPage />,
       },
       {
-        path: "login",
+        path: 'login',
         element: <AuthLayout />,
       },
     ],
   },
   {
-    path: "/totaladmin",
+    path: '/totaladmin',
     element: <DashBoardPage />,
   },
   {
-    path: "branchadmin",
-    element: <DashBoardPage />
-  }
+    path: 'branchadmin',
+    element: <DashBoardPage />,
+  },
 ]);
