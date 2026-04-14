@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../styles/css/branch/BranchDetailPage.module.css';
 import BranchDetail from '../../components/branch/BranchDetail';
+import BranchPrfList from '../../components/branch/BranchPrfList';
 
 function BranchDetailPage() {
   const { id } = useParams();
@@ -71,6 +72,7 @@ function BranchDetailPage() {
 
       <main className={styles.content}>
         {tab === 'info' && <BranchDetail branch={branch} />}
+        {tab === 'teacher' && <BranchPrfList />}
       </main>
     </>
   );
