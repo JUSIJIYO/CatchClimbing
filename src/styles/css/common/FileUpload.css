@@ -1,0 +1,7 @@
+.label > img{
+    width: 24px;
+    height: 24px;
+}
+#fileUpload{
+    display: none;
+}

@@ -1,8 +1,12 @@
 import React from 'react'
+import LoginPage from '../pages/auth/LoginPage'
+import '../styles/css/auth/AuthLayout.css'
 
 function AuthLayout() {
   return (
-    <div></div>
+    <div className='AuthGlobal'>
+      <LoginPage />
+    </div>
   )
 }
 
