@@ -1,21 +1,25 @@
 import React from "react";
 import styles from "../../styles/css/auth/StuSignUpPage.module.css";
-import upload from '../../assets/icon/signup-upload.svg'
+import upload from "../../assets/icon/signup-upload.svg";
 
 function StuSignUpPage() {
   return (
     <>
       <form className={styles["stusignup-ct"]}>
         <article>
-          <label className={styles["stusign-profile"]}> 프로필 사진 </label>
-          <div>
-            <img src={upload}/>
-            <input type="file" />
+          <label className={styles["stusign-profile-title"]}>
+            {" "}
+            프로필 사진{" "}
+          </label>
+          <div className={styles["stusign-profile-upload-ct"]}>
+            <img src={upload} />
+            <label for="profile-upload"> 사진 선택</label>
+            <input type="file" id="profile-upload" />
           </div>
         </article>
         <label> 레벨 진단 </label>
         <article>
-          <div>
+          <div className={styles["stusign-question-ct"]}>
             <p> 1. 클라이밍 경력이 어떻게 되시나요? </p>
             <div>
               <input type="radio" />
@@ -36,11 +40,13 @@ function StuSignUpPage() {
             </div>
           </div>
         </article>
+
         <article>
-          <label> 레벨 진단 </label>
-          <div>
-            <div>
-              <p> 2. 편안하게 등반 가능한 난이도는? </p>
+          <div className={styles["stusign-question-ct"]}>
+            <div className={styles["stusign-level-check-ct"]}>
+              <p>
+                2. 편안하게 등반 가능한 난이도는? <span>(더클라임 기준)</span>
+              </p>
               <button> 난이도 확인 </button>
             </div>
             <div>
@@ -96,7 +102,7 @@ function StuSignUpPage() {
         </article>
 
         <article>
-          <div>
+          <div className={styles["stusign-question-ct"]}>
             <p> 3. 2번째에서 선택한 난이도에 문제를 몇 개 완등할 수 있나요? </p>
 
             <div>
@@ -115,7 +121,7 @@ function StuSignUpPage() {
         </article>
 
         <article>
-          <div>
+          <div className={styles["stusign-question-ct"]}>
             <p> 4. 클라이밍을 얼마나 자주하나요? </p>
             <div>
               <input type="radio" />
@@ -142,7 +148,7 @@ function StuSignUpPage() {
           </div>
         </article>
         <article>
-          <div>
+          <div className={styles["stusign-question-ct"]}>
             <p> 5. 기본 기술(토훅, 캠퍼싱 등)을 알고 있나요? </p>
             <div>
               <input type="radio" />
@@ -161,7 +167,7 @@ function StuSignUpPage() {
         </article>
 
         <article>
-          <div>
+          <div className={styles["stusign-question-ct"]}>
             <p> 6. 클라이밍을 하는 목표는 무엇인가요? </p>
             <div>
               <input type="radio" />
@@ -185,7 +191,7 @@ function StuSignUpPage() {
 
         <article>
           <label> 약관 동의 </label>
-          <div>
+          <div className={styles["stusign-question-ct"]}>
             <div>
               <input type="checkbox" />
               <label> 모든 약관에 동의합니다 </label>
@@ -206,6 +212,11 @@ function StuSignUpPage() {
           </div>
         </article>
       </form>
+
+      <div className={styles["stusign-btn-ct"]}>
+        <button> 이전 </button>
+        <button> 다음 </button>
+      </div>
     </>
   );
 }
