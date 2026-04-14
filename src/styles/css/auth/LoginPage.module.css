@@ -1,0 +1,29 @@
+.login-ct {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+}
+
+.login-ct > h2 {
+  color: #2c3e50;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px;
+  margin: 50px 0px 0px 0px;
+}
+
+.login-ct > p {
+  color: #67798d;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; 
+  margin-bottom: 20px;
+}
