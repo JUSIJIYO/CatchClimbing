@@ -1,0 +1,62 @@
+.banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 500;
+  /* overflow: hidden; */
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.backButton {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: clamp(32px, 5vw, 48px);
+  height: clamp(32px, 5vw, 48px);
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.backButton img {
+  width: clamp(16px, 2.5vw, 30px);
+  height: clamp(16px, 2.5vw, 30px);
+}
+
+.tab {
+  display: flex;
+  justify-content: space-between;
+  width: clamp(280px, 60vw, 700px);
+  margin: 16px auto 24px;
+  padding: 0;
+  background: #fff;
+  border: 0.753px solid rgba(44, 62, 80, 0.1);
+  border-radius: 12px;
+}
+
+.tab button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 8px 0;
+  border-radius: 10px;
+  font-size: clamp(14px, 1.2vw, 16px);
+  color: #2c3e50;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab button.active {
+  background: #e1e3e4;
+  border-radius: 10px;
+  font-weight: 600;
+}
