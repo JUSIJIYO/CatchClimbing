@@ -4,6 +4,7 @@ import loginIcon from '../../assets/icon/login.svg';
 import logoutIcon from '../../assets/icon/logout.svg';
 import title from '../../assets/icon/logo.png';
 import styles from '../../styles/css/layout/header.module.css';
+import Nav from './Nav';
 
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
@@ -15,6 +16,8 @@ function Header() {
           <img src={logo} alt="logo" className={styles['logo']} />
           <img src={title} alt="title" className={styles['title']} />
         </div>
+
+        <Nav />
 
         <div>
           <button
