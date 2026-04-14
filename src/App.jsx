@@ -1,23 +1,31 @@
-import { RouterProvider } from "react-router-dom"
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes/router.jsx';
 // import{router}from "./routes/router.jsx"
 import Header from './components/layout/Header';
 import Modal from './components/common/Modal';
 import ChkModal from './components/common/ChkModal';
 import ConfirmModal from './components/common/ConfirmModal';
+import BranchListPage from './pages/branch/BranchListPage.jsx';
 import Nav from "./components/layout/Nav"
+import AuthLayout from "./layouts/AuthLayout.jsx";
+import '../src/styles/global.css'
 import FileUpload from "./components/common/FileUpload";
 import ClassCard from "./components/class/ClassCard";
 
 function App() {
   return (
     <>
+      {/* <BranchListPage /> */}
       {/* <RouterProvider router={router}/> */}
-      <Header />
+      {/* 
       <Modal />
       <ChkModal />
       <ConfirmModal />
+       */}
+      {/* <Header />
+      <AuthLayout />
       <Nav />
-      <FileUpload />
+      <FileUpload /> */}
       <ClassCard />
     </>
   );
