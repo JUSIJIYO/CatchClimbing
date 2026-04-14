@@ -6,10 +6,10 @@ import Modal from './components/common/Modal';
 import ChkModal from './components/common/ChkModal';
 import ConfirmModal from './components/common/ConfirmModal';
 import BranchListPage from './pages/branch/BranchListPage.jsx';
-import Nav from "./components/layout/Nav"
-import AuthLayout from "./layouts/AuthLayout.jsx";
-import '../src/styles/global.css'
-import FileUpload from "./components/common/FileUpload";
+import Nav from './components/layout/Nav';
+import AuthLayout from './layouts/AuthLayout.jsx';
+import '../src/styles/global.css';
+import FileUpload from './components/common/FileUpload';
 
 function App() {
   return (
@@ -22,9 +22,9 @@ function App() {
       <ConfirmModal />
        */}
       <Header />
-      <AuthLayout />
-      <Nav />
-      <FileUpload />
+      {/* <AuthLayout /> */}
+      {/* <Nav /> */}
+      {/* <FileUpload /> */}
     </>
   );
 }
