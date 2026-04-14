@@ -11,6 +11,7 @@ import AuthLayout from "./layouts/AuthLayout.jsx";
 import '../src/styles/global.css'
 import FileUpload from "./components/common/FileUpload";
 import ClassCard from "./components/class/ClassCard";
+import ClassListPage from './pages/class/ClassListPage.jsx';
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
       <AuthLayout />
       <Nav />
       <FileUpload /> */}
-      <ClassCard />
+      {/* <ClassCard /> */}
+      <ClassListPage />
     </>
   );
 }
