@@ -13,10 +13,12 @@ function BranchPrfList() {
   ];
 
   return (
-    <div className={styles['list']}>
-      {prfList.map((prf) => (
-        <BranchPrfItem key={prf.id} prf={prf} />
-      ))}
+    <div className={styles.card}>
+      <div className={styles['list']}>
+        {prfList.map((prf) => (
+          <BranchPrfItem key={prf.id} prf={prf} />
+        ))}
+      </div>
     </div>
   );
 }

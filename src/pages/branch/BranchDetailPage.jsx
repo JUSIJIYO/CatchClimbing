@@ -70,9 +70,11 @@ function BranchDetailPage() {
         </button>
       </nav>
 
-      <main className={styles.content}>
-        {tab === 'info' && <BranchDetail branch={branch} />}
-        {tab === 'teacher' && <BranchPrfList />}
+      <main className={styles['content']}>
+        <div className={styles['container']}>
+          {tab === 'info' && <BranchDetail branch={branch} />}
+          {tab === 'teacher' && <BranchPrfList />}
+        </div>
       </main>
     </>
   );
