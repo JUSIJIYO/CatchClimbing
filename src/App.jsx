@@ -6,17 +6,19 @@ import ChkModal from './components/common/ChkModal';
 import ConfirmModal from './components/common/ConfirmModal';
 import Nav from "./components/layout/Nav"
 import FileUpload from "./components/common/FileUpload";
+import ClassCard from "./components/class/ClassCard";
 
 function App() {
   return (
     <>
-      <RouterProvider router={router}/>
+      {/* <RouterProvider router={router}/> */}
       <Header />
       <Modal />
       <ChkModal />
       <ConfirmModal />
       <Nav />
       <FileUpload />
+      <ClassCard />
     </>
   );
 }
