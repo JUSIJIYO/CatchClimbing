@@ -1,6 +1,10 @@
-.list {
-  max-width: 600px;
+.card {
+  max-width: 800px;
   margin: 0 auto;
+  padding: 24px;
+}
+
+.list {
   display: flex;
   flex-direction: column;
   gap: 16px;
