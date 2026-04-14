@@ -22,6 +22,20 @@ function BranchListPage() {
   const branchList = [
     { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
     { id: 2, name: '볼더 하우스', location: '서울 마포구' },
+    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
+    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
+    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
+    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
+    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
+    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
+    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
+    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
+    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
+    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
+    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
+    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
+    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
+    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
   ];
 
   return (
