@@ -1,7 +1,7 @@
 .banner {
   position: relative;
   width: 100%;
-  aspect-ratio: 1920 / 500;
+  aspect-ratio: 1920 / 350;
   /* overflow: hidden; */
 }
 
@@ -30,6 +30,11 @@
 .backButton img {
   width: clamp(16px, 2.5vw, 30px);
   height: clamp(16px, 2.5vw, 30px);
+}
+
+.detailHeader {
+  text-align: center;
+  margin: 24px 0 20px;
 }
 
 .tab {
