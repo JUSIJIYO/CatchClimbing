@@ -14,7 +14,7 @@ export default function DoneModal({ message, onConfirm }) {
         </header>
 
         <main className={styles['modalContent']}>
-          <p className={styles['doneMessage']}>메세지</p>
+          <p className={styles['doneMessage']}>{message}</p>
         </main>
 
         <footer className={styles['modalActions']}>
