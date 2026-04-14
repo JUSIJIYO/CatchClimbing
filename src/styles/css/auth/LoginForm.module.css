@@ -31,7 +31,22 @@
   gap: 20px;
 }
 
-.login-input-ct > input {
+.login-paswword-visible {
+  position: relative;
+  display : flex;
+}
+
+.login-paswword-visible > input {
+  flex : 1;
+}
+
+.login-paswword-visible > img {
+  position: absolute;
+  top : 30px;
+  right : 20px;
+}
+
+.login-input-ct > input, .login-paswword-visible> input {
   height: 60px;
   border: 0px;
   border-radius: 14px;
@@ -78,6 +93,9 @@
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
-  line-height: 20px; /* 83.333% */
+  line-height: 20px; 
 }
 
+.loginForm-ct > button:hover {
+  cursor: pointer;
+}
