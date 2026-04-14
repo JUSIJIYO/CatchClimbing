@@ -4,6 +4,11 @@ import DashBoardPage from '../pages/admin/DashBoardPage';
 import BranchDetailPage from '../pages/branch/BranchDetailPage';
 import AuthLayout from '../layouts/AuthLayout';
 import BranchListPage from '../pages/branch/BranchListPage';
+import LoginPage from '../pages/auth/LoginPage'
+import SignUpPage from '../pages/auth/SignUpPage'
+import StuSignUpPage from '../pages/auth/StuSignUpPage'
+import PrfSignUpPage from '../pages/auth/PrfSignUpPage'
+import SignUpForm from '../components/auth/SignUpForm';
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +24,6 @@ export const router = createBrowserRouter([
         element: <BranchDetailPage />,
       },
       {
-        path: 'login',
         element: <AuthLayout />,
         children: [
           {
@@ -29,6 +33,20 @@ export const router = createBrowserRouter([
           {
             path: "signup",
             element: <SignUpPage />,
+            children: [
+              {
+                index : true,
+                element : <SignUpForm/>
+              },
+              {
+                path : "stu",
+                element : <StuSignUpPage />
+              },
+              {
+                path : "prf",
+                element : <PrfSignUpPage/>
+              }
+            ]
           },
         ],
       },

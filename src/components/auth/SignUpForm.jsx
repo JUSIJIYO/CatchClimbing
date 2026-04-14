@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import openEye from "../../assets/icon/openEye.svg";
 import closeEye from "../../assets/icon/closeEye.svg";
 import calender from "../../assets/icon/calender.png";
 import styles from "../../styles/css/auth/SignUpForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
+
+  const navigate = useNavigate();
+
+  const [roleSelect, setRoleSelect] = useState("");
+
+  const handleSubmit = () => {
+    roleSelect === "student" ? navigate('stu') : navigate('prf')
+  }
+
   return (
     <>
     <form id="signupForm"className={styles["signupForm-ct"]}>
@@ -71,18 +81,24 @@ function SignUpForm() {
       <article>
         <label> 회원 유형</label>
         <div className={styles["signup-user-category-ct"]}>
-          <div>
+          <div
+            className={roleSelect === "student" ? styles["active"] : ""}
+            onClick={() => setRoleSelect("student")}
+          >
             <p> 🧗 </p>
             <p> 수강생 </p>
           </div>
-          <div>
+          <div
+            className={roleSelect === "professor" ? styles["active"] : ""}
+            onClick={() => setRoleSelect("professor")}
+          >
             <p> 👨‍🏫 </p>
             <p> 강사 </p>
           </div>
         </div>
       </article>
     </form>
-    <button className={styles["signup-nextbtn"]} type="submit" form="signupForm"> 다음 </button>
+    <button onClick={handleSubmit} className={styles["signup-nextbtn"]} type="submit" form="signupForm"> 다음 </button>
   </>
   );
 }

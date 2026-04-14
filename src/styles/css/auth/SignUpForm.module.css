@@ -120,6 +120,11 @@
   justify-content: center;
 }
 
+.active {
+  border: 1.6px solid #2C3E50 !important;
+  background: #eaf0fb !important;
+}
+
 .signup-nextbtn {
   width: 640px;
   height: 48px;
