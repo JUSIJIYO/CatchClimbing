@@ -5,9 +5,17 @@ import logoutIcon from '../../assets/icon/logout.svg';
 import title from '../../assets/icon/logo.png';
 import styles from '../../styles/css/layout/header.module.css';
 import Nav from './Nav';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
+
+  const handleLogin = () => {
+    navigate("/login");
+    // setIsLogin(!isLogin);
+  }
 
   return (
     <>
@@ -22,7 +30,7 @@ function Header() {
         <div>
           <button
             className={`${styles['button']} ${isLogin ? styles['logout'] : styles['login']}`}
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={handleLogin}
           >
             <img
               src={isLogin ? logoutIcon : loginIcon}
