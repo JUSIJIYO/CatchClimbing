@@ -12,6 +12,7 @@ import SignUpForm from '../components/auth/SignUpForm';
 import CommuPostPage from '../pages/community/CommuPostPage';
 import ClassListPage from '../pages/class/ClassListPage';
 import ClassDetailPage from '../pages/class/ClassDetailPage';
+import SignUpCompletePage from '../pages/auth/SignUpCompletePage'
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
                 element: <PrfSignUpPage />,
               },
             ],
+          },
+          {
+            path : 'signupcomplete',
+            element: <SignUpCompletePage />
           },
         ],
       },
