@@ -66,6 +66,7 @@ function ClassListPage() {
   ];
 
   const [selectedBranch, setSelectedBranch] = useState("전체");
+  
 
     const filteredData =
     selectedBranch === "전체"
