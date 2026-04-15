@@ -1,0 +1,29 @@
+.class-container{
+    width: 1521px;
+    height: 998px;
+    left: 270px;
+    top: 82px;
+    background: #F9FAFB;
+    border: 1px solid black;
+}
+
+.class-back{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: #67798D;
+}
+
+.class-card{
+    background: #FFFFFF;
+    border: 0.8px solid #E5E7EB;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    gap: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 500px;
+    height: 106px;
+}
