@@ -9,7 +9,6 @@ function ClassDetail({
   branchName,
   createdAt,
   level,
-
   currentCap, //현재신청인원
   capacity, //정원
   money,
@@ -18,10 +17,15 @@ function ClassDetail({
     <div>
       <div className={styles["class-main-card"]}>
         <div className={styles["class-top"]}>
-          <div className={styles["class-picture"]}></div>
+          <div className={styles["class-top-right"]}>
+            <h2 className={styles["class-title"]}>초급 볼더링</h2>
+            <div className={styles["class-picture"]}>
+            <img src="imageUrl"/>
+            </div>
+          </div>
+            
 
           <div className={styles["class-infomation"]}>
-            <h2 className={styles["class-title"]}>초급 볼더링</h2>
 
             <div className={styles["class-datail-information"]}>
 
@@ -63,6 +67,8 @@ function ClassDetail({
             기초적인 홀드 잡는 방법부터 바디 포지션, 균형 잡는 법까지 차근차근
             배울 수 있어요.
           </p>
+          <p>강사의 시범과 함께 쉬운 난이도의 문제를 직접 풀어보며 볼더링의 기본 동작과 재미를 자연스럽게 익히게 됩니다.</p>
+          <p>체력이나 경험이 없어도 누구나 참여할 수 있으며, 안전하게 운동하는 방법과 올바른 자세를 중심으로 진행됩니다.</p>
         </div>
       </div>
 
