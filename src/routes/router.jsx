@@ -11,6 +11,7 @@ import PrfSignUpPage from '../pages/auth/PrfSignUpPage';
 import SignUpForm from '../components/auth/SignUpForm';
 import CommuPostPage from '../pages/community/CommuPostPage';
 import ClassDetailPage from '../pages/class/ClassDetailPage';
+import Mypage from '../pages/mypage/Mypage';
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
       {
         path: 'class/:classId',
         element: <ClassDetailPage />,
+      },
+      {
+        path: 'mypage',
+        element: <Mypage />,
       },
       {
         element: <AuthLayout />,
