@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../styles/css/branch/BranchDetailPage.module.css';
 import BranchDetail from '../../components/branch/BranchDetail';
 import BranchPrfList from '../../components/branch/BranchPrfList';
 import BranchPrfDetail from '../../components/branch/BranchPrfDetail';
 import BranchCommuList from '../../components/branch/BranchCommuList';
+import Modal from '../../components/common/Modal';
 
 function BranchDetailPage() {
   const { id } = useParams();
@@ -12,6 +13,23 @@ function BranchDetailPage() {
   const navigate = useNavigate();
   const [selectedPrf, setSelectedPrf] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const isLogin = false; // 테스트용
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (tab !== 'teacher') {
+      setSelectedPrf(null);
+      setSelectedIndex(null);
+    }
+  }, [tab]);
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [showModal]);
 
   const branchList = [
     { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
@@ -85,7 +103,13 @@ function BranchDetailPage() {
         </button>
         <button
           className={`${styles['button']} ${tab === 'community' ? styles['active'] : ''}`}
-          onClick={() => setTab('community')}
+          onClick={() => {
+            setTab('community');
+
+            if (!isLogin) {
+              setShowModal(true);
+            }
+          }}
         >
           커뮤니티
         </button>
@@ -118,9 +142,20 @@ function BranchDetailPage() {
               setSelectedPrf={setSelectedPrf}
             />
           )}
-          {tab === 'community' && <BranchCommuList />}
+          {tab === 'community' && isLogin && <BranchCommuList />}
         </div>
       </main>
+
+      {showModal && (
+        <Modal
+          title="로그인"
+          message="로그인을 먼저 진행해주세요"
+          cancelText="취소"
+          confirmText="로그인하러 가기"
+          onCancel={() => setShowModal(false)}
+          onConfirm={() => navigate('/login')}
+        />
+      )}
     </>
   );
 }
