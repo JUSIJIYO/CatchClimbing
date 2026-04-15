@@ -7,6 +7,8 @@ import BranchPrfDetail from '../../components/branch/BranchPrfDetail';
 import BranchCommuList from '../../components/branch/BranchCommuList';
 import Modal from '../../components/common/Modal';
 import BranchReviewList from '../../components/branch/BranchReviewList';
+import BranchClassCard from '../../components/branch/BranchClassCard';
+import ConfirmModal from '../../components/common/ConfirmModal';
 
 function BranchDetailPage() {
   const { id } = useParams();
@@ -16,6 +18,20 @@ function BranchDetailPage() {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const isLogin = true; // 테스트용
   const [showModal, setShowModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const handleOpenModal = (type) => {
+    if (!isLogin) {
+      setShowModal(true); // 로그인 모달
+      return;
+    }
+    if (type === 'detail') {
+      navigate(`/class/${id}`); // 상세 페이지 이동
+    }
+    if (type === 'apply') {
+      setModalInfo('apply'); // 신청 모달
+    }
+  };
 
   useEffect(() => {
     if (tab !== 'teacher') {
@@ -149,6 +165,7 @@ function BranchDetailPage() {
               <BranchReviewList branch={branch} />
             </>
           )}
+          {tab === 'class' && <BranchClassCard onOpenModal={handleOpenModal} />}
         </div>
       </main>
 
@@ -160,6 +177,25 @@ function BranchDetailPage() {
           confirmText="로그인하러 가기"
           onCancel={() => setShowModal(false)}
           onConfirm={() => navigate('/login')}
+        />
+      )}
+      {modalInfo === 'apply' && (
+        <Modal
+          title="수업 신청"
+          message="이 수업을 신청하시겠습니까?"
+          cancelText="취소"
+          confirmText="신청하기"
+          onCancel={() => setModalInfo(null)}
+          onConfirm={() => {
+            setModalInfo(null); // 기존 모달 닫고
+            setConfirmOpen(true); // 완료 모달 열기
+          }}
+        />
+      )}
+      {confirmOpen && (
+        <ConfirmModal
+          message="수업 신청이 완료되었습니다."
+          onConfirm={() => setConfirmOpen(false)}
         />
       )}
     </>

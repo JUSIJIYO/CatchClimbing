@@ -4,13 +4,17 @@ import calendarIcon from '../../assets/icon/BranchCalender.svg';
 import peopleIcon from '../../assets/icon/BranchPeople.svg';
 import detailIcon from '../../assets/icon/BranchDetail.svg';
 
-function BranchClassItem({ item }) {
+function BranchClassItem({ item, onOpenModal }) {
   return (
     <div className={styles['branch-card']}>
       <div className={styles['branch-top']}>
         <div className={styles['branch-profileWrap']}>
           <img src={item.profile} alt="프로필" />
-          <span className={styles['branch-badge']}>강사</span>
+
+          <div className={styles['branch-profileText']}>
+            <span className={styles['branch-badge']}>강사</span>
+            <span className={styles['branch-name']}>{item.name}</span>
+          </div>
         </div>
 
         <span className={styles['branch-level']}>{item.level}</span>
@@ -26,18 +30,27 @@ function BranchClassItem({ item }) {
         <span>{item.time}</span>
       </div>
 
+      <div className={styles['branch-people']}>
+        <img src={peopleIcon} alt="정원" />
+        정원: {item.people}
+      </div>
+
       <div className={styles['branch-bottom']}>
-        <span className={styles['branch-people']}>
-          <img src={peopleIcon} alt="정원" />
-          {item.people}
-        </span>
         <div className={styles['branch-btnWrap']}>
-          <button className={styles['branch-detailBtn']}>
+          <button
+            className={styles['branch-detailBtn']}
+            onClick={() => onOpenModal('detail')}
+          >
             <img src={detailIcon} alt="" />
             상세보기
           </button>
 
-          <button className={styles['branch-applyBtn']}>신청하기</button>
+          <button
+            className={styles['branch-applyBtn']}
+            onClick={() => onOpenModal('apply')}
+          >
+            신청하기
+          </button>
         </div>
       </div>
     </div>
