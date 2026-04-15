@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/css/branch/BranchListPage.module.css';
 import { db } from '../../firebase/config';
 import { collection, getDocs } from 'firebase/firestore';
+import headerStyles from '../../styles/css/common/PageHeader.module.css';
 
 function BranchListPage() {
   const [branchList, setBranchList] = useState([]);
@@ -44,7 +45,7 @@ function BranchListPage() {
 
   return (
     <>
-      <div className={styles['header']}>
+      <div className={headerStyles.header}>
         <h1>클라이밍 센터</h1>
         <p>나에게 맞는 클라이밍 센터를 찾아보세요</p>
       </div>

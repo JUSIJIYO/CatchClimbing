@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/css/mypage/pro_ProfileCard.module.css';
+import styles from '../../styles/css/mypage/ProProfileCard.module.css';
 import mypageIcon from '../../assets/icon/mypageIcon.svg';
 import ProgressBar from '../common/ProgressBar';
 
