@@ -81,7 +81,7 @@ function ClassListPage() {
       </div>
 
       <div className={styles["filter"]}>
-            <img src={icon1} /> 
+            <img src={icon1} className={styles["class-filter-icon"]}/> 
             <div className={styles["container"]}>
                지점:
             {branchList.map((branch) => (

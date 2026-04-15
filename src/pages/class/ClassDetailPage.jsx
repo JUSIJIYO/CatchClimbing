@@ -1,7 +1,10 @@
 import styles from "../../styles/css/class/ClassDetailPage.module.css";
 import ClassDetail from "../../components/class/ClassDetail";
+import { useNavigate } from "react-router-dom";
 
 function ClassDetailPage() {
+
+  const navigate = useNavigate();
 
   const classList = [
   {
@@ -20,7 +23,7 @@ function ClassDetailPage() {
     <div className={styles["class-container"]}>
       {/* 헤더 */}
       <div className={styles["class-header"]}>
-        <span className={styles["class-back"]}>← 수업 관리로 돌아가기</span>
+        <span className={styles["class-back"]}onClick={() => navigate("/class")}>← 수업 관리로 돌아가기</span>
         <h1 className={styles["class-title"]}>수업 상세 정보</h1>
       </div>
 
