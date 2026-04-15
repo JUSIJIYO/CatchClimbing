@@ -9,6 +9,7 @@ import SignUpPage from '../pages/auth/SignUpPage';
 import StuSignUpPage from '../pages/auth/StuSignUpPage';
 import PrfSignUpPage from '../pages/auth/PrfSignUpPage';
 import SignUpForm from '../components/auth/SignUpForm';
+import CommuPostPage from '../pages/community/CommuPostPage';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: 'branch/:id',
         element: <BranchDetailPage />,
+      },
+      {
+        path: 'community',
+        element: <CommuPostPage />,
       },
       {
         element: <AuthLayout />,

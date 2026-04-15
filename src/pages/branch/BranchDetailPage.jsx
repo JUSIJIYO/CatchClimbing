@@ -4,6 +4,7 @@ import styles from '../../styles/css/branch/BranchDetailPage.module.css';
 import BranchDetail from '../../components/branch/BranchDetail';
 import BranchPrfList from '../../components/branch/BranchPrfList';
 import BranchPrfDetail from '../../components/branch/BranchPrfDetail';
+import BranchCommuList from '../../components/branch/BranchCommuList';
 
 function BranchDetailPage() {
   const { id } = useParams();
@@ -117,6 +118,7 @@ function BranchDetailPage() {
               setSelectedPrf={setSelectedPrf}
             />
           )}
+          {tab === 'community' && <BranchCommuList />}
         </div>
       </main>
     </>
