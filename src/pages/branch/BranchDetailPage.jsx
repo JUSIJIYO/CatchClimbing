@@ -3,11 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../styles/css/branch/BranchDetailPage.module.css';
 import BranchDetail from '../../components/branch/BranchDetail';
 import BranchPrfList from '../../components/branch/BranchPrfList';
+import BranchPrfDetail from '../../components/branch/BranchPrfDetail';
 
 function BranchDetailPage() {
   const { id } = useParams();
   const [tab, setTab] = useState('info');
   const navigate = useNavigate();
+  const [selectedPrf, setSelectedPrf] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   const branchList = [
     { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
@@ -28,6 +31,29 @@ function BranchDetailPage() {
     { id: 16, name: '볼더 하우스', location: '서울 마포구' },
   ];
 
+  const prfList = [
+    {
+      id: 1,
+      name: '김준호 팀장',
+      level: 'V8',
+      branch: '서밋 클라이밍 센터',
+      career: ['대회 1위', '대회 2위'],
+    },
+    {
+      id: 2,
+      name: '이서연 세터',
+      level: 'V7',
+      branch: '서밋 클라이밍 센터',
+      career: ['대회 1위', '대회 2위'],
+    },
+    {
+      id: 3,
+      name: '김민수 강사',
+      level: 'V6',
+      branch: '서밋 클라이밍 센터',
+      career: ['대회 1위', '대회 2위'],
+    },
+  ];
   const branch = branchList.find((b) => b.id === Number(id));
 
   return (
@@ -70,9 +96,28 @@ function BranchDetailPage() {
         </button>
       </nav>
 
-      <main className={styles.content}>
-        {tab === 'info' && <BranchDetail branch={branch} />}
-        {tab === 'teacher' && <BranchPrfList />}
+      <main className={styles['content']}>
+        <div className={styles['container']}>
+          {tab === 'info' && <BranchDetail branch={branch} />}
+          {tab === 'teacher' && !selectedPrf && (
+            <BranchPrfList
+              prfList={prfList}
+              onSelect={(prf, index) => {
+                setSelectedPrf(prf);
+                setSelectedIndex(index);
+              }}
+            />
+          )}
+          {tab === 'teacher' && selectedPrf && (
+            <BranchPrfDetail
+              prf={selectedPrf}
+              index={selectedIndex}
+              prfList={prfList}
+              setSelectedIndex={setSelectedIndex}
+              setSelectedPrf={setSelectedPrf}
+            />
+          )}
+        </div>
       </main>
     </>
   );
