@@ -7,7 +7,7 @@ import styles from '../../styles/css/branch/BranchCommuItem.module.css';
 function BranchCommuItem({ post }) {
   return (
     <div className={styles['card']}>
-      <div className={stylestop}>
+      <div className={styles['top']}>
         <h3>{post.title}</h3>
         <span className={styles.branch}>{post.branch}</span>
       </div>

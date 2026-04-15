@@ -1,0 +1,78 @@
+/* 🔹 전체 wrapper */
+.branch-wrapper {
+  margin-top: 24px;
+}
+
+/* 🔹 상단 (전체 게시글 + 조회하기) */
+.branch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.branch-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* 🔹 조회하기 버튼 */
+.branch-moreBtn {
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.branch-moreBtn:hover {
+  background: #1f2a36;
+}
+
+.branch-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.branch-filter span {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.branch-filter button {
+  border: none;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.branch-active {
+  background: #2c3e50 !important;
+  color: #fff;
+}
+
+.branch-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
