@@ -9,7 +9,6 @@ function ClassDetail({
   branchName,
   createdAt,
   level,
-
   currentCap, //현재신청인원
   capacity, //정원
   money,
@@ -18,10 +17,13 @@ function ClassDetail({
     <div>
       <div className={styles["class-main-card"]}>
         <div className={styles["class-top"]}>
+          <div className={styles["class-top-right"]}>
             <h2 className={styles["class-title"]}>초급 볼더링</h2>
             <div className={styles["class-picture"]}>
             <img src="imageUrl"/>
+            </div>
           </div>
+            
 
           <div className={styles["class-infomation"]}>
 
