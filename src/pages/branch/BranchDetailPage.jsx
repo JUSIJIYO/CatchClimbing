@@ -6,6 +6,7 @@ import BranchPrfList from '../../components/branch/BranchPrfList';
 import BranchPrfDetail from '../../components/branch/BranchPrfDetail';
 import BranchCommuList from '../../components/branch/BranchCommuList';
 import Modal from '../../components/common/Modal';
+import BranchReviewList from '../../components/branch/BranchReviewList';
 
 function BranchDetailPage() {
   const { id } = useParams();
@@ -13,7 +14,7 @@ function BranchDetailPage() {
   const navigate = useNavigate();
   const [selectedPrf, setSelectedPrf] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const isLogin = false; // 테스트용
+  const isLogin = true; // 테스트용
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -142,7 +143,12 @@ function BranchDetailPage() {
               setSelectedPrf={setSelectedPrf}
             />
           )}
-          {tab === 'community' && isLogin && <BranchCommuList />}
+          {tab === 'community' && isLogin && (
+            <>
+              <BranchCommuList />
+              <BranchReviewList branch={branch} />
+            </>
+          )}
         </div>
       </main>
 

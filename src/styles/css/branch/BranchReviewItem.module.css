@@ -4,17 +4,15 @@
   padding: 16px 20px;
   margin-bottom: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* 👉 hover 효과 */
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
-/* 상단 */
 .top {
   display: flex;
   justify-content: space-between;
@@ -23,9 +21,17 @@
 }
 
 .rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 14px;
   font-weight: 600;
   color: #f0b100;
+}
+
+.rating img {
+  width: 14px;
+  height: 14px;
 }
 
 .branch {
@@ -36,10 +42,21 @@
   color: #2c3e50;
 }
 
-.content {
-  font-size: 14px;
+.title {
+  font-size: 15px;
+  font-weight: 600;
   color: #2c3e50;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+}
+
+.content {
+  font-size: 13px;
+  color: #6b7280;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .bottom {
