@@ -10,6 +10,7 @@ import StuSignUpPage from '../pages/auth/StuSignUpPage';
 import PrfSignUpPage from '../pages/auth/PrfSignUpPage';
 import SignUpForm from '../components/auth/SignUpForm';
 import CommuPostPage from '../pages/community/CommuPostPage';
+import SignUpCompletePage from '../pages/auth/SignUpCompletePage'
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
                 element: <PrfSignUpPage />,
               },
             ],
+          },
+          {
+            path : 'signupcomplete',
+            element: <SignUpCompletePage />
           },
         ],
       },
