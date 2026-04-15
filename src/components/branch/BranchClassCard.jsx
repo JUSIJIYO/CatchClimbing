@@ -1,50 +1,56 @@
 import React from 'react';
 import BranchClassItem from './BranchClassItem';
 import styles from '../../styles/css/branch/BranchClassCard.module.css';
+import { useEffect, useState } from 'react';
+import { db } from '../../firebase/config';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { query, where } from 'firebase/firestore';
 
-function BranchClassCard({ onOpenModal }) {
-  const classList = [
-    {
-      id: 1,
-      profile: '/default.jpg',
-      name: '김준호',
-      level: 'V3~V5',
-      title: '중급 볼더링 클래스',
-      date: '2026년 4월 8일',
-      time: '18:00 - 19:30',
-      people: '8/12',
-    },
-    {
-      id: 2,
-      profile: '/default.jpg',
-      name: '김준호',
-      level: 'V3~V5',
-      title: '중급 볼더링 클래스',
-      date: '2026년 4월 8일',
-      time: '18:00 - 19:30',
-      people: '8/12',
-    },
-    {
-      id: 3,
-      profile: '/default.jpg',
-      name: '김준호',
-      level: 'V3~V5',
-      title: '중급 볼더링 클래스',
-      date: '2026년 4월 8일',
-      time: '18:00 - 19:30',
-      people: '8/12',
-    },
-    {
-      id: 4,
-      profile: '/default.jpg',
-      name: '김준호',
-      level: 'V3~V5',
-      title: '중급 볼더링 클래스',
-      date: '2026년 4월 8일',
-      time: '18:00 - 19:30',
-      people: '8/12',
-    },
-  ];
+function BranchClassCard({ onOpenModal, branchId }) {
+  const [classList, setClassList] = useState([]);
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const q = query(
+          collection(db, 'classes'),
+          where('branchId', '==', branchId),
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        const data = await Promise.all(
+          querySnapshot.docs.map(async (docSnap) => {
+            const d = docSnap.data();
+
+            // 🔥 강사 정보 가져오기
+            const userRef = doc(db, 'users', d.professorId);
+            const userSnap = await getDoc(userRef);
+            const userData = userSnap.exists() ? userSnap.data() : null;
+
+            return {
+              id: docSnap.id,
+              name: d.professorName,
+              profile: userData?.profileImg || '/default.jpg',
+              level: d.level,
+              title: d.title,
+              date: d.openDate,
+              time: d.time || '시간 미정',
+              people: `${d.currentCap}/${d.capacity}`,
+            };
+          }),
+        );
+
+        setClassList(data);
+      } catch (e) {
+        console.error('수업 불러오기 실패:', e);
+      }
+    };
+
+    if (branchId) {
+      fetchClasses();
+    }
+  }, [branchId]);
 
   return (
     <div className={styles['branch-wrapper']}>

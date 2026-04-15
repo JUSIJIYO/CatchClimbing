@@ -39,7 +39,7 @@ function BranchClassItem({ item, onOpenModal }) {
         <div className={styles['branch-btnWrap']}>
           <button
             className={styles['branch-detailBtn']}
-            onClick={() => onOpenModal('detail')}
+            onClick={() => onOpenModal('detail', item.id)}
           >
             <img src={detailIcon} alt="" />
             상세보기

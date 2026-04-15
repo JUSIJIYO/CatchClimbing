@@ -28,6 +28,7 @@ branches.forEach((branch) => {
         title: `클라이밍 클래스 ${i}`,
         professorName: '강사',
         openDate: '2026-05-01',
+        time: `${12 + i}:00 - ${14 + i}:30`,
         branchName: branch.name,
         branchId: `theclimb_${branch.id}`,
         level: `V${i + 1}`,

@@ -4,11 +4,34 @@ import Modal from '../../components/common/Modal';
 import BranchCard from '../../components/branch/BranchCard';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/css/branch/BranchListPage.module.css';
+import { db } from '../../firebase/config';
+import { collection, getDocs } from 'firebase/firestore';
 
 function BranchListPage() {
+  const [branchList, setBranchList] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const [selectedBranch, setSelectedBranch] = useState('theclimb_gangnam');
+
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'branches'));
+
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setBranchList(data);
+      } catch (e) {
+        console.error(' branches 가져오기 실패:', e);
+      }
+    };
+
+    fetchBranches();
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -18,25 +41,6 @@ function BranchListPage() {
     });
     return () => unsubscribe();
   }, []);
-
-  const branchList = [
-    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 3, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 4, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 5, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 6, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 7, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 8, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 9, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 10, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 11, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 12, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 13, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 14, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 15, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 16, name: '볼더 하우스', location: '서울 마포구' },
-  ];
 
   return (
     <>

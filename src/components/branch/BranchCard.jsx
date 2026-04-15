@@ -22,7 +22,7 @@ function BranchCard({ branch }) {
 
         <p className={styles.location}>
           <img src={locationIcon} alt="위치 아이콘" />
-          <span>{branch.location}</span>
+          <span>{branch.address || '위치 정보 없음'}</span>
         </p>
       </section>
     </article>

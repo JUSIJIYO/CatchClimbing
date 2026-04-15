@@ -10,6 +10,7 @@ import StuSignUpPage from '../pages/auth/StuSignUpPage';
 import PrfSignUpPage from '../pages/auth/PrfSignUpPage';
 import SignUpForm from '../components/auth/SignUpForm';
 import CommuPostPage from '../pages/community/CommuPostPage';
+import ClassDetailPage from '../pages/class/ClassDetailPage';
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: 'community',
         element: <CommuPostPage />,
+      },
+      {
+        path: 'class/:classId',
+        element: <ClassDetailPage />,
       },
       {
         element: <AuthLayout />,
