@@ -1,0 +1,90 @@
+
+.container{
+    max-width: 395px;
+}
+
+.classcard-item{ 
+    border: 1px solid #000000;
+    border-radius: 16px;
+    background-color: white;
+    width: 100%;
+    height: 240px;
+    margin-left: 20px;
+}
+
+.classcard-level{
+    background: rgba(44, 62, 80, 0.1);
+    width: 65px;
+    height: 28px;
+    border-radius: 20px;
+    text-align: center;
+    justify-content: flex-start;
+}
+
+.header{
+    margin-top: 20px;
+    display: flex;
+    height: 60px;
+    
+}
+
+.left{
+    display: flex;
+    flex-direction: column; 
+    margin-left: 20px;
+}
+
+.classcard-branchName{
+    margin-left: 45px;
+    align-items: center;
+}
+
+.content{
+    color: #67798D;
+    height: 110px;
+    margin-left: 20px;
+}
+
+.classcard-title{
+    color: black;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 11px;
+}
+
+.classcard-openDate{
+    margin-bottom: 8px;
+}
+
+.footer{
+    display: flex;
+    gap: 8px;
+     justify-content: center;
+}
+
+.classcard-detail-button{
+    max-width: 175px;
+    width:100%;
+    height: 36px;
+    background-color: white;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(44, 62, 80, 0.1);
+
+}
+
+.classcard-register-button{
+    max-width: 175px;
+    width: 100%;
+    height: 36px;
+    background-color: #2C3E50;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+

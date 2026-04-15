@@ -1,11 +1,11 @@
 import React from 'react'
-import LoginPage from '../pages/auth/LoginPage'
 import '../styles/css/auth/AuthLayout.css'
+import { Outlet } from 'react-router-dom'
 
 function AuthLayout() {
   return (
     <div className='AuthGlobal'>
-      <LoginPage />
+      <Outlet/>
     </div>
   )
 }
