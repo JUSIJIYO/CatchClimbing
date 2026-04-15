@@ -25,11 +25,29 @@ function BranchCommuList() {
       author: '익명',
       views: 178,
       comments: 15,
-      time: '3시간 전',
+      time: '2시간 전',
       branch: '강남점',
     },
     {
       id: 3,
+      title: '멀까여',
+      author: '익명',
+      views: 157,
+      comments: 30,
+      time: '4시간 전',
+      branch: '강남점',
+    },
+    {
+      id: 4,
+      title: '멀까여',
+      author: '익명',
+      views: 157,
+      comments: 30,
+      time: '6시간 전',
+      branch: '강남점',
+    },
+    {
+      id: 5,
       title: '멀까여',
       author: '익명',
       views: 157,
@@ -39,11 +57,13 @@ function BranchCommuList() {
     },
   ];
 
-  const sortedPosts = [...posts].sort((a, b) => {
-    if (sort === 'views') return b.views - a.views;
-    if (sort === 'comments') return b.comments - a.comments;
-    return 0;
-  });
+  const sortedPosts = [...posts]
+    .sort((a, b) => {
+      if (sort === 'views') return b.views - a.views;
+      if (sort === 'comments') return b.comments - a.comments;
+      return 0;
+    })
+    .slice(0, 3);
 
   const handleMoveCommunity = () => {
     navigate(id ? `/community?branch=${id}` : '/community');
@@ -63,7 +83,7 @@ function BranchCommuList() {
 
       <div className={styles['branch-filter']}>
         <img src={filterIcon} alt="" className={styles['filter-icon']} />
-        <span>정렬:</span>
+        <span>정렬 :</span>
 
         <button
           className={sort === 'views' ? styles['branch-active'] : ''}
