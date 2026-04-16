@@ -4,7 +4,7 @@ import calendarIcon from '../../assets/icon/BranchCalender.svg';
 import peopleIcon from '../../assets/icon/BranchPeople.svg';
 import detailIcon from '../../assets/icon/BranchDetail.svg';
 
-function BranchClassItem({ item, onOpenModal }) {
+function BranchClassItem({ item, onOpenModal, role = 'professor' }) {
   return (
     <div className={styles['branch-card']}>
       <div className={styles['branch-top']}>
@@ -45,12 +45,15 @@ function BranchClassItem({ item, onOpenModal }) {
             상세보기
           </button>
 
-          <button
-            className={styles['branch-applyBtn']}
-            onClick={() => onOpenModal('apply')}
-          >
-            신청하기
-          </button>
+          {/* 수강생일 때만 버튼 뜨도록!! */}
+          {role === 'student' && (
+            <button
+              className={styles['branch-applyBtn']}
+              onClick={() => onOpenModal('apply')}
+            >
+              신청하기
+            </button>
+          )}
         </div>
       </div>
     </div>

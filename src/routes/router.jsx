@@ -13,7 +13,7 @@ import CommuPostPage from '../pages/community/CommuPostPage';
 import ClassListPage from '../pages/class/ClassListPage';
 import ClassDetailPage from '../pages/class/ClassDetailPage';
 import Mypage from '../pages/mypage/Mypage';
-import SignUpCompletePage from '../pages/auth/SignUpCompletePage'
+import SignUpCompletePage from '../pages/auth/SignUpCompletePage';
 
 export const router = createBrowserRouter([
   {
@@ -40,10 +40,10 @@ export const router = createBrowserRouter([
         path: 'mypage',
         element: <Mypage />,
       },
-        path:'class/:id',
-        element: <ClassDetailPage />
+      {
+        path: 'class/:id',
+        element: <ClassDetailPage />,
       },
-
       {
         element: <AuthLayout />,
         children: [
@@ -70,8 +70,8 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path : 'signupcomplete',
-            element: <SignUpCompletePage />
+            path: 'signupcomplete',
+            element: <SignUpCompletePage />,
           },
         ],
       },
