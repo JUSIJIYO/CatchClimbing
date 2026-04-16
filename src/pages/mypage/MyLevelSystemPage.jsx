@@ -8,7 +8,10 @@ function MyLevelSystemPage() {
     <div className={styles.container}>
       <ProfileCard showButtons={false} />
 
-      <LevelGuide />
+      <div className={styles.row}>
+        <LevelGuide />
+        <LevelCard />
+      </div>
     </div>
   );
 }
