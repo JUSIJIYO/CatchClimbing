@@ -28,6 +28,14 @@
   margin-top: 12px;
   margin-bottom: 12px;
 }
+
+.stusign-profile-upload-ct > img {
+  width : 80px;
+  height : 80px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .stusign-profile-upload-ct > label {
   color: #2c3e50;
   font-family: "Pretendard Variable";
@@ -93,6 +101,9 @@
   background: rgba(44, 62, 80, 0.1);
   border: 1px solid rgba(44, 62, 80, 0.1);
 }
+.stusign-question-ct input[type="radio"]:checked {
+  background-color: #2C3E50;
+}
 
 .stusign-question-ct > div {
   display: flex;
@@ -112,6 +123,10 @@
   border: 0.8px solid rgba(44, 62, 80, 0.1);
   background: #f8f9fa;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.stusign-question-ct input[type="checkbox"]:checked {
+  background-image: url('/src/assets/icon/Checkboxactive.svg');
 }
 
 .stusign-level-check-ct > button {

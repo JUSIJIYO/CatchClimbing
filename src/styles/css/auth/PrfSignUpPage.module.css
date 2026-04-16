@@ -28,6 +28,14 @@
   margin-top: 12px;
   margin-bottom: 12px;
 }
+
+.prfsign-profile-upload-ct > img {
+  width: 80px;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 50%;
+}
 .prfsign-profile-upload-ct > label {
   color: #2c3e50;
   font-family: "Pretendard Variable";
@@ -88,11 +96,12 @@
 }
 
 .prfsign-qualification-upload-ct {
-  height: 80px;
+  min-height: 80px;
   border-radius: 14px;
   border: 1.6px dashed rgba(44, 62, 80, 0.1);
   background: #f8f9fa;
   margin-top: 12px;
+  padding: 12px;
 
   display: flex;
   align-items: center;
@@ -114,11 +123,77 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 20px; 
+  line-height: 20px;
 }
 
 .prfsign-qualification-upload-ct > input[type="file"] {
   display: none;
+  align-items: center;
+}
+
+.prfsign-add-qualification-ct {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prfsign-add-qualification-ct > button {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 10px;
+  background: rgba(44, 62, 80, 0.2);
+  border: 0px;
+}
+
+.prfsign-add-qualification {
+  display: flex;
+  flex: 1;
+  background-color: cadetblue;
+  border-radius: 14px;
+  border: 2px solid #e9ecef;
+  background: #fff;
+  padding: 5px 16px;
+}
+
+.prfsign-add-qualification-content-ct {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+.prfsign-add-qualification-content-ct > p {
+  text-align: left !important;
+}
+
+.prfsign-add-qualification-content-ct > p:first-child {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.prfsign-add-qualification-content-ct > p:last-child {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.prfsign-add-qualification > button {
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  font-size: 20px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  border: 0px;
 }
 
 .prfsign-question-ct {
@@ -130,7 +205,13 @@
   flex-direction: column;
   gap: 24px;
 
-  margin-top : 12px;
+  margin-top: 12px;
+}
+
+.prfsign-question-ct > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .prfsign-question-ct input[type="checkbox"] {
@@ -141,6 +222,10 @@
   border: 0.8px solid rgba(44, 62, 80, 0.1);
   background: #f8f9fa;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.prfsign-question-ct input[type="checkbox"]:checked {
+  background-image: url("/src/assets/icon/Checkboxactive.svg");
 }
 
 .prfsign-level-check-ct > button {
@@ -194,6 +279,15 @@
 
 .prfsign-btn-ct > button:last-child {
   background: #2c3e50;
-  opacity: 0.5;
+  opacity: 0.4;
   color: #fff;
+}
+
+.prfsign-btn-ct > button.prfsign-btn-active {
+  opacity: 1;
+}
+
+.prfsign-level-active {
+  background: #2c3e50 !important;
+  color: #fff !important;
 }
