@@ -1,4 +1,4 @@
-.header {
+/* .header {
   position: sticky;
   top: 62px;
   background: #ffffff;
@@ -16,7 +16,7 @@
 .header p {
   font-size: 14px;
   color: #7a8a9a;
-}
+} */
 
 .content {
   background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
