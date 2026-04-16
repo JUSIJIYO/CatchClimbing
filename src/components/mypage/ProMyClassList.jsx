@@ -22,12 +22,14 @@ function ProMyClassList() {
 
   return (
     <div className={styles.wrapper}>
-      <h3 className={styles.title}>등록된 수업</h3>
+      <div className={styles.card}>
+        <h3 className={styles.title}>등록된 수업</h3>
 
-      <div className={styles.list}>
-        {classList.map((item) => (
-          <ProMyClassItem key={item.id} item={item} />
-        ))}
+        <div className={styles.list}>
+          {classList.map((item) => (
+            <ProMyClassItem key={item.id} item={item} />
+          ))}
+        </div>
       </div>
     </div>
   );

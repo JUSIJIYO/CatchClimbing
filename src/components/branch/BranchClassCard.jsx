@@ -64,6 +64,7 @@ function BranchClassCard({ onOpenModal, branchId }) {
               key={item.id}
               item={item}
               onOpenModal={onOpenModal}
+              // role={userRole}
             />
           ))}
         </div>
