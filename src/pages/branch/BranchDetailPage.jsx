@@ -9,14 +9,25 @@ import Modal from '../../components/common/Modal';
 import BranchReviewList from '../../components/branch/BranchReviewList';
 import BranchClassCard from '../../components/branch/BranchClassCard';
 import ConfirmModal from '../../components/common/ConfirmModal';
+import { db } from '../../firebase/config';
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 
 function BranchDetailPage() {
+  const [prfList, setPrfList] = useState([]);
+  const [branch, setBranch] = useState(null);
   const { id } = useParams();
   const [tab, setTab] = useState('info');
   const navigate = useNavigate();
   const [selectedPrf, setSelectedPrf] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const isLogin = true; // 테스트용
+  const isLogin = false; // 테스트용
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -26,12 +37,63 @@ function BranchDetailPage() {
       return;
     }
     if (type === 'detail') {
-      navigate(`/class/${id}`); // 상세 페이지 이동
+      navigate(`/class/${classId}`);
     }
     if (type === 'apply') {
       setModalInfo('apply'); // 신청 모달
     }
   };
+
+  useEffect(() => {
+    const fetchProfessors = async () => {
+      try {
+        const q = query(
+          collection(db, 'users'),
+          where('role', '==', 'professor'),
+          where('branchId', '==', id),
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        const data = querySnapshot.docs.map((doc) => {
+          const d = doc.data();
+
+          return {
+            id: doc.id,
+            name: d.name,
+            level: d.level,
+            profile: d.profileImg,
+            career: d.career || [],
+          };
+        });
+
+        setPrfList(data);
+      } catch (e) {
+        console.error('강사 불러오기 실패:', e);
+      }
+    };
+
+    fetchProfessors();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchBranch = async () => {
+      try {
+        const docRef = doc(db, 'branches', id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setBranch({ id: docSnap.id, ...docSnap.data() });
+        } else {
+          console.log('해당 지점 없음');
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchBranch();
+  }, [id]);
 
   useEffect(() => {
     if (tab !== 'teacher') {
@@ -48,49 +110,7 @@ function BranchDetailPage() {
     }
   }, [showModal]);
 
-  const branchList = [
-    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 3, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 4, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 5, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 6, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 7, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 8, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 9, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 10, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 11, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 12, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 13, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 14, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 15, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 16, name: '볼더 하우스', location: '서울 마포구' },
-  ];
-
-  const prfList = [
-    {
-      id: 1,
-      name: '김준호 팀장',
-      level: 'V8',
-      branch: '서밋 클라이밍 센터',
-      career: ['대회 1위', '대회 2위'],
-    },
-    {
-      id: 2,
-      name: '이서연 세터',
-      level: 'V7',
-      branch: '서밋 클라이밍 센터',
-      career: ['대회 1위', '대회 2위'],
-    },
-    {
-      id: 3,
-      name: '김민수 강사',
-      level: 'V6',
-      branch: '서밋 클라이밍 센터',
-      career: ['대회 1위', '대회 2위'],
-    },
-  ];
-  const branch = branchList.find((b) => b.id === Number(id));
+  if (!branch) return <div>로딩중...</div>;
 
   return (
     <>
@@ -165,7 +185,9 @@ function BranchDetailPage() {
               <BranchReviewList branch={branch} />
             </>
           )}
-          {tab === 'class' && <BranchClassCard onOpenModal={handleOpenModal} />}
+          {tab === 'class' && (
+            <BranchClassCard branchId={id} onOpenModal={handleOpenModal} />
+          )}
         </div>
       </main>
 

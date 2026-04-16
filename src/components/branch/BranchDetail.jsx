@@ -16,7 +16,7 @@ function BranchDetail({ branch }) {
           <img src={locationIcon} alt="" />
           <div>
             <p className={styles['label']}>주소</p>
-            <p>{branch.address}</p>
+            <p className={styles['address']}>{branch.address}</p>
           </div>
         </div>
 
@@ -40,7 +40,7 @@ function BranchDetail({ branch }) {
           <img src={timeIcon} alt="" />
           <div>
             <p className={styles['label']}>운영시간</p>
-            <p>{branch.hours}</p>
+            <p className={styles['time']}>{branch.openHours}</p>
           </div>
         </div>
 
