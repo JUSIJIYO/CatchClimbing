@@ -1,7 +1,37 @@
-.container {
+.wrapper {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.btnWrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+.writeBtn {
+  background: #2c3e50;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.writeBtn img {
+  width: 16px;
+  height: 16px;
+}
+
+.writeBtn:hover {
+  background: #1a252f;
 }
 
 .grid {
