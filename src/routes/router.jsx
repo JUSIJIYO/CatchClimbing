@@ -14,6 +14,7 @@ import ClassListPage from '../pages/class/ClassListPage';
 import ClassDetailPage from '../pages/class/ClassDetailPage';
 import Mypage from '../pages/mypage/Mypage';
 import SignUpCompletePage from '../pages/auth/SignUpCompletePage';
+import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
       {
         path: 'mypage',
         element: <Mypage />,
+      },
+      {
+        path: 'level',
+        element: <MyLevelSystemPage />,
       },
       {
         path: 'class/:id',
