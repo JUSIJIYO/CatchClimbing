@@ -39,7 +39,6 @@ function ProfileCard({ user }) {
       <div className={styles.progressSection}>
         <div className={styles.progressHeader}>
           <span>V8 달성률</span>
-          <span>{progress}%</span>
         </div>
 
         <ProgressBar percent={progress} />
