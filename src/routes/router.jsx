@@ -18,7 +18,7 @@ import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -26,20 +26,20 @@ export const router = createBrowserRouter([
         element: <BranchListPage />,
       },
       {
-        path: 'branch/:id',
+        path: "branch/:id",
         element: <BranchDetailPage />,
       },
       {
-        path: 'community',
+        path: "community",
         element: <CommuPostPage />,
       },
       {
-        path: 'class',
+        path: "class",
         element: <ClassListPage />,
       },
       {
-        path: 'mypage',
-        element: <Mypage />,
+        path: "class/:id",
+        element: <ClassDetailPage />,
       },
       {
         path: 'level',
@@ -53,11 +53,11 @@ export const router = createBrowserRouter([
         element: <AuthLayout />,
         children: [
           {
-            path: 'login',
+            path: "login",
             element: <LoginPage />,
           },
           {
-            path: 'signup',
+            path: "signup",
             element: <SignUpPage />,
             children: [
               {
@@ -65,11 +65,11 @@ export const router = createBrowserRouter([
                 element: <SignUpForm />,
               },
               {
-                path: 'stu',
+                path: "stu",
                 element: <StuSignUpPage />,
               },
               {
-                path: 'prf',
+                path: "prf",
                 element: <PrfSignUpPage />,
               },
             ],
@@ -83,11 +83,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/totaladmin',
+    path: "/totaladmin",
     element: <DashBoardPage />,
   },
   {
-    path: 'branchadmin',
+    path: "branchadmin",
     element: <DashBoardPage />,
   },
 ]);

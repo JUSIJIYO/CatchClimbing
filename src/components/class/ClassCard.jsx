@@ -21,9 +21,10 @@ function ClassCard(
 
   const navigate = useNavigate();
 
-  const handleDetailClick = () => {
-    navigate(`/class/${id}`);  
-  };
+    const handleDetailClick = () => {
+      console.log("클릭됨", id);
+      navigate(`/class/${id}`);
+};
 
   return (
     <div className={styles['container']}>

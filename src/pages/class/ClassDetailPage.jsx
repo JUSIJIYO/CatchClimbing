@@ -1,45 +1,68 @@
 import styles from "../../styles/css/class/ClassDetailPage.module.css";
 import ClassDetail from "../../components/class/ClassDetail";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { db } from "../../firebase/config";
+import { doc, getDoc } from "firebase/firestore";
 
 function ClassDetailPage() {
-
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const classList = [
-  {
-    id: 1,
-    professorName: '이서연',
-    branchName: '강남점',
-    createdAt: '월 19:00 - 21:00',
-    level: '초급',
-    currentCap: 12,
-    capacity: 20,
-    money: '200,000원'
-  },
-]
+  const [classData, setClassData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchClass = async () => {
+      try {
+        const docRef = doc(db, "classes", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setClassData({ id: docSnap.id, ...docSnap.data()});
+        } else {
+          console.log("해당 수업 없음");
+        }
+      } catch (e) {
+        console.error("수업 상세 불러오기 실패:", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchClass();
+  }, [id]);
+
+  if (loading) return <div>로딩중...</div>;
+
+  if (!classData) return <div>수업을 찾을 수 없습니다.</div>;
 
   return (
     <div className={styles["class-container"]}>
       {/* 헤더 */}
       <div className={styles["class-header"]}>
-        <span className={styles["class-back"]}onClick={() => navigate("/class")}>← 수업 관리로 돌아가기</span>
+        <span
+          className={styles["class-back"]}
+          onClick={() => navigate("/class")}
+        >
+          ← 수업 목록으로 돌아가기
+        </span>
         <h1 className={styles["class-title"]}>수업 상세 정보</h1>
       </div>
 
+
       <div className={styles["class-list"]}>
-        {classList.map((item) => (
-          <ClassDetail
-            key={item.id}
-            professorName={item.professorName}
-            branchName={item.branchName}
-            createdAt={item.createdAt}
-            level={item.level}
-            currentCap={item.currentCap}
-            capacity={item.capacity}
-            money={item.money}
-          />
-        ))}
+        <ClassDetail
+          title={classData.title}
+          professorName={classData.professorName}
+          branchName={classData.branchName}
+          createdAt={classData.openDate}
+          level={classData.level}
+          currentCap={classData.currentCap}
+          capacity={classData.capacity}
+          money={classData.money}
+          description={classData.description}
+          imageUrl={classData.imageUrl}
+        />
       </div>
     </div>
   );
