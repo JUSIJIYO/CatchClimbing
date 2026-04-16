@@ -1,52 +1,67 @@
-
-.container{
-    max-width: 395px;
-}
-
-.classcard-item{ 
+.classcard-item { 
     border: 1px solid #000000;
     border-radius: 16px;
     background-color: white;
-    width: 100%;
+    width: 395px;   
     height: 240px;
-    margin-left: 20px;
-}
-
-.classcard-level{
-    background: rgba(44, 62, 80, 0.1);
-    width: 65px;
-    height: 28px;
-    border-radius: 20px;
-    text-align: center;
-    justify-content: flex-start;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .header{
     margin-top: 20px;
-    display: flex;
-    height: 60px;
-    
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 0 20px;
 }
 
 .left{
     display: flex;
-    flex-direction: column; 
-    margin-left: 20px;
+    align-items: center; 
+    gap: 12px;
 }
 
-.classcard-branchName{
-    margin-left: 45px;
-    align-items: center;
+.profile {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.information {
+    display: flex;
+    flex-direction: column;
+}
+
+.classcard-name {
+     font-size: 14px;
+     color: #67798D;
+
+}
+
+.classcard-professorName {
+   font-size: 16px;
+    color: #2C3E50;
+}
+
+.classcard-level{
+    background: rgba(44, 62, 80, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
 }
 
 .content{
     color: #67798D;
-    height: 110px;
-    margin-left: 20px;
+    margin: 0 20px;
+    font-size: 14px;
 }
 
 .classcard-title{
-    color: black;
+    color: #2C3E50;
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 11px;
@@ -56,10 +71,15 @@
     margin-bottom: 8px;
 }
 
+.classcard-branchName{
+    margin-left: 12px;
+}
+
 .footer{
     display: flex;
     gap: 8px;
-     justify-content: center;
+    justify-content: center;
+    margin-bottom: 16px;
 }
 
 .classcard-detail-button{
@@ -72,7 +92,6 @@
     justify-content: center;
     align-items: center;
     border: 1px solid rgba(44, 62, 80, 0.1);
-
 }
 
 .classcard-register-button{
@@ -86,5 +105,3 @@
     align-items: center;
     color: white;
 }
-
-
