@@ -1,23 +1,23 @@
-import { createBrowserRouter } from 'react-router-dom';
-import MainLayout from '../layouts/MainLayout';
-import DashBoardPage from '../pages/admin/DashBoardPage';
-import BranchDetailPage from '../pages/branch/BranchDetailPage';
-import AuthLayout from '../layouts/AuthLayout';
-import BranchListPage from '../pages/branch/BranchListPage';
-import LoginPage from '../pages/auth/LoginPage';
-import SignUpPage from '../pages/auth/SignUpPage';
-import StuSignUpPage from '../pages/auth/StuSignUpPage';
-import PrfSignUpPage from '../pages/auth/PrfSignUpPage';
-import SignUpForm from '../components/auth/SignUpForm';
-import CommuPostPage from '../pages/community/CommuPostPage';
-import ClassListPage from '../pages/class/ClassListPage';
-import ClassDetailPage from '../pages/class/ClassDetailPage';
-import Mypage from '../pages/mypage/Mypage';
-import SignUpCompletePage from '../pages/auth/SignUpCompletePage'
+import { createBrowserRouter } from "react-router-dom";
+import MainLayout from "../layouts/MainLayout";
+import DashBoardPage from "../pages/admin/DashBoardPage";
+import BranchDetailPage from "../pages/branch/BranchDetailPage";
+import AuthLayout from "../layouts/AuthLayout";
+import BranchListPage from "../pages/branch/BranchListPage";
+import LoginPage from "../pages/auth/LoginPage";
+import SignUpPage from "../pages/auth/SignUpPage";
+import StuSignUpPage from "../pages/auth/StuSignUpPage";
+import PrfSignUpPage from "../pages/auth/PrfSignUpPage";
+import SignUpForm from "../components/auth/SignUpForm";
+import CommuPostPage from "../pages/community/CommuPostPage";
+import ClassListPage from "../pages/class/ClassListPage";
+import ClassDetailPage from "../pages/class/ClassDetailPage";
+import Mypage from "../pages/mypage/Mypage";
+import SignUpCompletePage from "../pages/auth/SignUpCompletePage";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -25,34 +25,35 @@ export const router = createBrowserRouter([
         element: <BranchListPage />,
       },
       {
-        path: 'branch/:id',
+        path: "branch/:id",
         element: <BranchDetailPage />,
       },
       {
-        path: 'community',
+        path: "community",
         element: <CommuPostPage />,
       },
       {
-        path: 'class',
+        path: "class",
         element: <ClassListPage />,
       },
       {
-        path: 'mypage',
-        element: <Mypage />,
+        path: "class/:id",
+        element: <ClassDetailPage />,
       },
-        path:'class/:id',
-        element: <ClassDetailPage />
+      {
+        path: "mypage",
+        element: <Mypage />,
       },
 
       {
         element: <AuthLayout />,
         children: [
           {
-            path: 'login',
+            path: "login",
             element: <LoginPage />,
           },
           {
-            path: 'signup',
+            path: "signup",
             element: <SignUpPage />,
             children: [
               {
@@ -60,29 +61,29 @@ export const router = createBrowserRouter([
                 element: <SignUpForm />,
               },
               {
-                path: 'stu',
+                path: "stu",
                 element: <StuSignUpPage />,
               },
               {
-                path: 'prf',
+                path: "prf",
                 element: <PrfSignUpPage />,
               },
             ],
           },
           {
-            path : 'signupcomplete',
-            element: <SignUpCompletePage />
+            path: "signupcomplete",
+            element: <SignUpCompletePage />,
           },
         ],
       },
     ],
   },
   {
-    path: '/totaladmin',
+    path: "/totaladmin",
     element: <DashBoardPage />,
   },
   {
-    path: 'branchadmin',
+    path: "branchadmin",
     element: <DashBoardPage />,
   },
 ]);
