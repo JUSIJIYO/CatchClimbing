@@ -3,7 +3,7 @@ import icon1 from "../../assets/icon/openDate.svg";
 import icon2 from "../../assets/icon/capacity.svg";
 import icon3 from "../../assets/icon/branch.svg";
 import icon4 from "../../assets/icon/detailsee.svg";
-import icon5 from "../../assets/icon/profile.svg"; // ⭐ 프로필 이미지 추가
+import icon5 from "../../assets/icon/profile.svg"; 
 import { useNavigate } from 'react-router-dom';
 
 function ClassCard({
@@ -15,6 +15,7 @@ function ClassCard({
   capacity,
   branchName,
   level,
+  onRegisterClick // ClassCard에서 가져온 이벤트
 }) {
 
   const navigate = useNavigate();
@@ -63,7 +64,6 @@ function ClassCard({
         </div>
       </div>
 
-      {/* 🔥 FOOTER */}
       <div className={styles['footer']}>
         <button
           onClick={handleDetailClick}
@@ -72,7 +72,9 @@ function ClassCard({
           <img src={icon4} alt="" /> 상세보기
         </button>
 
-        <button className={styles['classcard-register-button']}>
+        <button 
+        onClick={onRegisterClick}
+        className={styles['classcard-register-button']}>
           신청하기
         </button>
       </div>
