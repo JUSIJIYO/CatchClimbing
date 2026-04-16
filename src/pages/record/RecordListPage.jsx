@@ -33,22 +33,23 @@ function RecordListPage() {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={headerStyles.header}>
         <h2>나의 기록</h2>
         <p>클라이밍 기록을 확인하고 관리하세요</p>
       </div>
-
-      {records.length === 0 ? (
-        <p className={styles.empty}>기록이 없습니다.</p>
-      ) : (
-        <div className={styles.grid}>
-          {records.map((item) => (
-            <RecordItem key={item.id} item={item} />
-          ))}
-        </div>
-      )}
-    </div>
+      <div className={styles.container}>
+        {records.length === 0 ? (
+          <p className={styles.empty}>기록이 없습니다.</p>
+        ) : (
+          <div className={styles.grid}>
+            {records.map((item) => (
+              <RecordItem key={item.id} item={item} />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
