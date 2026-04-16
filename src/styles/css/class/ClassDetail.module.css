@@ -125,22 +125,3 @@
     font-weight: 600;
 }
 
-@media (max-width: 768px) {
-
-    .class-top {
-        flex-direction: column;
-    }
-
-    .class-picture {
-        width: 100%;
-        height: 180px;
-    }
-
-    .class-datail-information {
-        grid-template-columns: 1fr;
-    }
-
-    .class-bigcard {
-        flex-direction: column;
-    }
-}

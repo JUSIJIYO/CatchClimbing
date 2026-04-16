@@ -1,58 +1,83 @@
 import styles from "../../styles/css/class/ClassCard.module.css";
-import icon1 from "../../assets/icon/openDate.svg"
-import icon2 from "../../assets/icon/capacity.svg"
-import icon3 from "../../assets/icon/branch.svg"
-import icon4 from "../../assets/icon/detailsee.svg"
-import { useNavigate, useParams } from 'react-router-dom';
+import icon1 from "../../assets/icon/openDate.svg";
+import icon2 from "../../assets/icon/capacity.svg";
+import icon3 from "../../assets/icon/branch.svg";
+import icon4 from "../../assets/icon/detailsee.svg";
+import icon5 from "../../assets/icon/profile.svg"; // ⭐ 프로필 이미지 추가
+import { useNavigate } from 'react-router-dom';
 
-function ClassCard(
-  {
-    id,
-    title,
-    professorName,
-    openDate,
-    currentCap, //현재신청인원
-    capacity, //정원
-    branchName,
-    level,
-  }
-  // 제목, 강사명, 날짜, 정원, 지점, 신청하기버튼, 상세보기버튼, 레벨
-) {
+function ClassCard({
+  id,
+  title,
+  professorName,
+  openDate,
+  currentCap,
+  capacity,
+  branchName,
+  level,
+}) {
 
   const navigate = useNavigate();
 
-    const handleDetailClick = () => {
-      console.log("클릭됨", id);
-      navigate(`/class/${id}`);
-};
+  const handleDetailClick = () => {
+    navigate(`/class/${id}`);
+  };
 
   return (
-    <div className={styles['container']}>
     <div className={styles['classcard-item']}>
+
       <div className={styles['header']}>
+
         <div className={styles['left']}>
-            <p>강사</p>
-            <p className={styles['classcard-professorName']}>{professorName}</p>
+
+          <img src={icon5} className={styles['profile']} alt="profile" />
+
+          <div className={styles['information']}>
+            <span className={styles['classcard-name']}>강사</span>
+            <span className={styles['classcard-professorName']}>
+              {professorName}
+            </span>
+          </div>
+
         </div>
-          <span className={styles['classcard-level']}>{level}</span>
+
+        <span className={styles['classcard-level']}>{level}</span>
+
       </div>
+
       <div className={styles['content']}>
         <div className={styles['classcard-title']}>{title}</div>
+
         <div>
-           <p className={styles['classcard-openDate']}><img src={icon1}/> {openDate}</p>
-          <span className={styles['classcard-currentCap']}><img src={icon2}/> {currentCap}/</span>
-          <span className={styles['classcard-capacity']}>{capacity}</span>
-          <span className={styles['classcard-branchName']}><img src={icon3}/> {branchName}</span>
+          <p className={styles['classcard-openDate']}>
+            <img src={icon1} alt="" /> {openDate}
+          </p>
+
+          <span>
+            <img src={icon2} alt="" /> {currentCap}/{capacity}
+          </span>
+
+          <span className={styles['classcard-branchName']}>
+            <img src={icon3} alt="" /> {branchName}
+          </span>
         </div>
       </div>
 
+      {/* 🔥 FOOTER */}
       <div className={styles['footer']}>
-        <button onClick={handleDetailClick} className={styles['classcard-detail-button']}><img src={icon4}/>상세보기</button>
-      <button className={styles['classcard-register-button']}>신청하기</button>
-      </div>
-    </div>
-    </div>
+        <button
+          onClick={handleDetailClick}
+          className={styles['classcard-detail-button']}
+        >
+          <img src={icon4} alt="" /> 상세보기
+        </button>
 
+        <button className={styles['classcard-register-button']}>
+          신청하기
+        </button>
+      </div>
+
+    </div>
   );
 }
 
