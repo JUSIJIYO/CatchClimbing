@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import closeEye from "../../assets/icon/closeEye.svg";
 import openEye from "../../assets/icon/openEye.svg";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase/config";
 import CheckModal from "../common/ChkModal";
 
 function LoginForm() {
@@ -20,6 +21,7 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   
+  const [autoLogin, setAutoLogin] = useState(false);
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
 
@@ -40,7 +42,10 @@ function LoginForm() {
     setErrors({});
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (autoLogin) {
+        await updateDoc(doc(db, "users", userCredential.user.uid), { autoLogin: true });
+      }
       setShowModal(true);
     } catch (error) {
       if (
@@ -109,8 +114,13 @@ function LoginForm() {
         )}
 
         <div className={styles["login-checkbox-ct"]}>
-          <input type="checkbox" />
-          <label>자동 로그인</label>
+          <input
+            type="checkbox"
+            id="auto-login"
+            checked={autoLogin}
+            onChange={(e) => setAutoLogin(e.target.checked)}
+          />
+          <label htmlFor="auto-login">자동 로그인</label>
         </div>
 
         <button type="submit">로그인</button>
