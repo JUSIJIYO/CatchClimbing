@@ -16,6 +16,7 @@ import Mypage from '../pages/mypage/Mypage';
 import SignUpCompletePage from '../pages/auth/SignUpCompletePage';
 import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
 import RecordListPage from '../pages/record/RecordListPage';
+import RecordFormPage from '../pages/record/RecordFormPage';
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
         element: <ClassDetailPage />,
       },
       {
+        path: 'mypage',
+        element: <Mypage />,
+      },
+      {
         path: 'level',
         element: <MyLevelSystemPage />,
       },
@@ -53,6 +58,10 @@ export const router = createBrowserRouter([
       {
         path: 'record',
         element: <RecordListPage />,
+      },
+      {
+        path: 'record/new',
+        element: <RecordFormPage />,
       },
       {
         element: <AuthLayout />,
