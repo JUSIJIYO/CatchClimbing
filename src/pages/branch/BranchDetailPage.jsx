@@ -1,60 +1,117 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../styles/css/branch/BranchDetailPage.module.css';
 import BranchDetail from '../../components/branch/BranchDetail';
 import BranchPrfList from '../../components/branch/BranchPrfList';
 import BranchPrfDetail from '../../components/branch/BranchPrfDetail';
+import BranchCommuList from '../../components/branch/BranchCommuList';
+import Modal from '../../components/common/Modal';
+import BranchReviewList from '../../components/branch/BranchReviewList';
+import BranchClassCard from '../../components/branch/BranchClassCard';
+import ConfirmModal from '../../components/common/ConfirmModal';
+import { db } from '../../firebase/config';
+
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 
 function BranchDetailPage() {
+  const [prfList, setPrfList] = useState([]);
+  const [branch, setBranch] = useState(null);
   const { id } = useParams();
   const [tab, setTab] = useState('info');
   const navigate = useNavigate();
   const [selectedPrf, setSelectedPrf] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const isLogin = false; // 테스트용
+  const [showModal, setShowModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const handleOpenModal = (type) => {
+    if (!isLogin) {
+      setShowModal(true); // 로그인 모달
+      return;
+    }
+    if (type === 'detail') {
+      navigate(`/class/${classId}`);
+    }
+    if (type === 'apply') {
+      setModalInfo('apply'); // 신청 모달
+    }
+  };
 
-  const branchList = [
-    { id: 1, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 2, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 3, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 4, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 5, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 6, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 7, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 8, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 9, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 10, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 11, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 12, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 13, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 14, name: '볼더 하우스', location: '서울 마포구' },
-    { id: 15, name: '서밋 클라이밍 센터', location: '서울 강남구' },
-    { id: 16, name: '볼더 하우스', location: '서울 마포구' },
-  ];
+  useEffect(() => {
+    const fetchProfessors = async () => {
+      try {
+        const q = query(
+          collection(db, 'users'),
+          where('role', '==', 'professor'),
+          where('branchId', '==', id),
+        );
 
-  const prfList = [
-    {
-      id: 1,
-      name: '김준호 팀장',
-      level: 'V8',
-      branch: '서밋 클라이밍 센터',
-      career: ['대회 1위', '대회 2위'],
-    },
-    {
-      id: 2,
-      name: '이서연 세터',
-      level: 'V7',
-      branch: '서밋 클라이밍 센터',
-      career: ['대회 1위', '대회 2위'],
-    },
-    {
-      id: 3,
-      name: '김민수 강사',
-      level: 'V6',
-      branch: '서밋 클라이밍 센터',
-      career: ['대회 1위', '대회 2위'],
-    },
-  ];
-  const branch = branchList.find((b) => b.id === Number(id));
+        const querySnapshot = await getDocs(q);
+
+        const data = querySnapshot.docs.map((doc) => {
+          const d = doc.data();
+
+          return {
+            id: doc.id,
+            name: d.name,
+            level: d.level,
+            profile: d.profileImg,
+            career: d.career || [],
+          };
+        });
+
+        setPrfList(data);
+      } catch (e) {
+        console.error('강사 불러오기 실패:', e);
+      }
+    };
+
+    fetchProfessors();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchBranch = async () => {
+      try {
+        const docRef = doc(db, 'branches', id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setBranch({ id: docSnap.id, ...docSnap.data() });
+        } else {
+          console.log('해당 지점 없음');
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchBranch();
+  }, [id]);
+
+  useEffect(() => {
+    if (tab !== 'teacher') {
+      setSelectedPrf(null);
+      setSelectedIndex(null);
+    }
+  }, [tab]);
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [showModal]);
+
+  if (!branch) return <div>로딩중...</div>;
 
   return (
     <>
@@ -84,7 +141,13 @@ function BranchDetailPage() {
         </button>
         <button
           className={`${styles['button']} ${tab === 'community' ? styles['active'] : ''}`}
-          onClick={() => setTab('community')}
+          onClick={() => {
+            setTab('community');
+
+            if (!isLogin) {
+              setShowModal(true);
+            }
+          }}
         >
           커뮤니티
         </button>
@@ -117,8 +180,47 @@ function BranchDetailPage() {
               setSelectedPrf={setSelectedPrf}
             />
           )}
+          {tab === 'community' && isLogin && (
+            <>
+              <BranchCommuList />
+              <BranchReviewList branch={branch} />
+            </>
+          )}
+          {tab === 'class' && (
+            <BranchClassCard branchId={id} onOpenModal={handleOpenModal} />
+          )}
         </div>
       </main>
+
+      {showModal && (
+        <Modal
+          title="로그인"
+          message="로그인을 먼저 진행해주세요"
+          cancelText="취소"
+          confirmText="로그인하러 가기"
+          onCancel={() => setShowModal(false)}
+          onConfirm={() => navigate('/login')}
+        />
+      )}
+      {modalInfo === 'apply' && (
+        <Modal
+          title="수업 신청"
+          message="이 수업을 신청하시겠습니까?"
+          cancelText="취소"
+          confirmText="신청하기"
+          onCancel={() => setModalInfo(null)}
+          onConfirm={() => {
+            setModalInfo(null); // 기존 모달 닫고
+            setConfirmOpen(true); // 완료 모달 열기
+          }}
+        />
+      )}
+      {confirmOpen && (
+        <ConfirmModal
+          message="수업 신청이 완료되었습니다."
+          onConfirm={() => setConfirmOpen(false)}
+        />
+      )}
     </>
   );
 }

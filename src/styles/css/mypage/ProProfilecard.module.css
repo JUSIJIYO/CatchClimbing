@@ -1,0 +1,96 @@
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 40px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profileImg {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eaeaea;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.level {
+  display: inline-flex;
+  align-items: center;
+
+  font-size: 11px;
+  font-weight: 500;
+  color: #2c3e50;
+
+  padding: 0 6px;
+  height: 18px;
+
+  background: #edf1f5;
+  border-radius: 9px;
+
+  margin-top: 4px;
+
+  align-self: flex-start;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  background: #2f3b4a;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn img {
+  width: 12px;
+}
+
+.progressSection {
+  margin-top: 16px;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.desc {
+  font-size: 11px;
+  color: #67798d;
+  margin-top: 6px;
+}

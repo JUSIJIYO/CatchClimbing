@@ -9,10 +9,16 @@ import SignUpPage from '../pages/auth/SignUpPage';
 import StuSignUpPage from '../pages/auth/StuSignUpPage';
 import PrfSignUpPage from '../pages/auth/PrfSignUpPage';
 import SignUpForm from '../components/auth/SignUpForm';
+import CommuPostPage from '../pages/community/CommuPostPage';
+import ClassListPage from '../pages/class/ClassListPage';
+import ClassDetailPage from '../pages/class/ClassDetailPage';
+import Mypage from '../pages/mypage/Mypage';
+import SignUpCompletePage from '../pages/auth/SignUpCompletePage';
+import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -20,18 +26,38 @@ export const router = createBrowserRouter([
         element: <BranchListPage />,
       },
       {
-        path: 'branch/:id',
+        path: "branch/:id",
         element: <BranchDetailPage />,
+      },
+      {
+        path: "community",
+        element: <CommuPostPage />,
+      },
+      {
+        path: "class",
+        element: <ClassListPage />,
+      },
+      {
+        path: "class/:id",
+        element: <ClassDetailPage />,
+      },
+      {
+        path: 'level',
+        element: <MyLevelSystemPage />,
+      },
+      {
+        path: 'class/:id',
+        element: <ClassDetailPage />,
       },
       {
         element: <AuthLayout />,
         children: [
           {
-            path: 'login',
+            path: "login",
             element: <LoginPage />,
           },
           {
-            path: 'signup',
+            path: "signup",
             element: <SignUpPage />,
             children: [
               {
@@ -39,25 +65,29 @@ export const router = createBrowserRouter([
                 element: <SignUpForm />,
               },
               {
-                path: 'stu',
+                path: "stu",
                 element: <StuSignUpPage />,
               },
               {
-                path: 'prf',
+                path: "prf",
                 element: <PrfSignUpPage />,
               },
             ],
+          },
+          {
+            path: 'signupcomplete',
+            element: <SignUpCompletePage />,
           },
         ],
       },
     ],
   },
   {
-    path: '/totaladmin',
+    path: "/totaladmin",
     element: <DashBoardPage />,
   },
   {
-    path: 'branchadmin',
+    path: "branchadmin",
     element: <DashBoardPage />,
   },
 ]);
