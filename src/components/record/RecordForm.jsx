@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from '../../styles/css/record/RecordForm.module.css';
 import titleIcon from '../../assets/icon/recordTitle.svg';
 import branchIcon from '../../assets/icon/recordBranch.svg';
@@ -8,7 +8,7 @@ import levelIcon from '../../assets/icon/recordLevel.svg';
 import imageIcon from '../../assets/icon/recordImage.svg';
 import uploadIcon from '../../assets/icon/recordFileUpload.svg';
 
-function RecordForm({ onSubmit }) {
+function RecordForm({ onSubmit, initialData }) {
   const [form, setForm] = useState({
     title: '',
     branchId: '',
@@ -22,6 +22,20 @@ function RecordForm({ onSubmit }) {
     memo: '',
     image: null,
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setForm(initialData);
+
+      if (initialData.image) {
+        setPreviews(
+          Array.isArray(initialData.image)
+            ? initialData.image
+            : [initialData.image],
+        );
+      }
+    }
+  }, [initialData]);
 
   const fileInputRef = useRef(null);
 
@@ -297,6 +311,7 @@ function RecordForm({ onSubmit }) {
           <div
             className={styles.uploadOverlay}
             onClick={() => fileInputRef.current.click()}
+            style={{ display: previews.length > 0 ? 'none' : 'block' }}
           />
 
           <input

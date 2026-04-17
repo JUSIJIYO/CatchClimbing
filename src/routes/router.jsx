@@ -18,6 +18,7 @@ import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
 import RecordListPage from '../pages/record/RecordListPage';
 import RecordFormPage from '../pages/record/RecordFormPage';
 import RecordDetailPage from '../pages/record/RecordDetailPage';
+import RecordEditPage from '../pages/record/RecordEditPage';
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
         element: <RecordFormPage />,
       },
       { path: 'record/:id', element: <RecordDetailPage /> },
+      {
+        path: '/record/edit/:id',
+        element: <RecordEditPage />,
+      },
       {
         element: <AuthLayout />,
         children: [

@@ -1,22 +1,26 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore'; 
+import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY, 
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+
+  storageBucket: 'catchclimbing-18fe9.firebasestorage.app',
+
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig); // 파이어베이스 초기화
+const app = initializeApp(firebaseConfig);
 
-// firestore 라이브러리 사용을 위한 객체가져오기
+export const storage = getStorage(
+  app,
+  'gs://catchclimbing-18fe9.firebasestorage.app',
+);
+
 export const db = getFirestore(app);
 export const auth = getAuth(app);
-export const storage = getStorage(app);
