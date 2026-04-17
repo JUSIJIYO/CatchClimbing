@@ -1,116 +1,103 @@
-.mypage-profilecard {
-
-
-width: 600px;
-height: 220px;
-
-background: #FFFFFF;
-box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
-border-radius: 16px;
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 40px;
 }
 
-.mypage-top {
+.top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-top:23px;
+  align-items: center;
+  margin-top: 23px;
   margin-bottom: 26px;
   margin-left: 16px;
 }
 
-.mypage-information {
+.profileSection {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
 }
 
-.mypage-img{ 
-    width: 78px; 
-    height: 78px; 
+.profileImg {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid #2c3e50;
 }
 
-.mypage-name {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color:#2C3E50;
-}
-
-
-.mypage-level {
-    background: rgba(44, 62, 80, 0.1);
-    padding: 6px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    color: #2C3E50;
-}
-
-.mypage-button-group {
+.info {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.mypage-button {
-    width: 130px;
-    height: 36px;
-    background: #2C3E50;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    color: white;
-    font-size: 14px;
-    margin-top: 25px;
-    margin-right: 16px;
-    gap: 8px;
+.name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
-.mypage-btn{
-    width: 16px;
-    height: 16px;
+.level {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(44, 62, 80, 0.1);
+  color: #2c3e50;
+  width: fit-content;
 }
 
-.mypage-footer{
-    margin-left: 16px;
-    margin-right: 16px;
+.mypage-buttons {
+  display: flex;
+  gap: 10px;
 }
 
-.mypage-progressbar-header {
+.mypage-btn {
+  all: unset;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  background: #2c3e50;
+  color: #ffffff;
+
+  font-size: 12px;
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.mypage-btn img {
+  width: 14px;
+  height: 14px;
+}
+
+.mypage-btn:hover {
+  background: #1a252f;
+}
+
+.progressSection {
+  margin-top: 20px;
+}
+
+.progressHeader {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  font-size: 13px;
+  color: #67798d;
+  margin-bottom: 8px;
 }
 
-.mypage-progressbar-title {
-  font-size: 14px;
-  color: #67798D;
-}
-
-.mypage-progress-text {
-  font-weight: bold;
-  color: #2C3E50;
-  font-size: 14px;
-}
-
-/* 프로그레스 바의 회색 배경 */
-.mypage-progress-container {
-  width: 100%;
-  height: 14px;
-  background-color: #e9ecef; /* 회색 배경색 */
-  border-radius: 7px;
-  overflow: hidden; /* 내부 바가 삐져나가지 않게 */
-}
-
-/* 실제로 게이지가 차오르는 부분 */
-.mypage-progressbar-percent {
-  height: 100%;
-  background-color: #343a40; /* 진한 남색/검정 */
-  border-radius: 7px;
-}
-
-.mypage-message {
-  margin-top: 15px;
+.desc {
+  margin-top: 10px;
   font-size: 12px;
-  color: #67798D;
+  color: #67798d;
 }
