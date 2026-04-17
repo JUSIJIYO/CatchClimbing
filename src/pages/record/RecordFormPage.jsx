@@ -67,10 +67,11 @@ function RecordFormPage() {
         imageUrls.push(url);
       }
 
-      const { image, ...rest } = pendingData;
+      const { image, tryCount, ...rest } = pendingData;
 
       await addDoc(collection(db, 'records'), {
         ...rest,
+        tryCount: Number(tryCount) || 0,
         image: imageUrls,
         uid: user?.uid,
         createdAt: serverTimestamp(),

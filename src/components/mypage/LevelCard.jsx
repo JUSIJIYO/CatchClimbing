@@ -2,10 +2,13 @@ import React from 'react';
 import styles from '../../styles/css/mypage/LevelCard.module.css';
 import levelIcon from '../../assets/icon/mypageLevelup.svg';
 
-function LevelCard({ progress = 75 }) {
+function LevelCard({ userData }) {
+  const levelNumber = parseInt(userData?.level?.replace('V', '')) || 0;
+
   const total = 4;
-  const current = Math.floor((progress / 100) * total);
+  const current = levelNumber % total;
   const remain = total - current;
+
   return (
     <div className={styles.card}>
       <h3 className={styles.title}>레벨업 기준</h3>
