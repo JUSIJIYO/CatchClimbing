@@ -41,7 +41,11 @@ function RecordItem({ item }) {
       onClick={() => navigate(`/record/${item.id}`)}
     >
       <img
-        src={item.image || 'https://via.placeholder.com/150'}
+        src={
+          Array.isArray(item.image)
+            ? item.image[0]
+            : item.image || 'https://via.placeholder.com/150'
+        }
         alt="기록 이미지"
         className={styles['image']}
       />

@@ -17,38 +17,48 @@
 
 .header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .header h2 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   color: #2c3e50;
 }
 
-.actions {
-  display: flex;
-  gap: 8px;
+.divider {
+  width: 100%;
+  height: 1px;
+  background: 0.753px solid rgba(44, 62, 80, 0.1);
 }
 
-.actions button {
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actionRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.actionRow button {
+  flex: 1;
+  height: 35px;
+  border-radius: 14px;
+  border: 0.753px solid rgba(44, 62, 80, 0.1);
+  background: #fff;
   display: flex;
   align-items: center;
-  gap: 4px;
-
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: none;
-
-  background: #f1f3f5;
-  color: #495057;
-  font-size: 12px;
-  cursor: pointer;
+  justify-content: center;
+  gap: 6px;
+  font-size: 14px;
 }
 
-.actions button:hover {
+.actionRow button:hover {
   background: #e9ecef;
 }
 
@@ -57,16 +67,9 @@
 }
 
 .level {
-  position: absolute;
-  right: 0;
-  top: -10px;
-
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
-
-  background: #ffe5d0;
-  color: #c2410c;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -79,20 +82,25 @@
   border-bottom: 1px solid #e9ecef;
 }
 
-.info p {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.label {
+  color: #67798d;
+}
 
-  font-size: 14px;
-  color: #495057;
+.value {
+  color: #2c3e50;
+  margin-left: 4px;
 }
 
 .info img {
   width: 16px;
 }
 
-/* 🔥 공통 섹션 */
+.info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .section {
   display: flex;
   flex-direction: column;
@@ -129,11 +137,33 @@
 .imageList {
   display: flex;
   gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
 
 .image {
-  width: 160px;
+  min-width: 160px;
   height: 120px;
   object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalImage {
+  max-width: 90%;
+  max-height: 90%;
   border-radius: 12px;
 }

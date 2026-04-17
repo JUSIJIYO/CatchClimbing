@@ -1,5 +1,5 @@
-import React from 'react';
 import styles from '../../styles/css/common/Modal.module.css';
+import React from 'react';
 
 export default function Modal({
   title,
@@ -8,24 +8,31 @@ export default function Modal({
   confirmText,
   onCancel,
   onConfirm,
+  loading,
 }) {
+  const isLoadingOnly = !cancelText && !confirmText;
   return (
-    <section className={styles['modalBackground']}>
-      <article className={styles['modalContainer']}>
-        <header className={styles['modalHeader']}>
+    <div className={`${styles.modalBackground}`}>
+      <div
+        className={`${styles.modalContainer} ${
+          isLoadingOnly ? styles.loadingContainer : ''
+        }`}
+      >
+        <div className={styles.modalHeader}>
           <h2>{title}</h2>
-          {/* <h2>제목</h2> */}
-        </header>
+        </div>
 
-        <main className={styles['modalContent']}>
+        <div className={styles.modalContent}>
           <p>{message}</p>
-        </main>
+        </div>
 
-        <footer className={styles['modalActions']}>
-          <button onClick={onCancel}>{cancelText}</button>
-          <button onClick={onConfirm}>{confirmText}</button>
-        </footer>
-      </article>
-    </section>
+        {(cancelText || confirmText) && (
+          <div className={styles.modalActions}>
+            {cancelText && <button onClick={onCancel}>{cancelText}</button>}
+            {confirmText && <button onClick={onConfirm}>{confirmText}</button>}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

@@ -1,22 +1,24 @@
-import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
-import DashBoardPage from "../pages/admin/DashBoardPage";
-import BranchDetailPage from "../pages/branch/BranchDetailPage";
-import AuthLayout from "../layouts/AuthLayout";
-import BranchListPage from "../pages/branch/BranchListPage";
-import LoginPage from "../pages/auth/LoginPage";
-import SignUpPage from "../pages/auth/SignUpPage";
-import StuSignUpPage from "../pages/auth/StuSignUpPage";
-import PrfSignUpPage from "../pages/auth/PrfSignUpPage";
-import SignUpForm from "../components/auth/SignUpForm";
-import CommuPostPage from "../pages/community/CommuPostPage";
-import ClassListPage from "../pages/class/ClassListPage";
-import ClassDetailPage from "../pages/class/ClassDetailPage";
-import Mypage from "../pages/mypage/Mypage";
-import SignUpCompletePage from "../pages/auth/SignUpCompletePage";
-import MyLevelSystemPage from "../pages/mypage/MyLevelSystemPage";
-import RecordListPage from "../pages/record/RecordListPage";
-import RecordFormPage from "../pages/record/RecordFormPage";
+import { createBrowserRouter } from 'react-router-dom';
+import MainLayout from '../layouts/MainLayout';
+import DashBoardPage from '../pages/admin/DashBoardPage';
+import BranchDetailPage from '../pages/branch/BranchDetailPage';
+import AuthLayout from '../layouts/AuthLayout';
+import BranchListPage from '../pages/branch/BranchListPage';
+import LoginPage from '../pages/auth/LoginPage';
+import SignUpPage from '../pages/auth/SignUpPage';
+import StuSignUpPage from '../pages/auth/StuSignUpPage';
+import PrfSignUpPage from '../pages/auth/PrfSignUpPage';
+import SignUpForm from '../components/auth/SignUpForm';
+import CommuPostPage from '../pages/community/CommuPostPage';
+import ClassListPage from '../pages/class/ClassListPage';
+import ClassDetailPage from '../pages/class/ClassDetailPage';
+import Mypage from '../pages/mypage/Mypage';
+import SignUpCompletePage from '../pages/auth/SignUpCompletePage';
+import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
+import RecordListPage from '../pages/record/RecordListPage';
+import RecordFormPage from '../pages/record/RecordFormPage';
+import RecordDetailPage from '../pages/record/RecordDetailPage';
+import RecordEditPage from '../pages/record/RecordEditPage';
 import CommuPage from "../pages/community/CommuPage";
 import CommuReviewPage from "../pages/community/CommuReviewPage";
 import PostDetailPage from "../pages/community/PostDetailpage";
@@ -83,6 +85,10 @@ export const router = createBrowserRouter([
         element: <RecordFormPage />,
       },
       { path: 'record/:id', element: <RecordDetailPage /> },
+      {
+        path: '/record/edit/:id',
+        element: <RecordEditPage />,
+      },
       {
         element: <AuthLayout />,
         children: [
