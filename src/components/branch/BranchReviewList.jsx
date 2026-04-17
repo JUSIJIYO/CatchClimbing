@@ -2,53 +2,54 @@ import React, { useState } from 'react';
 import BranchReviewItem from './BranchReviewItem';
 import styles from '../../styles/css/branch/BranchReviewList.module.css';
 import { useNavigate } from 'react-router-dom';
+import { db } from '../../firebase/config';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { useEffect } from 'react';
 
 function BranchReviewList({ branch }) {
   const navigate = useNavigate();
-
-  const reviews = [
-    {
-      id: 1,
-      rating: 5,
-      title: '강사님이 정말 좋아요!',
-      content:
-        '처음 시작할 때 너무 친절하게 가르쳐주셔서 금방 적응할 수 있었습니다. 시설도 깨끗하고 좋아요!',
-      author: '익명',
-      date: '2026-04-01',
-      branch: '강남점',
-    },
-    {
-      id: 2,
-      rating: 4,
-      title: '시설이 깨끗하고 좋아요',
-      content: '가나다라',
-      author: '익명',
-      date: '2026-03-25',
-      branch: '강남점',
-    },
-    {
-      id: 3,
-      rating: 4.5,
-      title: '시설이 깨끗하고 좋아요',
-      content: '가나다라',
-      author: '익명',
-      date: '2026-03-26',
-      branch: '강남점',
-    },
-    {
-      id: 4,
-      rating: 3,
-      title: '그럭저럭',
-      content: '가나다라',
-      author: '익명',
-      date: '2026-03-26',
-      branch: '강남점',
-    },
-  ];
+  const [reviews, setReviews] = useState([]);
 
   const latestReviews = [...reviews]
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .sort((a, b) => {
+      const dateA = a.date?.toDate ? a.date.toDate() : new Date(a.date);
+      const dateB = b.date?.toDate ? b.date.toDate() : new Date(b.date);
+      return dateB - dateA;
+    })
     .slice(0, 3);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const q = query(
+          collection(db, 'reviews'),
+          where('branchId', '==', branch.id),
+        );
+
+        const snapshot = await getDocs(q);
+
+        const data = snapshot.docs.map((doc) => {
+          const d = doc.data();
+
+          return {
+            id: doc.id,
+            rating: d.rating ?? 0,
+            title: d.title,
+            content: d.content,
+            author: d.isAnonymous ? '익명' : d.authorName,
+            date: d.createdAt,
+            branch: d.branchId,
+          };
+        });
+
+        setReviews(data);
+      } catch (e) {
+        console.error('리뷰 불러오기 실패:', e);
+      }
+    };
+
+    if (branch?.id) fetchReviews();
+  }, [branch]);
 
   return (
     <div className={styles['branch-wrapper']}>

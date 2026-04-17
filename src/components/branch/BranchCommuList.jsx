@@ -3,62 +3,63 @@ import BranchCommuItem from './BranchCommuItem';
 import filterIcon from '../../assets/icon/commuFilter.svg';
 import styles from '../../styles/css/branch/BranchCommuList.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { db } from '../../firebase/config';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { useEffect } from 'react';
 
 function BranchCommuList() {
-  const [sort, setSort] = useState('views');
+  const [sort, setSort] = useState('latest');
   const navigate = useNavigate();
   const { id } = useParams();
+  const [posts, setPosts] = useState([]);
+  const formatTime = (timestamp) => {
+    if (!timestamp) return '';
 
-  const posts = [
-    {
-      id: 1,
-      title: 'V3 클라이머를 위한 팁?',
-      author: 'climber_123',
-      views: 234,
-      comments: 12,
-      time: '2시간 전',
-      branch: '강남점',
-    },
-    {
-      id: 2,
-      title: '초보자 질문있어요',
-      author: '익명',
-      views: 178,
-      comments: 15,
-      time: '2시간 전',
-      branch: '강남점',
-    },
-    {
-      id: 3,
-      title: '멀까여',
-      author: '익명',
-      views: 157,
-      comments: 30,
-      time: '4시간 전',
-      branch: '강남점',
-    },
-    {
-      id: 4,
-      title: '멀까여',
-      author: '익명',
-      views: 157,
-      comments: 30,
-      time: '6시간 전',
-      branch: '강남점',
-    },
-    {
-      id: 5,
-      title: '멀까여',
-      author: '익명',
-      views: 157,
-      comments: 30,
-      time: '3시간 전',
-      branch: '강남점',
-    },
-  ];
+    const now = new Date();
+    const created = timestamp.toDate();
+    const diff = (now - created) / 1000;
+
+    if (diff < 60) return '방금 전';
+    if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`;
+
+    return `${Math.floor(diff / 86400)}일 전`;
+  };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const q = query(collection(db, 'posts'), where('branchId', '==', id));
+
+        const snapshot = await getDocs(q);
+
+        const data = snapshot.docs.map((doc) => {
+          const d = doc.data();
+
+          return {
+            id: doc.id,
+            title: d.title,
+            author: d.isAnonymous ? '익명' : d.authorName,
+            views: d.viewer || 0,
+            comments: d.commentCount || 0,
+            branch: d.branchId,
+            time: formatTime(d.createdAt),
+            createdAt: d.createdAt?.toDate(),
+          };
+        });
+
+        setPosts(data);
+      } catch (e) {
+        console.error('게시글 불러오기 실패:', e);
+      }
+    };
+
+    if (id) fetchPosts();
+  }, [id]);
 
   const sortedPosts = [...posts]
     .sort((a, b) => {
+      if (sort === 'latest') return b.createdAt - a.createdAt;
       if (sort === 'views') return b.views - a.views;
       if (sort === 'comments') return b.comments - a.comments;
       return 0;

@@ -8,6 +8,9 @@ function BranchPrfItem({ prf, onClick }) {
         src={prf.profile || '/default-profile.png'}
         alt="프로필"
         className={styles.profile}
+        onError={(e) => {
+          e.target.src = '/default-profile.png';
+        }}
       />
       <div className={styles['info']}>
         <p className={styles['name']}>{prf.name}</p>
