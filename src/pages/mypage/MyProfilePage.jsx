@@ -56,55 +56,65 @@ function ProfilePage() {
           </button>
         </div>
 
-        <div className={styles.profileImgWrap}>
-          <img
-            src={userData.profileImg || '/default-profile.png'}
-            className={styles.profileImg}
-          />
-        </div>
-
-        <div className={styles.section}>
-          <h3>기본 정보</h3>
-
-          <div className={styles.field}>
-            <div className={styles.labelRow}>
-              <img src={editProfileIcon} alt="이름" />
-              <label>이름</label>
-            </div>
-
-            <input value={userData.name} disabled />
+        <div className={styles.card}>
+          <div className={styles.profileImgWrap}>
+            <img
+              src={userData.profileImg || '/default-profile.png'}
+              className={styles.profileImg}
+            />
           </div>
 
-          <div className={styles.field}>
-            <div className={styles.labelRow}>
-              <img src={editEmailIcon} alt="이메일" />
-              <label>이메일</label>
+          <div className={styles.section}>
+            <h3>기본 정보</h3>
+
+            <div className={styles.field}>
+              <div className={styles.labelRow}>
+                <img src={editProfileIcon} alt="이름" />
+                <label>이름</label>
+              </div>
+
+              <input value={userData.name} disabled />
             </div>
-            <input value={userData.email} disabled />
-          </div>
 
-          <div className={styles.field}>
-            <div className={styles.labelRow}>
-              <img src={editPhoneIcon} alt="전화번호" />
-              <label>전화번호</label>
+            <div className={styles.field}>
+              <div className={styles.labelRow}>
+                <img src={editEmailIcon} alt="이메일" />
+                <label>이메일</label>
+              </div>
+              <input value={userData.email} disabled />
             </div>
-            <input value={userData.phone} disabled />
-          </div>
 
-          <div className={styles.field}>
-            <div className={styles.labelRow}>
-              <label>아이디</label>
+            <div className={styles.field}>
+              <div className={styles.labelRow}>
+                <img src={editPhoneIcon} alt="전화번호" />
+                <label>전화번호</label>
+              </div>
+              <input value={userData.phone} disabled />
             </div>
-            <input value={userData.userId} disabled />
-          </div>
-        </div>
 
-        <div className={styles.section}>
-          <h3>클라이밍 정보</h3>
+            <div className={styles.field}>
+              <div className={styles.labelRow}>
+                <label>아이디</label>
+              </div>
+              <input value={userData.userId} disabled />
+            </div>
 
-          <div className={styles.field}>
-            <label>현재 레벨</label>
-            <input value={userData.level} disabled />
+            <div className={styles.field}>
+              <div className={styles.labelRow}>
+                <label>비밀번호</label>
+              </div>
+
+              <input value={userData.password ? '********' : ''} disabled />
+            </div>
+
+            <div className={styles.section}>
+              <h3>클라이밍 정보</h3>
+
+              <div className={styles.field}>
+                <label>현재 레벨</label>
+                <input value={userData.level} disabled />
+              </div>
+            </div>
           </div>
         </div>
       </div>

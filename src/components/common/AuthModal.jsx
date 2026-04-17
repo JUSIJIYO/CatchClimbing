@@ -1,20 +1,37 @@
 import { useState } from 'react';
 import styles from '../../styles/css/common/AuthModal.module.css';
+import {
+  getAuth,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from 'firebase/auth';
 
 function AuthModal({ onClose, onSuccess, userData }) {
   const [password, setPassword] = useState('');
 
   const [error, setError] = useState('');
-  const handleCheck = () => {
+  const handleCheck = async () => {
+    const user = getAuth().currentUser;
+
     if (!password) {
       alert('비밀번호를 입력해주세요');
       return;
     }
 
-    if (password === userData?.password) {
+    if (!user) {
+      alert('로그인이 필요합니다');
+      return;
+    }
+
+    try {
+      const credential = EmailAuthProvider.credential(user.email, password);
+
+      await reauthenticateWithCredential(user, credential);
+
       setError('');
       onSuccess();
-    } else {
+    } catch (error) {
+      console.error(error);
       setError('비밀번호가 일치하지 않습니다');
     }
   };
