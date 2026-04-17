@@ -8,8 +8,7 @@ import BranchReviewItem from "../../components/branch/BranchReviewItem";
 function CommuPage() {
   const [searchParams] = useSearchParams();
   const branchId = searchParams.get("branch");
-
-  // 데이터 변수 (정렬 없이 그대로 사용)
+  
   const posts = [
     {
       id: 1,
