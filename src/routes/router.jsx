@@ -19,6 +19,8 @@ import RecordListPage from '../pages/record/RecordListPage';
 import RecordFormPage from '../pages/record/RecordFormPage';
 import RecordDetailPage from '../pages/record/RecordDetailPage';
 import RecordEditPage from '../pages/record/RecordEditPage';
+import ProfilePage from '../pages/mypage/MyProfilePage';
+import EditProfilePage from '../pages/mypage/EditProfilePage';
 import CommuPage from "../pages/community/CommuPage";
 import CommuReviewPage from "../pages/community/CommuReviewPage";
 import PostDetailPage from "../pages/community/PostDetailpage";
@@ -73,7 +75,11 @@ export const router = createBrowserRouter([
         element: <Mypage />,
       },
       {
-        path: "level",
+        path: 'edit-profile',
+        element: <EditProfilePage />,
+      },
+      {
+        path: 'level',
         element: <MyLevelSystemPage />,
       },
       {
@@ -86,8 +92,12 @@ export const router = createBrowserRouter([
       },
       { path: 'record/:id', element: <RecordDetailPage /> },
       {
-        path: '/record/edit/:id',
+        path: 'record/edit/:id',
         element: <RecordEditPage />,
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />,
       },
       {
         element: <AuthLayout />,
