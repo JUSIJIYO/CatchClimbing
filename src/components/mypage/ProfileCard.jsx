@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../styles/css/mypage/ProfileCard.module.css';
 import mypageIcon from '../../assets/icon/mypageIcon.svg';
 import ProgressBar from '../common/ProgressBar';
 import { useNavigate } from 'react-router-dom';
+import AuthModal from '../common/AuthModal';
+import ConfirmModal from '../common/ConfirmModal';
 
 function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
   const branchMap = {
@@ -30,6 +32,8 @@ function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
   const point = Math.floor(attemptCount / 7);
   const progress = (point % 4) * 25;
   const remain = point % 4 === 0 && point !== 0 ? 0 : 4 - (point % 4);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
     <div className={styles.card}>
@@ -50,7 +54,10 @@ function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
 
         {showButtons && (
           <div className={styles['mypage-buttons']}>
-            <button className={styles['mypage-btn']}>
+            <button
+              className={styles['mypage-btn']}
+              onClick={() => setShowAuthModal(true)}
+            >
               <img src={mypageIcon} alt="" />
               <span>프로필 조회</span>
             </button>
@@ -75,6 +82,27 @@ function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
 
         <p className={styles.desc}>레벨업까지 {remain}포인트 남았습니다!</p>
       </div>
+
+      {showAuthModal && (
+        <AuthModal
+          userData={userData}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={() => {
+            setShowAuthModal(false);
+            setShowSuccessModal(true);
+          }}
+        />
+      )}
+
+      {showSuccessModal && (
+        <ConfirmModal
+          message="인증이 완료되었습니다."
+          onConfirm={() => {
+            setShowSuccessModal(false);
+            navigate('/profile');
+          }}
+        />
+      )}
     </div>
   );
 }

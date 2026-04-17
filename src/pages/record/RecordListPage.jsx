@@ -13,8 +13,6 @@ function RecordListPage() {
   const [records, setRecords] = useState([]);
   const [user, setUser] = useState(null);
 
-  const uid = user?.uid;
-
   useEffect(() => {
     if (!user) return;
 
