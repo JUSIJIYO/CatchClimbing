@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../../assets/icon/climbing_logo.png';
 import loginIcon from '../../assets/icon/login.svg';
 import logoutIcon from '../../assets/icon/logout.svg';
@@ -6,16 +6,32 @@ import title from '../../assets/icon/logo.png';
 import styles from '../../styles/css/layout/header.module.css';
 import Nav from './Nav';
 import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 function Header() {
-
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const handleLogin = () => {
-    navigate("/login");
-    // setIsLogin(!isLogin);
-  }
+  useEffect(() => {
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleAuth = async () => {
+    const auth = getAuth();
+
+    if (user) {
+      await signOut(auth);
+      navigate('/');
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <>
@@ -29,15 +45,17 @@ function Header() {
 
         <div>
           <button
-            className={`${styles['button']} ${isLogin ? styles['logout'] : styles['login']}`}
-            onClick={handleLogin}
+            className={`${styles['button']} ${
+              user ? styles['logout'] : styles['login']
+            }`}
+            onClick={handleAuth}
           >
             <img
-              src={isLogin ? logoutIcon : loginIcon}
+              src={user ? logoutIcon : loginIcon}
               alt="icon"
               className={styles['icon']}
             />
-            {isLogin ? '로그아웃' : '로그인'}
+            {user ? '로그아웃' : '로그인'}
           </button>
         </div>
       </header>
