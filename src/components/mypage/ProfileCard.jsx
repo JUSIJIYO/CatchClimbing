@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/css/mypage/ProProfileCard.module.css';
+import styles from '../../styles/css/mypage/ProfileCard.module.css';
 import mypageIcon from '../../assets/icon/mypageIcon.svg';
 import ProgressBar from '../common/ProgressBar';
 import { useNavigate } from 'react-router-dom';
@@ -27,14 +27,17 @@ function ProfileCard({ user, showButtons = true }) {
         </div>
 
         {showButtons && (
-          <div className={styles.buttons}>
-            <button className={styles.btn}>
+          <div className={styles['mypage-buttons']}>
+            <button className={styles['mypage-btn']}>
               <img src={mypageIcon} alt="" />
-              프로필 조회
+              <span>프로필 조회</span>
             </button>
-            <button className={styles.btn} onClick={() => navigate('/level')}>
+            <button
+              className={styles['mypage-btn']}
+              onClick={() => navigate('/level')}
+            >
               <img src={mypageIcon} alt="" />
-              레벨시스템조회
+              <span>레벨 시스템 조회</span>
             </button>
           </div>
         )}
