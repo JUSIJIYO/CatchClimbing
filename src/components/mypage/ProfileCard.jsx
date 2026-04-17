@@ -4,19 +4,41 @@ import mypageIcon from '../../assets/icon/mypageIcon.svg';
 import ProgressBar from '../common/ProgressBar';
 import { useNavigate } from 'react-router-dom';
 
-function ProfileCard({ user, showButtons = true }) {
-  // 임시 데이터 (나중에 Firebase 연결)
-  const name = user?.displayName || '곽시윤';
-  const branch = '강남점';
-  const level = 'V7';
-  const progress = 75;
+function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
+  const branchMap = {
+    theclimb_hongdae: '홍대점',
+    theclimb_gangnam: '강남점',
+    theclimb_ilsan: '일산점',
+    theclimb_isu: '이수점',
+    theclimb_magok: '마곡점',
+    theclimb_mullae: '문래점',
+    theclimb_nonhyeon: '논현점',
+    theclimb_sadang: '사당점',
+    theclimb_seongsu: '성수점',
+    theclimb_sillim: '신림점',
+    theclimb_sinsa: '신사점',
+    theclimb_yangjae: '양재점',
+    theclimb_yeonnam: '연남점',
+  };
+
   const navigate = useNavigate();
+  const name = userData?.name || '사용자';
+  const branch = branchMap[userData?.branchId] || '지점 없음';
+  const level = userData?.level || 'V0';
+  const levelNumber = parseInt(level.replace('V', '')) || 0;
+  const nextLevel = `V${levelNumber + 1}`;
+  const point = Math.floor(attemptCount / 7);
+  const progress = (point % 4) * 25;
+  const remain = point % 4 === 0 && point !== 0 ? 0 : 4 - (point % 4);
 
   return (
     <div className={styles.card}>
       <div className={styles.top}>
         <div className={styles.profileSection}>
-          <div className={styles.profileImg} />
+          <img
+            src={userData?.profileImg || '/default-profile.png'}
+            className={styles.profileImg}
+          />
 
           <div className={styles.info}>
             <p className={styles.name}>
@@ -45,13 +67,13 @@ function ProfileCard({ user, showButtons = true }) {
 
       <div className={styles.progressSection}>
         <div className={styles.progressHeader}>
-          <span>V8 달성률</span>
+          <span>{nextLevel} 달성률</span>
           <span>{progress}%</span>
         </div>
 
         <ProgressBar percent={progress} />
 
-        <p className={styles.desc}>다음 레벨까지 조금만 더! 잘하고 계세요.</p>
+        <p className={styles.desc}>레벨업까지 {remain}포인트 남았습니다!</p>
       </div>
     </div>
   );
