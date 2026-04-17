@@ -21,6 +21,7 @@ import CommuPage from "../pages/community/CommuPage";
 import CommuReviewPage from "../pages/community/CommuReviewPage";
 import PostDetailPage from "../pages/community/PostDetailpage";
 import ReviewDetailPage from "../pages/community/ReviewDetailPage";
+import RecordDetailPage from "../pages/record/RecordDetailPage";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
         path: "/review",
         element: <CommuReviewPage />,
       },
+
 
       {
         path: "/postdetail",
