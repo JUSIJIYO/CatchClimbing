@@ -1,0 +1,43 @@
+.commu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+}
+
+.commu-title{
+  color: #2C3E50;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.commu-container {
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0px auto;
+  padding: 40px 20px; 
+  box-sizing: border-box;
+}
+
+.commu-box{
+  margin-top: 16px;
+}
+
+.commu-btn{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 12px;
+  gap: 6px;
+  width: 81px;
+  height: 31px;
+  background: #FFFFFF;
+  border: 0.752756px solid rgba(44, 62, 80, 0.1);
+  border-radius: 14px;
+  font-size: 14px;
+  color: #2C3E50;
+}
