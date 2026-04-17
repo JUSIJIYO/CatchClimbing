@@ -5,12 +5,18 @@ import { useState, useEffect } from "react";
 import ClassFilterButton from "../../components/class/ClassFilterButton";
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
+import Modal from "../../components/common/Modal";
+import ConfirmModal from "../../components/common/ConfirmModal";
 
 function ClassListPage() {
   const [data, setData] = useState([]);
   const [allData, setAllData] = useState([]); // 지점 전체 데이터
   const [branchList, setBranchList] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState("전체");
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // 확인모달
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); //완료모달
+  const [selectedClass, setSelectedClass] = useState(null);
 
   // firebase class 데이터 가져오기
   useEffect(() => {
@@ -30,7 +36,6 @@ function ClassListPage() {
         const uniqueBranches = [...new Set(branches)];
 
         setBranchList(["전체", ...uniqueBranches]);
-
       } catch (e) {
         console.error("수업 불러오기 실패:", e);
       }
@@ -43,13 +48,18 @@ function ClassListPage() {
       setData(allData);
     } else {
       const filtered = allData.filter(
-        (item) => item.branchName === selectedBranch
+        (item) => item.branchName === selectedBranch,
       );
       setData(filtered);
     }
   }, [selectedBranch, allData]);
 
-  
+  //확인 및 모달 클릭 이벤트 함수
+  const handleRegisterClick = (card) => {
+    setSelectedClass(card);
+    setIsModalOpen(true);
+  };
+
   return (
     <div>
       {/* 헤더 */}
@@ -79,9 +89,39 @@ function ClassListPage() {
         {data.length === 0 ? (
           <p>수업이 없습니다.</p>
         ) : (
-          data.map((card) => <ClassCard key={card.id} {...card} />)
+          data.map((card) => (
+            <ClassCard
+              key={card.id}
+              {...card}
+              onRegisterClick={() => handleRegisterClick(card)} // 이걸로 ClassCard에 이벤트보낼거야
+            />
+          ))
         )}
       </div>
+
+      {/* 확인모달 */}
+      {isModalOpen && (
+        <Modal
+          title="수업 신청"
+          message={`${selectedClass?.title} 수업을 신청하시겠습니까?`}
+          cancelText="취소"
+          confirmText="신청하기"
+          onCancel={() => setIsModalOpen(false)}
+          onConfirm={() => {
+            // console.log("신청 완료:", selectedClass);
+            setIsModalOpen(false);
+            setIsConfirmModalOpen(true);
+          }}
+        />
+      )}
+
+      {/* 완료모달  */}
+      {isConfirmModalOpen && (
+        <ConfirmModal
+          message={`${selectedClass?.title} 신청이 완료되었습니다.`}
+          onConfirm={() => setIsConfirmModalOpen(false)} 
+        />
+      )}
     </div>
   );
 }

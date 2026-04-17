@@ -13,6 +13,7 @@ function ClassDetail({
   currentCap, //현재신청인원
   capacity, //정원
   money,
+  
 }) {
   return (
     <div>
