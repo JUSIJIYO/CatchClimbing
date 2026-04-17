@@ -1,30 +1,30 @@
-import React, { useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase/config";
-import { signUp } from "../../services/authService";
-import styles from "../../styles/css/auth/PrfSignUpPage.module.css";
-import profileupload from "../../assets/icon/signup-upload.svg";
-import qualificationsupload from "../../assets/icon/signUpUpload.svg";
-import qualificationCheck from "../../assets/icon/qualificationCheck.svg";
-import CheckModal from "../../components/common/ChkModal";
-import Modal from "../../components/common/Modal";
-import ConfirmModal from "../../components/common/ConfirmModal";
+import React, { useState, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase/config';
+import { signUp } from '../../services/authService';
+import styles from '../../styles/css/auth/PrfSignUpPage.module.css';
+import profileupload from '../../assets/icon/signup-upload.svg';
+import qualificationsupload from '../../assets/icon/signUpUpload.svg';
+import qualificationCheck from '../../assets/icon/qualificationCheck.svg';
+import CheckModal from '../../components/common/ChkModal';
+import Modal from '../../components/common/Modal';
+import ConfirmModal from '../../components/common/ConfirmModal';
 
 function PrfSignUpPage() {
   // 클라이밍 레벨 객체
   const LEVELS = [
-    "VB",
-    "V0",
-    "V1",
-    "V2",
-    "V3",
-    "V4",
-    "V5",
-    "V6",
-    "V7",
-    "V8",
-    "V8+",
+    'VB',
+    'V0',
+    'V1',
+    'V2',
+    'V3',
+    'V4',
+    'V5',
+    'V6',
+    'V7',
+    'V8',
+    'V8+',
   ];
 
   const navigate = useNavigate();
@@ -41,10 +41,10 @@ function PrfSignUpPage() {
   const [profileImg, setProfileImg] = useState(null);
 
   // 지점선택 상태 관리
-  const [branchId, setBranchId] = useState("");
+  const [branchId, setBranchId] = useState('');
 
   // 레벨선택 상태 관리
-  const [selectedLevel, setSelectedLevel] = useState("");
+  const [selectedLevel, setSelectedLevel] = useState('');
 
   // 자격증 선택 사진 관리
   const [qualifications, setQualifications] = useState([]);
@@ -60,8 +60,8 @@ function PrfSignUpPage() {
   // 에러 확인 모달 상태 관리
   const [checkModalInfo, setCheckModalInfo] = useState({
     show: false,
-    title: "",
-    message: "",
+    title: '',
+    message: '',
   });
 
   // 모달 삭제 상태관리
@@ -88,9 +88,9 @@ function PrfSignUpPage() {
     const file = e.target.files[0];
     if (!file || qualifications.length >= 2) return;
     const now = new Date();
-    const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
+    const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
     setQualifications([...qualifications, { name: file.name, date: dateStr }]);
-    e.target.value = "";
+    e.target.value = '';
   };
 
   // 업로드한 파일 삭제 관리 함수
@@ -98,7 +98,7 @@ function PrfSignUpPage() {
     setDeleteModalInfo({ show: true, targetIndex: index });
   };
 
-  // 
+  //
   const handleConfirmDelete = () => {
     setQualifications(
       qualifications.filter((_, i) => i !== deleteModalInfo.targetIndex),
@@ -109,7 +109,7 @@ function PrfSignUpPage() {
   // 약관동의 관리 함수
   const handleTerms = (key) => {
     // 전체 선택시 한번에 체크
-    if (key === "all") {
+    if (key === 'all') {
       const newVal = !terms.all;
       setTerms({
         all: newVal,
@@ -136,26 +136,26 @@ function PrfSignUpPage() {
 
   // 이전 버튼 클릭시 이동경로
   const handlePrev = () => {
-    navigate("/signup");
+    navigate('/signup');
   };
 
   // 다음 버튼 클릭시 발생하는 함수
   const handleNext = () => {
-    // 사진 비어 있을시 경고 모달 
+    // 사진 비어 있을시 경고 모달
     if (!profileImg) {
       setCheckModalInfo({
         show: true,
-        title: "회원가입 오류",
-        message: "사진을 선택해주세요",
+        title: '회원가입 오류',
+        message: '사진을 선택해주세요',
       });
       return;
     }
-    // 지점선택, 레벨, 자격증 중 입력하지 않으면 경고 모달 
+    // 지점선택, 레벨, 자격증 중 입력하지 않으면 경고 모달
     if (!branchId || !selectedLevel || qualifications.length < 1) {
       setCheckModalInfo({
         show: true,
-        title: "회원가입 오류",
-        message: "모든 정보를 입력해주세요",
+        title: '회원가입 오류',
+        message: '모든 정보를 입력해주세요',
       });
       return;
     }
@@ -163,8 +163,8 @@ function PrfSignUpPage() {
     if (!terms.service || !terms.privacy) {
       setCheckModalInfo({
         show: true,
-        title: "회원가입 오류",
-        message: "약관동의를 진행해주세요",
+        title: '회원가입 오류',
+        message: '약관동의를 진행해주세요',
       });
       return;
     }
@@ -178,14 +178,14 @@ function PrfSignUpPage() {
       try {
         const user = await signUp(signupInf.email, signupInf.password);
         const uid = user.uid;
-        await setDoc(doc(db, "users", uid), {
+        await setDoc(doc(db, 'users', uid), {
           userId: signupInf.userId,
           password: signupInf.password,
           name: signupInf.name,
           phone: signupInf.phone,
           email: signupInf.email,
           birthDate: signupInf.birthDate,
-          role: "professor",
+          role: 'professor',
           level: selectedLevel,
           branchId,
           career: [],
@@ -198,9 +198,13 @@ function PrfSignUpPage() {
           autoLogin: false,
           createdAt: serverTimestamp(),
         });
-        navigate("/signupcomplete", {
+        navigate('/signupcomplete', {
           replace: true,
-          state: { name: signupInf.name, level: selectedLevel, role: "professor" },
+          state: {
+            name: signupInf.name,
+            level: selectedLevel,
+            role: 'professor',
+          },
         });
       } catch (err) {
         console.log(err);
@@ -211,10 +215,10 @@ function PrfSignUpPage() {
 
   return (
     <>
-      <form className={styles["prfsignup-ct"]}>
+      <form className={styles['prfsignup-ct']}>
         <article>
-          <label className={styles["prfsign-title"]}>프로필 사진</label>
-          <div className={styles["prfsign-profile-upload-ct"]}>
+          <label className={styles['prfsign-title']}>프로필 사진</label>
+          <div className={styles['prfsign-profile-upload-ct']}>
             <img src={profileImg || profileupload} />
             <label htmlFor="profile-upload">사진 선택</label>
             <input
@@ -228,35 +232,35 @@ function PrfSignUpPage() {
               onChange={(e) => setBranchId(e.target.value)}
             >
               <option value="">지점선택</option>
-              <option value="양재점">양재점</option>
-              <option value="홍대점">홍대점</option>
-              <option value="일산점">일산점</option>
-              <option value="신사점">신사점</option>
-              <option value="마곡점">마곡점</option>
-              <option value="연남점">연남점</option>
-              <option value="문래점">문래점</option>
-              <option value="성수점">성수점</option>
-              <option value="이수점">이수점</option>
-              <option value="신림점">신림점</option>
-              <option value="강남점">강남점</option>
-              <option value="사당점">사당점</option>
-              <option value="논현점">논현점</option>
+              <option value="theclimb_yangjae">양재점</option>
+              <option value="theclimb_hongdae">홍대점</option>
+              <option value="theclimb_ilsan">일산점</option>
+              <option value="theclimb_sinsa">신사점</option>
+              <option value="theclimb_magok">마곡점</option>
+              <option value="theclimb_yeonnam">연남점</option>
+              <option value="theclimb_mullae">문래점</option>
+              <option value="theclimb_seongsu">성수점</option>
+              <option value="theclimb_isu">이수점</option>
+              <option value="theclimb_sillim">신림점</option>
+              <option value="theclimb_gangnam">강남점</option>
+              <option value="theclimb_sadang">사당점</option>
+              <option value="theclimb_nonhyeon">논현점</option>
             </select>
           </div>
         </article>
 
         <article>
-          <label className={styles["prfsign-title"]}>
+          <label className={styles['prfsign-title']}>
             클라이밍 레벨
-            <div className={styles["prfsign-level-ct"]}>
+            <div className={styles['prfsign-level-ct']}>
               {LEVELS.map((level) => (
                 <button
                   key={level}
                   type="button"
                   className={
                     selectedLevel === level
-                      ? styles["prfsign-level-active"]
-                      : ""
+                      ? styles['prfsign-level-active']
+                      : ''
                   }
                   onClick={() => setSelectedLevel(level)}
                 >
@@ -268,20 +272,20 @@ function PrfSignUpPage() {
         </article>
 
         <article>
-          <label className={styles["prfsign-title"]}>자격증 (최대 2개)</label>
-          <div className={styles["prfsign-qualification-upload-ct"]}>
+          <label className={styles['prfsign-title']}>자격증 (최대 2개)</label>
+          <div className={styles['prfsign-qualification-upload-ct']}>
             {qualifications.length === 0 ? (
               <label htmlFor="qualification-upload">
                 <img src={qualificationsupload} />
                 <p>자격증 업로드</p>
               </label>
             ) : (
-              <div className={styles["prfsign-add-qualification-ct"]}>
+              <div className={styles['prfsign-add-qualification-ct']}>
                 {qualifications.map((q, i) => (
-                  <div key={i} className={styles["prfsign-add-qualification"]}>
+                  <div key={i} className={styles['prfsign-add-qualification']}>
                     <img src={qualificationCheck} />
                     <div
-                      className={styles["prfsign-add-qualification-content-ct"]}
+                      className={styles['prfsign-add-qualification-content-ct']}
                     >
                       <p>{q.name}</p>
                       <p>{q.date}</p>
@@ -314,14 +318,14 @@ function PrfSignUpPage() {
         </article>
 
         <article>
-          <label className={styles["prfsign-title"]}>약관 동의</label>
-          <div className={styles["prfsign-question-ct"]}>
+          <label className={styles['prfsign-title']}>약관 동의</label>
+          <div className={styles['prfsign-question-ct']}>
             <div>
               <input
                 type="checkbox"
                 id="terms-all"
                 checked={terms.all}
-                onChange={() => handleTerms("all")}
+                onChange={() => handleTerms('all')}
               />
               <label htmlFor="terms-all">모든 약관에 동의합니다</label>
             </div>
@@ -330,7 +334,7 @@ function PrfSignUpPage() {
                 type="checkbox"
                 id="terms-service"
                 checked={terms.service}
-                onChange={() => handleTerms("service")}
+                onChange={() => handleTerms('service')}
               />
               <label htmlFor="terms-service">이용약관에 동의합니다</label>
             </div>
@@ -339,7 +343,7 @@ function PrfSignUpPage() {
                 type="checkbox"
                 id="terms-privacy"
                 checked={terms.privacy}
-                onChange={() => handleTerms("privacy")}
+                onChange={() => handleTerms('privacy')}
               />
               <label htmlFor="terms-privacy">
                 개인정보 처리방침에 동의합니다
@@ -350,7 +354,7 @@ function PrfSignUpPage() {
                 type="checkbox"
                 id="terms-marketing"
                 checked={terms.marketing}
-                onChange={() => handleTerms("marketing")}
+                onChange={() => handleTerms('marketing')}
               />
               <label htmlFor="terms-marketing">
                 마케팅 정보 수신에 동의합니다(선택)
@@ -360,14 +364,14 @@ function PrfSignUpPage() {
         </article>
       </form>
 
-      <div className={styles["prfsign-btn-ct"]}>
+      <div className={styles['prfsign-btn-ct']}>
         <button type="button" onClick={handlePrev}>
           이전
         </button>
         <button
           type="button"
           onClick={handleNext}
-          className={isFormReady ? styles["prfsign-btn-active"] : ""}
+          className={isFormReady ? styles['prfsign-btn-active'] : ''}
         >
           다음
         </button>
@@ -378,7 +382,7 @@ function PrfSignUpPage() {
           title={checkModalInfo.title}
           message={checkModalInfo.message}
           onConfirm={() =>
-            setCheckModalInfo({ show: false, title: "", message: "" })
+            setCheckModalInfo({ show: false, title: '', message: '' })
           }
         />
       )}
