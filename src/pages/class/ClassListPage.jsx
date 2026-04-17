@@ -7,6 +7,7 @@ import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import Modal from "../../components/common/Modal";
 import ConfirmModal from "../../components/common/ConfirmModal";
+import CheckModal from "../../components/common/ChkModal";
 
 function ClassListPage() {
   const [data, setData] = useState([]);
@@ -17,6 +18,7 @@ function ClassListPage() {
   const [isModalOpen, setIsModalOpen] = useState(false); // 확인모달
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); //완료모달
   const [selectedClass, setSelectedClass] = useState(null);
+  const [isOverModalOpen, setIsOverModalOpen] = useState(false); // 초과 모달
 
   // firebase class 데이터 가져오기
   useEffect(() => {
@@ -110,7 +112,12 @@ function ClassListPage() {
           onConfirm={() => {
             // console.log("신청 완료:", selectedClass);
             setIsModalOpen(false);
-            setIsConfirmModalOpen(true);
+
+            if (selectedClass.currentCap >= selectedClass.capacity) {
+              setIsOverModalOpen(true); // 정원 초과
+            } else {
+              setIsConfirmModalOpen(true); // 정상 신청
+            }
           }}
         />
       )}
@@ -119,7 +126,15 @@ function ClassListPage() {
       {isConfirmModalOpen && (
         <ConfirmModal
           message={`${selectedClass?.title} 신청이 완료되었습니다.`}
-          onConfirm={() => setIsConfirmModalOpen(false)} 
+          onConfirm={() => setIsConfirmModalOpen(false)}
+        />
+      )}
+
+      {isOverModalOpen && (
+        <CheckModal
+          title="정원초과"
+          message="정원이 초과되었습니다."
+          onConfirm={() => setIsOverModalOpen(false)}
         />
       )}
     </div>

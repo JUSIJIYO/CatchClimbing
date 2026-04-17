@@ -59,7 +59,7 @@ function ClassDetailPage() {
           level={classData.level}
           currentCap={classData.currentCap}
           capacity={classData.capacity}
-          money={classData.money}
+          money={Number(classData.classMoney).toLocaleString()}
           description={classData.description}
           imageUrl={classData.imageUrl}
         />
