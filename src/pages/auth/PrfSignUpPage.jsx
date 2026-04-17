@@ -198,7 +198,10 @@ function PrfSignUpPage() {
           autoLogin: false,
           createdAt: serverTimestamp(),
         });
-        navigate("/signupcomplete", { replace: true });
+        navigate("/signupcomplete", {
+          replace: true,
+          state: { name: signupInf.name, level: selectedLevel, role: "professor" },
+        });
       } catch (err) {
         console.log(err);
       }
