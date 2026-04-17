@@ -82,6 +82,7 @@ export const router = createBrowserRouter([
         path: "record/new",
         element: <RecordFormPage />,
       },
+      { path: 'record/:id', element: <RecordDetailPage /> },
       {
         element: <AuthLayout />,
         children: [
