@@ -41,7 +41,19 @@ function RecordForm({ onSubmit }) {
     { id: 'theclimb_yeonnam', name: '연남점' },
   ];
 
-  const levels = ['V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8'];
+  const levels = [
+    'VB',
+    'V0',
+    'V1',
+    'V2',
+    'V3',
+    'V4',
+    'V5',
+    'V6',
+    'V7',
+    'V8',
+    'V8+',
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,17 +65,18 @@ function RecordForm({ onSubmit }) {
   };
 
   const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const files = Array.from(e.target.files);
 
-    const imageUrl = URL.createObjectURL(file);
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
 
     setForm((prev) => ({
       ...prev,
-      image: file,
+      image: [...(prev.image || []), ...files],
     }));
 
-    setPreview(imageUrl);
+    setPreviews((prev) => [...prev, ...newPreviews]);
+
+    e.target.value = null;
   };
 
   const handleSubmit = (e) => {
@@ -77,7 +90,7 @@ function RecordForm({ onSubmit }) {
 
   const minutes = ['00', '10', '20', '30', '40', '50'];
 
-  const [preview, setPreview] = useState('');
+  const [previews, setPreviews] = useState([]);
 
   return (
     <form className={styles['card']} onSubmit={handleSubmit}>
@@ -235,7 +248,10 @@ function RecordForm({ onSubmit }) {
       </div>
 
       <div className={styles['field']}>
-        <label>시도 횟수</label>
+        <label>
+          <img src={levelIcon} alt="" />
+          시도한 문제 수
+        </label>
         <input
           type="number"
           name="tryCount"
@@ -246,7 +262,10 @@ function RecordForm({ onSubmit }) {
       </div>
 
       <div className={styles['field']}>
-        <label>문제 설명</label>
+        <label>
+          <img src={titleIcon} alt="" />
+          문제 설명
+        </label>
         <textarea
           name="description"
           value={form.description}
@@ -256,7 +275,10 @@ function RecordForm({ onSubmit }) {
       </div>
 
       <div className={styles['field']}>
-        <label>메모</label>
+        <label>
+          <img src={titleIcon} alt="" />
+          메모
+        </label>
         <textarea
           name="memo"
           value={form.memo}
@@ -271,14 +293,26 @@ function RecordForm({ onSubmit }) {
           사진 업로드
         </label>
 
-        <div
-          className={styles.uploadBox}
-          onClick={() => fileInputRef.current.click()}
-        >
-          <input type="file" ref={fileInputRef} onChange={handleImage} hidden />
+        <div className={styles.uploadBox}>
+          <div
+            className={styles.uploadOverlay}
+            onClick={() => fileInputRef.current.click()}
+          />
 
-          {preview ? (
-            <img src={preview} className={styles.previewImg} />
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImage}
+            multiple
+            hidden
+          />
+
+          {previews.length > 0 ? (
+            <div className={styles.previewList}>
+              {previews.map((src, idx) => (
+                <img key={idx} src={src} className={styles.previewItem} />
+              ))}
+            </div>
           ) : (
             <div className={styles.uploadContent}>
               <img src={uploadIcon} alt="" />
