@@ -19,10 +19,14 @@ import RecordListPage from '../pages/record/RecordListPage';
 import RecordFormPage from '../pages/record/RecordFormPage';
 import RecordDetailPage from '../pages/record/RecordDetailPage';
 import RecordEditPage from '../pages/record/RecordEditPage';
+import CommuPage from "../pages/community/CommuPage";
+import CommuReviewPage from "../pages/community/CommuReviewPage";
+import PostDetailPage from "../pages/community/PostDetailpage";
+import ReviewDetailPage from "../pages/community/ReviewDetailPage";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -30,39 +34,54 @@ export const router = createBrowserRouter([
         element: <BranchListPage />,
       },
       {
-        path: 'branch/:id',
+        path: "branch/:id",
         element: <BranchDetailPage />,
       },
       {
-        path: 'community',
-        element: <CommuPostPage />,
+        path: "commu",
+        element: <CommuPage />,
       },
       {
-        path: 'class',
+        path: "community",
+        element: <CommuPostPage />,
+      },
+
+      {
+        path: "/review",
+        element: <CommuReviewPage />,
+      },
+
+      {
+        path: "/postdetail",
+        element: <PostDetailPage />,
+      },
+      {
+        path: "/reviewdetail",
+        element: <ReviewDetailPage />,
+      },
+      
+      {
+        path: "class",
         element: <ClassListPage />,
       },
       {
-        path: 'class/:id',
+        path: "class/:id",
         element: <ClassDetailPage />,
       },
       {
-        path: 'mypage',
+        path: "mypage",
         element: <Mypage />,
       },
       {
-        path: 'level',
+        path: "level",
         element: <MyLevelSystemPage />,
       },
       {
-        path: 'class/:id',
-        element: <ClassDetailPage />,
-      },
-      {
-        path: 'record',
+        path: "record",
         element: <RecordListPage />,
       },
       {
-        path: 'record/new',
+        path: "record/new",
         element: <RecordFormPage />,
       },
       { path: 'record/:id', element: <RecordDetailPage /> },
@@ -74,11 +93,11 @@ export const router = createBrowserRouter([
         element: <AuthLayout />,
         children: [
           {
-            path: 'login',
+            path: "login",
             element: <LoginPage />,
           },
           {
-            path: 'signup',
+            path: "signup",
             element: <SignUpPage />,
             children: [
               {
@@ -86,17 +105,17 @@ export const router = createBrowserRouter([
                 element: <SignUpForm />,
               },
               {
-                path: 'stu',
+                path: "stu",
                 element: <StuSignUpPage />,
               },
               {
-                path: 'prf',
+                path: "prf",
                 element: <PrfSignUpPage />,
               },
             ],
           },
           {
-            path: 'signupcomplete',
+            path: "signupcomplete",
             element: <SignUpCompletePage />,
           },
         ],
@@ -104,11 +123,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/totaladmin',
+    path: "/totaladmin",
     element: <DashBoardPage />,
   },
   {
-    path: 'branchadmin',
+    path: "branchadmin",
     element: <DashBoardPage />,
   },
 ]);
