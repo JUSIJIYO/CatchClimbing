@@ -21,6 +21,7 @@ import RecordDetailPage from '../pages/record/RecordDetailPage';
 import RecordEditPage from '../pages/record/RecordEditPage';
 import ProfilePage from '../pages/mypage/MyProfilePage';
 import EditProfilePage from '../pages/mypage/EditProfilePage';
+import PrfFormPage from '../pages/professor/PrfFormPage';
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ export const router = createBrowserRouter([
       {
         path: 'profile',
         element: <ProfilePage />,
+      },
+      {
+        path: 'professor/new-class',
+        element: <PrfFormPage />,
       },
       {
         element: <AuthLayout />,
