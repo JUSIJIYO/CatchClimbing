@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 function ProfessorFormPage() {
   return (
-    <div></div>
-  )
+    <div>
+      <ProClassForm />
+    </div>
+  );
 }
 
-export default ProfessorFormPage
+export default ProfessorFormPage;
