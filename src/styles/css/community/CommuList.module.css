@@ -1,0 +1,68 @@
+.commu-wrapper {
+  margin: 24px auto;   
+  max-width: 895px;  
+  width: 100%;
+}
+.commu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.commu-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.commu-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.commu-filter img {
+  width: 14px;
+  height: 14px;
+}
+
+.commu-filter span {
+  font-size: 13px;
+  color: #2c3e50;
+}
+
+.commu-filter button {
+  border: none;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.active {
+  background: #2c3e50 !important;
+  color: #fff;
+}
+
+.commu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.commu-list p {
+  text-align: center;
+  font-size: 14px;
+  color: #94a3b8;
+  padding: 20px 0;
+}
