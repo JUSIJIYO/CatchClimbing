@@ -101,10 +101,6 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/seed",
-    element: <SeedPage />,
-  },
-  {
     path: "/admin",
     element: <AdminLayout />,
     children: [
