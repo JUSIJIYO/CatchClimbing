@@ -185,7 +185,10 @@ function StuSignUpPage() {
           autoLogin: false,
           createdAt: serverTimestamp(),
         });
-        navigate("/signupcomplete", { replace: true });
+        navigate("/signupcomplete", {
+          replace: true,
+          state: { name: signupInf.name, level: levelCondition, role: "student" },
+        });
       } catch (err) {
         console.log(err);
       }

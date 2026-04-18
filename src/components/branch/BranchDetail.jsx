@@ -32,7 +32,13 @@ function BranchDetail({ branch }) {
           <img src={instagramIcon} alt="" />
           <div>
             <p className={styles['label']}>인스타그램</p>
-            <p>{branch.instagram}</p>
+            <a
+              href={branch.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {branch.instagram}
+            </a>
           </div>
         </div>
 
@@ -49,7 +55,7 @@ function BranchDetail({ branch }) {
           <div>
             <p className={styles['label']}>평점</p>
             <p>
-              {branch.rating}
+              {branch.rating ?? 0}
               <span className={styles['total']}> / 5.0</span>
             </p>
           </div>

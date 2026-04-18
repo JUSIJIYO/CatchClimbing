@@ -10,17 +10,22 @@ import BranchReviewList from '../../components/branch/BranchReviewList';
 import BranchClassCard from '../../components/branch/BranchClassCard';
 import ConfirmModal from '../../components/common/ConfirmModal';
 import { db } from '../../firebase/config';
-
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
+  addDoc,
+  collection,
+  serverTimestamp,
   doc,
   getDoc,
-  collection,
   getDocs,
   query,
   where,
 } from 'firebase/firestore';
 
 function BranchDetailPage() {
+  const [userRole, setUserRole] = useState(null);
+  const [appliedClasses, setAppliedClasses] = useState([]);
+  const [user, setUser] = useState(null);
   const [prfList, setPrfList] = useState([]);
   const [branch, setBranch] = useState(null);
   const { id } = useParams();
@@ -28,22 +33,35 @@ function BranchDetailPage() {
   const navigate = useNavigate();
   const [selectedPrf, setSelectedPrf] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const isLogin = false; // 테스트용
+  const [selectedClassId, setSelectedClassId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const handleOpenModal = (type) => {
-    if (!isLogin) {
-      setShowModal(true); // 로그인 모달
+  const handleOpenModal = (type, classId) => {
+    if (!user) {
+      setShowModal(true);
       return;
     }
+
     if (type === 'detail') {
       navigate(`/class/${classId}`);
     }
+
     if (type === 'apply') {
-      setModalInfo('apply'); // 신청 모달
+      setSelectedClassId(classId);
+      setModalInfo('apply');
     }
   };
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchProfessors = async () => {
@@ -111,6 +129,46 @@ function BranchDetailPage() {
     }
   }, [showModal]);
 
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchApplications = async () => {
+      try {
+        const q = query(
+          collection(db, 'applications'),
+          where('uid', '==', user.uid),
+        );
+
+        const snapshot = await getDocs(q);
+
+        const classIds = snapshot.docs.map((doc) => doc.data().classId);
+
+        setAppliedClasses(classIds);
+      } catch (e) {
+        console.error('신청 목록 불러오기 실패:', e);
+      }
+    };
+
+    fetchApplications();
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchUserRole = async () => {
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (snap.exists()) {
+          setUserRole(snap.data().role);
+        }
+      } catch (e) {
+        console.error('유저 정보 가져오기 실패:', e);
+      }
+    };
+
+    fetchUserRole();
+  }, [user]);
+
   if (!branch) return <div>로딩중...</div>;
 
   return (
@@ -140,13 +198,15 @@ function BranchDetailPage() {
           강사진
         </button>
         <button
-          className={`${styles['button']} ${tab === 'community' ? styles['active'] : ''}`}
+          className={`${styles['button']} ${
+            tab === 'community' ? styles['active'] : ''
+          }`}
           onClick={() => {
-            setTab('community');
-
-            if (!isLogin) {
+            if (!user) {
               setShowModal(true);
+              return;
             }
+            setTab('community');
           }}
         >
           커뮤니티
@@ -178,16 +238,22 @@ function BranchDetailPage() {
               prfList={prfList}
               setSelectedIndex={setSelectedIndex}
               setSelectedPrf={setSelectedPrf}
+              branch={branch}
             />
           )}
-          {tab === 'community' && isLogin && (
+          {tab === 'community' && user && (
             <>
               <BranchCommuList />
               <BranchReviewList branch={branch} />
             </>
           )}
           {tab === 'class' && (
-            <BranchClassCard branchId={id} onOpenModal={handleOpenModal} />
+            <BranchClassCard
+              branchId={id}
+              onOpenModal={handleOpenModal}
+              appliedClasses={appliedClasses}
+              userRole={userRole}
+            />
           )}
         </div>
       </main>
@@ -209,9 +275,27 @@ function BranchDetailPage() {
           cancelText="취소"
           confirmText="신청하기"
           onCancel={() => setModalInfo(null)}
-          onConfirm={() => {
-            setModalInfo(null); // 기존 모달 닫고
-            setConfirmOpen(true); // 완료 모달 열기
+          onConfirm={async () => {
+            try {
+              if (appliedClasses.includes(selectedClassId)) {
+                alert('이미 신청한 수업입니다');
+                return;
+              }
+
+              await addDoc(collection(db, 'applications'), {
+                uid: user.uid,
+                classId: selectedClassId,
+                branchId: id,
+                createdAt: serverTimestamp(),
+              });
+
+              setAppliedClasses((prev) => [...prev, selectedClassId]);
+              setModalInfo(null);
+              setConfirmOpen(true);
+            } catch (e) {
+              console.error(e);
+              alert('신청 실패');
+            }
           }}
         />
       )}

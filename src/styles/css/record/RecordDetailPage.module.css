@@ -1,0 +1,38 @@
+.backWrapper {
+  width: 100%;
+  position: sticky;
+  top: 62px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(44, 62, 80, 0.1);
+  padding: 12px 24px;
+  z-index: 100;
+}
+
+.back {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 16px;
+  color: #67798d;
+  cursor: pointer;
+}
+
+.wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.back img {
+  width: 18px;
+  height: 18px;
+}
+
+.back:hover {
+  color: #2c3e50;
+}

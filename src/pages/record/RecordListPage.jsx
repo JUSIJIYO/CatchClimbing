@@ -6,17 +6,22 @@ import RecordItem from '../../components/record/RecordItem';
 import styles from '../../styles/css/record/RecordListPage.module.css';
 import headerStyles from '../../styles/css/common/PageHeader.module.css';
 import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 function RecordListPage() {
   const navigate = useNavigate();
   const [records, setRecords] = useState([]);
-
-  const uid = 'test_user_123';
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    if (!user) return;
+
     const fetchRecords = async () => {
       try {
-        const q = query(collection(db, 'records'), where('uid', '==', uid));
+        const q = query(
+          collection(db, 'records'),
+          where('uid', '==', user.uid),
+        );
 
         const snapshot = await getDocs(q);
 
@@ -32,6 +37,16 @@ function RecordListPage() {
     };
 
     fetchRecords();
+  }, [user]);
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   return (

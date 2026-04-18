@@ -25,6 +25,16 @@ import CommuManagePage from '../pages/admin/CommuManagePage';
 import SystemManagePage from '../pages/admin/total/SystemManagePage';
 import OperateSettingPage from '../pages/admin/total/OperateSettingPage';
 import AdminLayout from '../layouts/AdminLayout';
+import RecordDetailPage from '../pages/record/RecordDetailPage';
+import RecordEditPage from '../pages/record/RecordEditPage';
+import ProfilePage from '../pages/mypage/MyProfilePage';
+import EditProfilePage from '../pages/mypage/EditProfilePage';
+import CommuPage from "../pages/community/CommuPage";
+import CommuReviewPage from "../pages/community/CommuReviewPage";
+import PostDetailPage from "../pages/community/PostDetailpage";
+import ReviewDetailPage from "../pages/community/ReviewDetailPage";
+import RecordDetailPage from "../pages/record/RecordDetailPage";
+import PostFormPage from "../pages/community/PostFormPage";
 
 export const router = createBrowserRouter([
   {
@@ -40,9 +50,33 @@ export const router = createBrowserRouter([
         element: <BranchDetailPage />,
       },
       {
+        path: "commu",
+        element: <CommuPage />,
+      },
+      {
         path: "community",
         element: <CommuPostPage />,
       },
+
+      {
+        path: "/review",
+        element: <CommuReviewPage />,
+      },
+
+
+      {
+        path: "/postdetail",
+        element: <PostDetailPage />,
+      },
+      {
+        path:"/postform",
+        element: <PostFormPage />
+      },
+      {
+        path: "/reviewdetail",
+        element: <ReviewDetailPage />,
+      },
+      
       {
         path: "class",
         element: <ClassListPage />,
@@ -56,6 +90,10 @@ export const router = createBrowserRouter([
         element: <Mypage />,
       },
       {
+        path: 'edit-profile',
+        element: <EditProfilePage />,
+      },
+      {
         path: 'level',
         element: <MyLevelSystemPage />,
       },
@@ -66,6 +104,15 @@ export const router = createBrowserRouter([
       {
         path: "record/new",
         element: <RecordFormPage />,
+      },
+      { path: 'record/:id', element: <RecordDetailPage /> },
+      {
+        path: 'record/edit/:id',
+        element: <RecordEditPage />,
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />,
       },
       {
         element: <AuthLayout />,

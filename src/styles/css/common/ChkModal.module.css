@@ -12,18 +12,22 @@
 }
 
 .modalContainer {
-  width: 90%;
-  max-width: 480px;
-  min-height: 180px;
+  width: clamp(280px, 70vw, 480px);
+  height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   background: #fff;
-  border-radius: 14px;
+  border-radius: clamp(12px, 2vw, 16px);
   box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 .modalHeader {
-  padding-left: 24px;
+  padding: clamp(16px, 3vw, 20px) clamp(16px, 4vw, 24px);
   border-bottom: 1px solid #d1d5db;
 }
 
@@ -34,26 +38,26 @@
 }
 
 .modalContent {
-  padding: 20px 24px;
+  padding: clamp(16px, 2vh, 24px);
   text-align: center;
 }
 
 .modalContent > p {
   color: #67798d;
-  font-size: clamp(18px, 2.2vw, 24px);
+  font-size: clamp(20px, 2vh, 26px);
 }
 
 .modalActions {
   display: flex;
-  gap: 16px;
-  padding: clamp(12px, 2.5vw, 20px);
+  gap: clamp(8px, 2vw, 12px);
+  padding: clamp(12px, 3vw, 20px) clamp(16px, 4vw, 24px);
 }
 
 .modalActions > button {
   flex: 1;
-  height: clamp(40px, 6vw, 45px);
+  height: clamp(40px, 5vh, 48px);
   border-radius: 14px;
-  font-size: clamp(14px, 1.8vw, 18px);
+  font-size: clamp(13px, 1.8vw, 15px);
   cursor: pointer;
   background: #2c3e50;
   color: white;

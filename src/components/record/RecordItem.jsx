@@ -9,23 +9,29 @@ function RecordItem({ item }) {
   const getLevelStyle = (level) => {
     if (!level) return {};
 
-    const num = parseInt(level.replace('V', ''));
-
-    if (level === 'VB')
+    if (level === 'VB') {
       return {
         bg: '#ffffff',
         color: '#2c3e50',
-        border: '1px solid rgba(44, 62, 80, 0.2)',
+        border: '1px solid #ddd',
       };
-    if (level === 'V0') return { bg: '#fff3bf', color: '#8a6d00' };
-    if (num === 1 || num === 2) return { bg: '#ffe5d0', color: '#c2410c' };
-    if (num === 3 || num === 4) return { bg: '#dbeafe', color: '#1d4ed8' };
-    if (num === 5) return { bg: '#fde2e4', color: '#c9184a' };
-    if (num === 6) return { bg: '#e5dbff', color: '#5f3dc4' };
-    if (num === 7) return { bg: '#e9ecef', color: '#495057' };
-    if (num === 8) return { bg: '#ede0d4', color: '#7f5539' };
-    if (num >= 9) return { bg: '#343a40', color: '#fff' };
-    return {};
+    }
+
+    if (level === 'V0') return { bg: '#ffd43b', color: '#7a5c00' }; // 노랑
+    if (level === 'V1') return { bg: '#ff922b', color: '#7c2d00' }; // 주황
+    if (level === 'V2') return { bg: '#51cf66', color: '#1b5e20' }; // 초록
+    if (level === 'V3') return { bg: '#339af0', color: '#0b3d91' }; // 파랑
+    if (level === 'V4') return { bg: '#ff6b6b', color: '#7f1d1d' }; // 빨강
+    if (level === 'V5') return { bg: '#f783ac', color: '#9d174d' }; // 핑크
+    if (level === 'V6') return { bg: '#b197fc', color: '#4b2e83' }; // 보라
+    if (level === 'V7') return { bg: '#adb5bd', color: '#343a40' }; // 회색
+    if (level === 'V8') return { bg: '#c68642', color: '#5c3d2e' }; // 갈색
+
+    // V8+ 이상
+    return {
+      bg: '#212529',
+      color: '#ffffff',
+    };
   };
   const style = getLevelStyle(item.level);
 
@@ -35,7 +41,11 @@ function RecordItem({ item }) {
       onClick={() => navigate(`/record/${item.id}`)}
     >
       <img
-        src={item.image || 'https://via.placeholder.com/150'}
+        src={
+          Array.isArray(item.image)
+            ? item.image[0]
+            : item.image || 'https://via.placeholder.com/150'
+        }
         alt="기록 이미지"
         className={styles['image']}
       />

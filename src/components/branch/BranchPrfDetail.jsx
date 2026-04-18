@@ -9,6 +9,7 @@ function BranchPrfDetail({
   prfList,
   setSelectedIndex,
   setSelectedPrf,
+  branch,
 }) {
   const handlePrev = () => {
     if (index > 0) {
@@ -41,14 +42,14 @@ function BranchPrfDetail({
             alt="프로필"
             className={styles.profile}
             onError={(e) => {
-              console.log('이미지 에러🔥', prf.profile);
+              e.target.src = '/default.jpg';
             }}
           />
 
           <div className={styles['info']}>
             <h2>{prf.name}</h2>
             <p>레벨: {prf.level}</p>
-            <p>소속: {prf.branch || '더클라임'}</p>
+            <p>소속: {branch?.name || '더클라임'}</p>
           </div>
         </div>
 
