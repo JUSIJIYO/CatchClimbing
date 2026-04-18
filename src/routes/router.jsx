@@ -30,12 +30,10 @@ import RecordEditPage from '../pages/record/RecordEditPage';
 import ProfilePage from '../pages/mypage/MyProfilePage';
 import EditProfilePage from '../pages/mypage/EditProfilePage';
 import PrfFormPage from '../pages/professor/PrfFormPage';
-import ClassManagePage from '../pages/professor/ClassManagePage';
 import CommuPage from "../pages/community/CommuPage";
 import CommuReviewPage from "../pages/community/CommuReviewPage";
 import PostDetailPage from "../pages/community/PostDetailpage";
 import ReviewDetailPage from "../pages/community/ReviewDetailPage";
-import RecordDetailPage from "../pages/record/RecordDetailPage";
 import PostFormPage from "../pages/community/PostFormPage";
 
 export const router = createBrowserRouter([
