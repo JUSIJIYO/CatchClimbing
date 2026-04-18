@@ -1,0 +1,130 @@
+.memberManagePage-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 10%;
+}
+
+.memberManagePage-header-ct > h2 {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.memberManagePage-header-ct > p {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+/* 탭 바 */
+.memberManagePage-navbar-ct {
+  display: flex;
+}
+
+.memberManagePage-navbar-item {
+  padding: 8px 16px;
+  border: 0px;
+  background: #f9fafb;
+  border-radius: 14px;
+  color: #2c3e50;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
+}
+
+.memberManagePage-navbar-item:hover {
+  color: #374151;
+}
+
+.memberManagePage-navbar-item-active {
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.memberManagePage-role,
+.memberManagePage-status {
+  padding: 5px 12px;
+  font-family: "Pretendard Variable";
+  font-size: 10 px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  border-radius: 9999px;
+  background: #dcfce7;
+}
+
+.memberManagePage-status {
+  padding: 5px 5px;
+}
+
+.memberManagePage-role-student {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.memberManagePage-role-professor {
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+.memberManagePage-role-branch-admin {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+
+.memberManagePage-status-approve {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.memberManagePage-status-pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+
+/* 비활성화 버튼 */
+.memberManagePage-deactivate-button {
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid #e7000b;
+  background: #fff;
+  color: #e7000b;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+}
+
+.memberManagePage-deactivate-button:hover {
+  background: #fef2f2;
+}
+
+.memberManagePage-view-button {
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 0.8px solid rgba(44, 62, 80, 0.1);
+  background: #fff;
+
+  color: #2c3e50;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.memberManagePage-view-button:hover {
+  background: #f3f4f6;
+}

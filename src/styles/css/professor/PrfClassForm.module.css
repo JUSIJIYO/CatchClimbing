@@ -53,7 +53,7 @@ select {
   margin-bottom: 6px;
 }
 
-input,
+/* input, */
 textarea,
 select {
   width: 100%;
