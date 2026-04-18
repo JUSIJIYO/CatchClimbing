@@ -15,10 +15,13 @@ import classManageActive from '../../assets/icon/adminClassManageActive.svg';
 import commuManageActive from '../../assets/icon/commuManageActive.svg';
 import systemManageActive from '../../assets/icon/systemManageActive.svg';
 import operationsettingActive from '../../assets/icon/operationSettingActive.svg';
+import userManage from '../../assets/icon/userManage.svg'
+import activeUserManage from '../../assets/icon/activeUserManage.svg'
 
 // to = 경로, label = 텍스트, 이미지 alt, icon = 기본 아이콘, activeIcon = 활성시 아이콘, end = 정확히 /admin일때만 활성화 
 const menuItems = [
   { to: '/admin',              label: '대시보드',     icon: dashboard,        activeIcon: dashboardActive,        end: true },
+  { to: '/admin/usermanage',   label: '회원 관리',    icon: userManage,      activeIcon: activeUserManage },
   { to: '/admin/prfmanage',   label: '강사 관리',    icon: prfManage,        activeIcon: prfManageActive },
   { to: '/admin/branchmanage',label: '지점 관리',    icon: branchManage,     activeIcon: branchManageActive },
   { to: '/admin/classmanage', label: '강의 관리',    icon: classManage,      activeIcon: classManageActive },

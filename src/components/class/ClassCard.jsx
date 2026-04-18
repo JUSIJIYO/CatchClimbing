@@ -1,9 +1,9 @@
-import styles from "../../styles/css/class/ClassCard.module.css";
-import icon1 from "../../assets/icon/openDate.svg";
-import icon2 from "../../assets/icon/capacity.svg";
-import icon3 from "../../assets/icon/branch.svg";
-import icon4 from "../../assets/icon/detailsee.svg";
-import icon5 from "../../assets/icon/profile.svg"; 
+import styles from '../../styles/css/class/ClassCard.module.css';
+import icon1 from '../../assets/icon/openDate.svg';
+import icon2 from '../../assets/icon/capacity.svg';
+import icon3 from '../../assets/icon/branch.svg';
+import icon4 from '../../assets/icon/detailsee.svg';
+import icon5 from '../../assets/icon/profile.svg';
 import { useNavigate } from 'react-router-dom';
 
 function ClassCard({
@@ -15,9 +15,9 @@ function ClassCard({
   capacity,
   branchName,
   level,
-  onRegisterClick // ClassCard에서 가져온 이벤트
+  onRegisterClick, // ClassCard에서 가져온 이벤트
+  isProfessor,
 }) {
-
   const navigate = useNavigate();
 
   const handleDetailClick = () => {
@@ -26,11 +26,8 @@ function ClassCard({
 
   return (
     <div className={styles['classcard-item']}>
-
       <div className={styles['header']}>
-
         <div className={styles['left']}>
-
           <img src={icon5} className={styles['profile']} alt="profile" />
 
           <div className={styles['information']}>
@@ -39,11 +36,9 @@ function ClassCard({
               {professorName}
             </span>
           </div>
-
         </div>
 
         <span className={styles['classcard-level']}>{level}</span>
-
       </div>
 
       <div className={styles['content']}>
@@ -72,13 +67,15 @@ function ClassCard({
           <img src={icon4} alt="" /> 상세보기
         </button>
 
-        <button 
-        onClick={onRegisterClick}
-        className={styles['classcard-register-button']}>
-          신청하기
-        </button>
+        {!isProfessor && (
+          <button
+            onClick={onRegisterClick}
+            className={styles['classcard-register-button']}
+          >
+            신청하기
+          </button>
+        )}
       </div>
-
     </div>
   );
 }

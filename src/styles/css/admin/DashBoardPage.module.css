@@ -1,0 +1,161 @@
+.dashboard-ct {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background: #f9fafb;
+  /* height: calc(100vh - 80px); */
+  gap: 30px;
+}
+
+.dashboard-title-ct > p:first-of-type {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.dashboard-title-ct > p:last-of-type {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.dashboard-top-card-ct {
+  display: flex;
+  gap: 24px;
+}
+
+.dashboard-middle-ct {
+  display: flex;
+  gap: 50px;
+  justify-content: space-between;
+}
+
+.dashboard-current-activity-ct,
+.dashboard-branches-utilization-ct {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 14px;
+  border: 0.7px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  min-height: 200px;
+  max-height: 400px;
+
+  padding: 24px;
+}
+
+.branches-utilization-title,
+.cureent-activity-title,
+.popular-class-title {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+.current-activity-content-ct {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.current-activity-content-ct > p {
+  width: 8px;
+  height: 8px;
+  border-radius: 25258300px;
+  background: #2c3e50;
+}
+
+.current-activity-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.current-activity-content > p:first-of-type {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+.current-activity-empty {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.current-activity-content > p:last-of-type {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.barnches-utilization-content-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.barnches-utilization-content-ct > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.branches-utilization-name {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.branch-utilization-percent {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.branch-utilzation-progress-bar {
+  border-radius: 15252000px;
+  background: #f3f4f6;
+  height: 8px;
+  overflow: hidden;
+}
+
+.dashboard-popular-class-ct {
+  border-radius: 14px;
+  border: 0.8px solid #e5e7eb;
+  background: #fff;
+  padding: 24px;
+  min-height: 300px;
+}
+
+.popular-class-content-ct {
+  display: flex;
+  gap : 24px;
+  justify-content: space-between;
+  flex-wrap : wrap;
+}
+
