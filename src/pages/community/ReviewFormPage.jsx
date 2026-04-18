@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CommuReviewPage() {
+function ReviewFormPage() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function CommuReviewPage() {
   )
 }
 
-export default CommuReviewPage
+export default ReviewFormPage
