@@ -170,7 +170,7 @@ function ClassListPage() {
         <div className={styles.floatingBtnGroup}>
           <button
             className={styles.outlineBtn}
-            onClick={() => navigate('/professor')}
+            onClick={() => navigate('/professor/manage')}
           >
             내 강의 조회
           </button>
