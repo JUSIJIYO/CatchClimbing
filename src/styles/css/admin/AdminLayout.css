@@ -1,0 +1,10 @@
+.adminlayout-ct {
+     display : flex;
+     height: calc(100vh - 70px);
+      overflow: hidden ;
+}
+
+.adminlayout-main-ct {
+     flex: 1;
+    overflow-y: auto;
+}

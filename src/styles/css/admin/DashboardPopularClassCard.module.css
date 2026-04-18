@@ -1,0 +1,127 @@
+.dashboard-popular-class-card-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 12px;
+  border: 0.8px solid #e5e7eb;
+  background: #fff;
+  width: 31%;
+  padding: 20px;
+}
+
+.popular-class-card-top-ct {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.popular-class-card-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 27267500px;
+  background: #67798d;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+.popular-class-card-top-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.popular-class-card-top-left > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popular-class-card-class-title {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.popular-class-card-class-state {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  border-radius: 27267500px;
+  background: #f3f4f6;
+  padding: 4px 8px;
+}
+
+.popular-class-card-prf-name {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19.5px;
+}
+
+.popular-class-card-middle-ct {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.popular-class-card-branch-name,
+.popular-class-card-middle-ct > p:nth-of-type(2),
+.popular-class-card-class-time {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19.5px;
+}
+
+.popular-class-card-branch-name {
+  border-radius: 4px;
+  background: #f3f4f6;
+  padding: 4px 8px;
+}
+
+.popular-class-card-bottom-ct {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popular-class-card-enrolled-students {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.popular-class-card-enrolled-number {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+}
+
+.popular-class-card-progress-bar {
+  border-radius: 27267500px;
+  background: #f3f4f6;
+  height: 6px;
+  overflow: hidden;
+}
