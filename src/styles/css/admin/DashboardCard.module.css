@@ -1,0 +1,48 @@
+.dashboard-card-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  border-radius: 14px;
+  border: 0.7px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+
+  min-height: 200px;
+  padding: 25px;
+}
+
+.dashboard-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-card-top > p {
+  color: #00a63e;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.dashboard-card-count {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px;
+}
+
+.dashboard-card-title {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
