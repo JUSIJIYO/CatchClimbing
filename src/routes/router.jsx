@@ -26,6 +26,7 @@ import CommuReviewPage from "../pages/community/CommuReviewPage";
 import PostDetailPage from "../pages/community/PostDetailpage";
 import ReviewDetailPage from "../pages/community/ReviewDetailPage";
 import RecordDetailPage from "../pages/record/RecordDetailPage";
+import PostFormPage from "../pages/community/PostFormPage";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: "/postdetail",
         element: <PostDetailPage />,
+      },
+      {
+        path:"/postform",
+        element: <PostFormPage />
       },
       {
         path: "/reviewdetail",
