@@ -1,0 +1,35 @@
+.container {
+  background-color: #eef1f5;
+  min-height: calc(100vh - 120px);
+  padding: 40px 60px;
+  box-sizing: border-box;
+}
+
+.cardWrapper {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.bottomBar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 60px;
+}
+
+.addBtn {
+  background-color: #3f4b8b;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.addBtn:hover {
+  background-color: #2f3a6b;
+}

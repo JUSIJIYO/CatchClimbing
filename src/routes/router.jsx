@@ -30,6 +30,7 @@ import RecordEditPage from '../pages/record/RecordEditPage';
 import ProfilePage from '../pages/mypage/MyProfilePage';
 import EditProfilePage from '../pages/mypage/EditProfilePage';
 import PrfFormPage from '../pages/professor/PrfFormPage';
+import ClassManagePage from '../pages/professor/ClassManagePage';
 import CommuPage from "../pages/community/CommuPage";
 import CommuReviewPage from "../pages/community/CommuReviewPage";
 import PostDetailPage from "../pages/community/PostDetailpage";
@@ -118,6 +119,10 @@ export const router = createBrowserRouter([
       {
         path: 'professor/new-class',
         element: <PrfFormPage />,
+      },
+      {
+        path: 'professor/manage',
+        element: <ClassManagePage />,
       },
       {
         element: <AuthLayout />,
