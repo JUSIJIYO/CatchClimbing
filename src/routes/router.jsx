@@ -17,10 +17,18 @@ import SignUpCompletePage from '../pages/auth/SignUpCompletePage';
 import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
 import RecordListPage from '../pages/record/RecordListPage';
 import RecordFormPage from '../pages/record/RecordFormPage';
+import PrfManagePage from '../pages/admin/branch/PrfManagePage';
+import BranchManagePage from '../pages/admin/BranchManagePage';
+import MemberManagePage from '../pages/admin/total/MemberManagePage';
+import ClassManagePage from '../pages/admin/ClassManagePage';
+import CommuManagePage from '../pages/admin/CommuManagePage';
+import SystemManagePage from '../pages/admin/total/SystemManagePage';
+import OperateSettingPage from '../pages/admin/total/OperateSettingPage';
+import AdminLayout from '../layouts/AdminLayout';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -28,23 +36,23 @@ export const router = createBrowserRouter([
         element: <BranchListPage />,
       },
       {
-        path: 'branch/:id',
+        path: "branch/:id",
         element: <BranchDetailPage />,
       },
       {
-        path: 'community',
+        path: "community",
         element: <CommuPostPage />,
       },
       {
-        path: 'class',
+        path: "class",
         element: <ClassListPage />,
       },
       {
-        path: 'class/:id',
+        path: "class/:id",
         element: <ClassDetailPage />,
       },
       {
-        path: 'mypage',
+        path: "mypage",
         element: <Mypage />,
       },
       {
@@ -52,26 +60,22 @@ export const router = createBrowserRouter([
         element: <MyLevelSystemPage />,
       },
       {
-        path: 'class/:id',
-        element: <ClassDetailPage />,
-      },
-      {
-        path: 'record',
+        path: "record",
         element: <RecordListPage />,
       },
       {
-        path: 'record/new',
+        path: "record/new",
         element: <RecordFormPage />,
       },
       {
         element: <AuthLayout />,
         children: [
           {
-            path: 'login',
+            path: "login",
             element: <LoginPage />,
           },
           {
-            path: 'signup',
+            path: "signup",
             element: <SignUpPage />,
             children: [
               {
@@ -79,17 +83,17 @@ export const router = createBrowserRouter([
                 element: <SignUpForm />,
               },
               {
-                path: 'stu',
+                path: "stu",
                 element: <StuSignUpPage />,
               },
               {
-                path: 'prf',
+                path: "prf",
                 element: <PrfSignUpPage />,
               },
             ],
           },
           {
-            path: 'signupcomplete',
+            path: "signupcomplete",
             element: <SignUpCompletePage />,
           },
         ],
@@ -97,11 +101,45 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/totaladmin',
-    element: <DashBoardPage />,
+    path: "/seed",
+    element: <SeedPage />,
   },
   {
-    path: 'branchadmin',
-    element: <DashBoardPage />,
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <DashBoardPage />,
+      },
+      {
+        path: "usermanage",
+        element: <MemberManagePage />,
+      },
+      {
+        path: "prfmanage",
+        element: <PrfManagePage />,
+      },
+      {
+        path: "branchmanage",
+        element: <BranchManagePage />,
+      },
+      {
+        path: "classmanage",
+        element: <ClassManagePage />,
+      },
+      {
+        path: "community",
+        element: <CommuManagePage />,
+      },
+      {
+        path: "system",
+        element: <SystemManagePage />,
+      },
+      {
+        path: "operation",
+        element: <OperateSettingPage />,
+      },
+    ],
   },
 ]);

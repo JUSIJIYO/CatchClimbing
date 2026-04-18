@@ -1,11 +1,13 @@
 .sidebar-ct {
     display : flex;
     flex-direction: column;
+    position: sticky;
+    top: 0;
     border-right: 0.8px solid #E5E7EB;
     background: #FFF;
-    width : 256px;
-    height : 100vh;
+    width : 20%;
     padding : 16px;
+    gap : 5px;
 }
 
 .sidebar-link {
