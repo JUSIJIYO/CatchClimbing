@@ -194,8 +194,6 @@ function PrfClassForm({ onSuccess, onCancle }) {
   //   }
   // };
 
-  console.log(form);
-
   return (
     <div className={styles.container}>
       <button className={styles.backBtn} onClick={() => navigate(-1)}>
