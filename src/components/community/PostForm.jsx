@@ -16,7 +16,7 @@ export default function PostForm() {
     <div className={styles["form-container"]}>
       <div className={styles["form-card"]}>
         <h2 className={styles["form-title"]}>게시글 작성</h2>
-
+        
         <div className={styles["form-box"]}>
           <label>제목</label>
           <input
