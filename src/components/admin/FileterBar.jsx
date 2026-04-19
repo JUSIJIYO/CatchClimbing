@@ -19,6 +19,16 @@ function FileterBar({ searchPlaceholder = '검색', searchValue = '', onSearchCh
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
+        {actionButton && (
+          <button
+            className={actionButton.variant === 'register'
+              ? styles["fileterbar-register-button"]
+              : styles["fileterbar-approve-button"]}
+            onClick={actionButton.onClick}
+          >
+            {actionButton.label}
+          </button>
+        )}
       </div>
 
       <div className={styles["fileterbar-fileter-ct"]}>
