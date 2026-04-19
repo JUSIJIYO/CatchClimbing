@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../firebase/config';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../../firebase/config';
 import { signUp } from '../../services/authService';
 import styles from '../../styles/css/auth/PrfSignUpPage.module.css';
 import profileupload from '../../assets/icon/signup-upload.svg';
@@ -89,7 +90,7 @@ function PrfSignUpPage() {
     if (!file || qualifications.length >= 2) return;
     const now = new Date();
     const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
-    setQualifications([...qualifications, { name: file.name, date: dateStr }]);
+    setQualifications([...qualifications, { name: file.name, date: dateStr, file }]);
     e.target.value = '';
   };
 
@@ -178,6 +179,14 @@ function PrfSignUpPage() {
       try {
         const user = await signUp(signupInf.email, signupInf.password);
         const uid = user.uid;
+        const uploadedQualifications = await Promise.all(
+          qualifications.map(async (qualifi) => {
+            const fileRef = ref(storage, `qualifications/${uid}/${qualifi.name}`);
+            await uploadBytes(fileRef, qualifi.file);
+            const url = await getDownloadURL(fileRef);
+            return { name: qualifi.name, date: qualifi.date, url };
+          }),
+        );
         await setDoc(doc(db, 'users', uid), {
           userId: signupInf.userId,
           password: signupInf.password,
@@ -189,10 +198,7 @@ function PrfSignUpPage() {
           level: selectedLevel,
           branchId,
           career: [],
-          qualifications: qualifications.map((qualifi) => ({
-            name: qualifi.name,
-            date: qualifi.date,
-          })),
+          qualifications: uploadedQualifications,
           isApproved: false,
           profileImg,
           autoLogin: false,

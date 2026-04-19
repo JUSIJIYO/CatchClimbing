@@ -113,7 +113,7 @@ function PrfManagePage() {
   const handleDeactivate = (userId) => console.log("비활성화:", userId);
 
   // 유저 상세조회 (보기버튼 클릭) 관리 함수
-  const handleView = (userId) => console.log("보기:", userId);
+  const handleView = (userId) => navigate(`/admin/professor/${userId}`);
 
   // 승인대기목록 관리 함수
   const handlePendingList = () =>

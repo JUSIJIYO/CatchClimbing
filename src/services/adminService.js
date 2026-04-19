@@ -1,5 +1,5 @@
 import { db } from '../firebase/config';
-import { collection, getDocs, query, where, orderBy, doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, query, where, orderBy, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 // 파이어베이스 연동관련코드는 AI를 이용하여 작성했습니다
 export const buildUsersQuery = (role = null, { orderDir = 'desc', isApproved = null, branchId = null } = {}) => {
@@ -20,6 +20,10 @@ export const fetchBranchNames = async () => {
   snap.docs.forEach((d) => { map[d.id] = d.data().name ?? d.id })
   return map
 }
+
+export const updateUserDoc = async (uid, fields) => {
+  await updateDoc(doc(db, 'users', uid), fields);
+};
 
 export const getUserDoc = async (uid) => {
   const snap = await getDoc(doc(db, 'users', uid));
@@ -128,6 +132,15 @@ export const buildReviewsQuery = ({ branchId = null, orderDir = 'desc' } = {}) =
   constraints.push(orderBy('createdAt', orderDir))
   return query(ref, ...constraints)
 }
+
+export const getClassesByProfessor = async (professorUid) => {
+  const q = query(
+    collection(db, 'classes'),
+    where('professorId', '==', professorUid),
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+};
 
 export const getPendingProfessors = async () => {
   const q = query(

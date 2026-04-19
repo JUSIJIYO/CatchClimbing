@@ -18,6 +18,7 @@ import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
 import RecordListPage from '../pages/record/RecordListPage';
 import RecordFormPage from '../pages/record/RecordFormPage';
 import PrfManagePage from '../pages/admin/branch/PrfManagePage';
+import AdminPrfDetailPage from '../pages/admin/AdminPrfDetailPage';
 import BranchManagePage from '../pages/admin/BranchManagePage';
 import MemberManagePage from '../pages/admin/total/MemberManagePage';
 import ClassManagePage from '../pages/admin/ClassManagePage';
@@ -187,6 +188,10 @@ export const router = createBrowserRouter([
       {
         path: 'prfmanage/prfapporve',
         element: <AdminPrfApprovePage />,
+      },
+      {
+        path: 'professor/:id',
+        element: <AdminPrfDetailPage />,
       },
       {
         path: 'branchmanage',
