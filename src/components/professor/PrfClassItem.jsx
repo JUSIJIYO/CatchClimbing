@@ -5,7 +5,7 @@ import branchIcon from '../../assets/icon/prfClassItemBranch.svg';
 import detailIcon from '../../assets/icon/prfClassItemDetail.svg';
 import { useNavigate } from 'react-router-dom';
 
-function PrfClassItem({ data }) {
+function PrfClassItem({ data, onEditClick, isProfessor }) {
   const navigate = useNavigate();
 
   const getLevelStyle = (level) => {
@@ -93,7 +93,12 @@ function PrfClassItem({ data }) {
           <img src={detailIcon} />
           상세보기
         </button>
-        <button className={styles.editBtn}>수정하기</button>
+        <button
+          className={styles.editBtn}
+          onClick={() => onEditClick(data.id, data)}
+        >
+          수정하기
+        </button>
         <button className={styles.subBtn}>수강생 조회 </button>
       </div>
     </div>

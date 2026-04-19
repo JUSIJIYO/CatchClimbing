@@ -123,7 +123,12 @@ function ClassListPage() {
               key={card.id}
               {...card}
               isProfessor={isProfessor}
-              onRegisterClick={() => handleRegisterClick(card)} // 이걸로 ClassCard에 이벤트보낼거야
+              onRegisterClick={() => handleRegisterClick(card)}
+              onEditClick={() =>
+                navigate(`/professor/edit/${card.id}`, {
+                  state: { editData: card },
+                })
+              }
             />
           ))
         )}
