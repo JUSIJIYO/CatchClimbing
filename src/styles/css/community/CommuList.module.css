@@ -10,6 +10,14 @@
   margin-bottom: 14px;
 }
 
+.commu-writebtn {
+  padding: 8px 14px;
+  background: #2C3E50;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
 .commu-header h2 {
   font-size: 18px;
   font-weight: 700;

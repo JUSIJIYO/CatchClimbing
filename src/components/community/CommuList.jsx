@@ -1,35 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase/config";
-import {
-  collection,
-  getDocs,
-  query,
-  where
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import styles from "../../styles/css/community/CommuList.module.css";
 import filterIcon from "../../assets/icon/commuFilter.svg";
 import PostItem from "./PostItem";
+import { useNavigate } from "react-router-dom";
 
 function CommuList({ branchId }) {
-
- const branchNameMap = {
-    theclimb_hongdae: '홍대점',
-    theclimb_gangnam: '강남점',
-    theclimb_ilsan: '일산점',
-    theclimb_isu: '이수점',
-    theclimb_magok: '마곡점',
-    theclimb_mullae: '문래점',
-    theclimb_nonhyeon: '논현점',
-    theclimb_sadang: '사당점',
-    theclimb_seongsu: '성수점',
-    theclimb_sillim: '신림점',
-    theclimb_sinsa: '신사점',
-    theclimb_yangjae: '양재점',
-    theclimb_yeonnam: '연남점',
-};
+  const branchNameMap = {
+    theclimb_hongdae: "홍대점",
+    theclimb_gangnam: "강남점",
+    theclimb_ilsan: "일산점",
+    theclimb_isu: "이수점",
+    theclimb_magok: "마곡점",
+    theclimb_mullae: "문래점",
+    theclimb_nonhyeon: "논현점",
+    theclimb_sadang: "사당점",
+    theclimb_seongsu: "성수점",
+    theclimb_sillim: "신림점",
+    theclimb_sinsa: "신사점",
+    theclimb_yangjae: "양재점",
+    theclimb_yeonnam: "연남점",
+  };
   const [posts, setPosts] = useState([]);
   const [sort, setSort] = useState("latest");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const formatTime = (timestamp) => {
     if (!timestamp) return "";
@@ -53,10 +49,7 @@ function CommuList({ branchId }) {
         let q;
 
         if (branchId) {
-          q = query(
-            collection(db, "posts"),
-            where("branchId", "==", branchId)
-          );
+          q = query(collection(db, "posts"), where("branchId", "==", branchId));
         } else {
           q = collection(db, "posts");
         }
@@ -66,7 +59,7 @@ function CommuList({ branchId }) {
         const data = snapshot.docs.map((doc) => {
           const d = doc.data();
 
-        return {
+          return {
             id: doc.id,
             title: d.title,
             authorName: d.isAnonymous ? "익명" : d.authorName,
@@ -74,7 +67,7 @@ function CommuList({ branchId }) {
             commentCount: d.commentCount || 0,
             branchId: d.branchId,
             createdAt: d.createdAt,
-        };
+          };
         });
 
         setPosts(data);
@@ -99,6 +92,12 @@ function CommuList({ branchId }) {
     <div className={styles["commu-wrapper"]}>
       <div className={styles["commu-header"]}>
         <h2>전체 게시글</h2>
+        <button
+          className={styles["commu-writebtn"]}
+          onClick={() => navigate("/postform")}
+        >
+          작성하기
+        </button>
       </div>
 
       <div className={styles["commu-filter"]}>
@@ -134,9 +133,7 @@ function CommuList({ branchId }) {
         ) : sortedPosts.length === 0 ? (
           <p>게시글이 없습니다.</p>
         ) : (
-          sortedPosts.map((post) => (
-            <PostItem key={post.id} post={post} />
-          ))
+          sortedPosts.map((post) => <PostItem key={post.id} post={post} />)
         )}
       </div>
     </div>
