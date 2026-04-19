@@ -70,6 +70,11 @@ export const router = createBrowserRouter([
         element: <PostDetailPage />,
       },
       {
+        path: "/post/edit/:postId",
+        element: <PostFormPage />,
+      },
+  
+      {
         path: '/postform',
         element: <PostFormPage />,
       },
