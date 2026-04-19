@@ -49,3 +49,7 @@
   line-height: 1.4;
   white-space: pre-wrap;
 }
+
+.menu-wrapper {
+  position: relative;
+}

@@ -66,7 +66,7 @@ export const router = createBrowserRouter([
       },
 
       {
-        path: '/postdetail',
+        path: "/post/:id",
         element: <PostDetailPage />,
       },
       {

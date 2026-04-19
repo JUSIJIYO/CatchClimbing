@@ -1,0 +1,27 @@
+.comment-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 135px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  padding: 8px 0px;
+  z-index: 10;
+}
+
+.comment-item {
+  width: 100%;
+  padding: 10px 16px;
+  text-align: center;
+  background: none;
+  border: none;
+  font-size: 14px;
+}
+
+.commment-line {
+  height: 1px;
+  border: 1px solid rgba(44, 62, 80, 0.1);
+  margin: 4px 0px;
+}
+
