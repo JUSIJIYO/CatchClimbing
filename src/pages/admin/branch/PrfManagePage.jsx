@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   buildUsersQuery,
   fetchBranchNames,
@@ -32,6 +33,8 @@ const FILTERS = {
 };
 
 function PrfManagePage() {
+  const navigate = useNavigate();
+
   // 지점관리자 지점ID
   const { branchId } = useAuth();
 
@@ -113,7 +116,8 @@ function PrfManagePage() {
   const handleView = (userId) => console.log("보기:", userId);
 
   // 승인대기목록 관리 함수
-  const handlePendingList = () => console.log("승인 대기 목록");
+  const handlePendingList = () =>
+    navigate(`/admin/prfmanage/prfapporve${branchId ? `?branchId=${branchId}` : ""}`);
 
   // ─── 컬럼 정의 ───────────────────────────────────────────────
   const columns = useMemo(() => {

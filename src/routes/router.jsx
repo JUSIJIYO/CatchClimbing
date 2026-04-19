@@ -37,7 +37,7 @@ import ReviewDetailPage from '../pages/community/ReviewDetailPage';
 import PostFormPage from '../pages/community/PostFormPage';
 import PrfClassStuList from '../pages/professor/PrfClassStuList';
 import PrfClassManagePage from '../pages/professor/ClassManagePage';
-
+import AdminPrfApprovePage from '../pages/admin/AdminPrfApprovePage'
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -177,8 +177,16 @@ export const router = createBrowserRouter([
         element: <MemberManagePage />,
       },
       {
+        path: 'usermanage/prfapporve',
+        element: <AdminPrfApprovePage />,
+      },
+      {
         path: 'prfmanage',
         element: <PrfManagePage />,
+      },
+      {
+        path: 'prfmanage/prfapporve',
+        element: <AdminPrfApprovePage />,
       },
       {
         path: 'branchmanage',
