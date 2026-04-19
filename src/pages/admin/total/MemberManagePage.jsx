@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   buildUsersQuery,
   fetchBranchNames,
@@ -48,6 +49,8 @@ const FILTERS = {
 };
 
 function MemberManagePage() {
+  const navigate = useNavigate();
+
   // 선택된 탭(Nav) 관리
   const [activeTab, setActiveTab] = useState("all");
 
@@ -144,7 +147,7 @@ function MemberManagePage() {
   const handleView = (userId) => console.log("보기:", userId);
 
   // 승인대기목록 관리 함수
-  const handlePendingList = () => console.log("승인 대기 목록");
+  const handlePendingList = () => navigate("/admin/usermanage/prfapporve");
 
   // 필터 관리 함수
   const filterBarProps = useMemo(() => {
