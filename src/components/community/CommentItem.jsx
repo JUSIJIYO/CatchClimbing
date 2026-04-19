@@ -1,33 +1,187 @@
 import React, { useState } from "react";
 import styles from "../../styles/css/community/CommentItem.module.css";
 import CommentDropdown from "./CommentDropdown";
+import CommentReportDropdown from "../../components/community/CommentReportDropdown";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../../firebase/config";
+import ComfirmModal from "../../components/common/ConfirmModal";
+import Modal from "../../components/common/Modal";
 
-function CommentItem({ authorName, createdAt, content, isAnonymous }) {
+function CommentItem({
+  id,
+  authorId,
+  authorName,
+  createdAt,
+  content,
+  isAnonymous,
+}) {
   const [open, setOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(content);
+  const [isDeleted, setIsDeleted] = useState(false);
 
-  // 댓글 수정 함수(추후 모달창과 함께 구현)
+  // 현재 로그인 유저 (임시)
+  const currentUserId = "current_user_id";
+
+  // 내 댓글 여부
+  const isMyComment = authorId === currentUserId;
+
+  // 댓글 수정 클릭
   const handleEdit = () => {
-    alert("수정 기능");
+    setIsEditing(true);
+    setOpen(false);
   };
 
-  // 댓글 삭제 함수(추후 모달창과 함께 구현)
+  // 댓글 삭제 클릭
   const handleDelete = () => {
-    alert("삭제 기능");
+    setIsDeleteModalOpen(true);
+    setOpen(false);
   };
 
+  // 댓글 신고 클릭
+  const handleReport = () => {
+    setIsReportModalOpen(true);
+    setOpen(false);
+  };
+
+  // 댓글 수정 함수
+  const submitEdit = async () => {
+    if (!editText.trim()) return;
+
+    try {
+      const commentUpdate = doc(db, "comments", id);
+
+      await updateDoc(commentUpdate, {
+        content: editText,
+      });
+
+      setIsEditing(false);
+      setIsComfirmModelOpen(true);
+    } catch (e) {
+      console.error("수정 실패:", e);
+    }
+  };
+
+  //댓글 삭제 함수
+  const submitDelete = async () => {
+    if (!id) {
+      console.error("id 없음");
+      return;
+    }
+
+    try {
+      const commentDelete = doc(db, "comments", id);
+
+      await deleteDoc(commentDelete);
+
+      setIsDeleteCompleteModalOpen(true); // 완료 모달 열기
+    } catch (e) {
+      console.error("삭제 실패:", e);
+    }
+  };
+
+  // 댓글 신고 함수
+  const submitReport = async () => {
+    try {
+      setIsReportCompleteOpen(true);
+    } catch (e) {
+      console.error("신고 실패:", e);
+    }
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // 수정 확인 모달
+  const [isComfirmModelOpen, setIsComfirmModelOpen] = useState(false); // 수정 완료 모달
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // 삭제 확인
+  const [isDeleteCompleteModalOpen, setIsDeleteCompleteModalOpen] =
+    useState(false); // 삭제 완료
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false); // 신고 확인
+  const [isReportCompleteOpen, setIsReportCompleteOpen] = useState(false); // 신고 완료
+
+  if (isDeleted) return null;
   return (
     <div className={styles["comment-item"]}>
+      {/* 수정 확인 모달 */}
+      {isModalOpen && (
+        <Modal
+          title="수정 확인"
+          message="정말로 수정하시겠습니까?"
+          cancelText="취소"
+          confirmText="확인"
+          onCancel={() => setIsModalOpen(false)}
+          onConfirm={async () => {
+            setIsModalOpen(false); // 확인모달 닫고
+            await submitEdit(); // 그 다음 실행
+          }}
+        />
+      )}
+
+      {/* 수정 완료 모달 */}
+      {isComfirmModelOpen && (
+        <ComfirmModal
+          message="댓글이 수정되었습니다."
+          onConfirm={() => setIsComfirmModelOpen(false)}
+        />
+      )}
+
+      {/* 삭제 확인 모달 */}
+      {isDeleteModalOpen && (
+        <Modal
+          title="삭제 확인"
+          message="정말로 삭제하시겠습니까?"
+          cancelText="취소"
+          confirmText="삭제"
+          onCancel={() => setIsDeleteModalOpen(false)}
+          onConfirm={async () => {
+            setIsDeleteModalOpen(false); // 먼저 닫고
+            await submitDelete(); // 삭제 실행
+          }}
+        />
+      )}
+
+      {/* 삭제 완료 모달 */}
+      {isDeleteCompleteModalOpen && (
+        <ComfirmModal
+          message="댓글이 삭제되었습니다."
+          onConfirm={() => {
+            setIsDeleteCompleteModalOpen(false);
+            setIsDeleted(true);
+          }}
+        />
+      )}
+
+      {/* 신고 확인 모달 */}
+      {isReportModalOpen && (
+        <Modal
+          title="신고 확인"
+          message="정말로 신고하시겠습니까?"
+          cancelText="취소"
+          confirmText="신고"
+          onCancel={() => setIsReportModalOpen(false)}
+          onConfirm={async () => {
+            setIsReportModalOpen(false);
+            await submitReport();
+          }}
+        />
+      )}
+
+      {/* 신고 완료 모달 */}
+      {isReportCompleteOpen && (
+        <ComfirmModal
+          message="신고가 완료되었습니다."
+          onConfirm={() => setIsReportCompleteOpen(false)}
+        />
+      )}
+
       <div className={styles["comment-header"]}>
         <div className={styles["comment-userinfo"]}>
           <span className={styles["comment-author"]}>
-            {isAnonymous ? "익명" : (authorName || "이름 없음")}
+            {isAnonymous ? "익명" : authorName || "이름 없음"}
           </span>
           <span className={styles["comment-time"]}>
             {typeof createdAt === "string" ? createdAt : "방금 전"}
           </span>
         </div>
 
-        {/* 메뉴 버튼 */}
         <div className={styles["menu-wrapper"]}>
           <button
             className={styles["comment-menu-btn"]}
@@ -36,18 +190,31 @@ function CommentItem({ authorName, createdAt, content, isAnonymous }) {
             ⋮
           </button>
 
-          {/* 드롭다운 */}
-          {open && (
-            <CommentDropdown
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          )}
+          {open &&
+            (isMyComment ? (
+              <CommentDropdown onEdit={handleEdit} onDelete={handleDelete} />
+            ) : (
+              <CommentReportDropdown onReport={handleReport} />
+            ))}
         </div>
       </div>
 
+      {/* 댓글 내용 */}
       <div className={styles["comment-content"]}>
-        {content || "내용이 없습니다."}
+        {isEditing ? (
+          <>
+            <textarea
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+            />
+            <div>
+              <button onClick={() => setIsModalOpen(true)}>저장</button>
+              <button onClick={() => setIsEditing(false)}>취소</button>
+            </div>
+          </>
+        ) : (
+          content || "내용이 없습니다."
+        )}
       </div>
     </div>
   );

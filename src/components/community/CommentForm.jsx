@@ -11,6 +11,8 @@ import {
   orderBy,
   serverTimestamp,
 } from "firebase/firestore";
+import Modal from "../../components/common/Modal";
+import CheckModal from "../common/ChkModal";
 
 // 부모 컴포넌트로부터 postId를 넘겨받는다고 가정합니다.
 function CommentForm({ postId }) {
@@ -18,6 +20,9 @@ function CommentForm({ postId }) {
   const [text, setText] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   // 1. 댓글 데이터 불러오기 (Fetch)
   useEffect(() => {
@@ -29,10 +34,10 @@ function CommentForm({ postId }) {
         const q = query(
           collection(db, "comments"),
           where("postId", "==", postId),
-          orderBy("createdAt", "asc")
+          orderBy("createdAt", "asc"),
         );
 
-        const querySnapshot = await getDocs(q); 
+        const querySnapshot = await getDocs(q);
 
         const fetchedComments = querySnapshot.docs.map((doc) => {
           const data = doc.data();
@@ -70,34 +75,61 @@ function CommentForm({ postId }) {
     try {
       const newComment = {
         postId: postId,
-        authorId: "current_user_id", // 실제로는 현재 로그인한 유저 ID를 넣어야 합니다.
-        authorName: isAnonymous ? "익명" : "홍길동", // 실제 유저 이름
+        authorId: "current_user_id",
+        authorName: isAnonymous ? "익명" : "홍길동",
         isAnonymous: isAnonymous,
         isProfessor: false,
         content: text,
-        createdAt: new Date(), // 혹은 serverTimestamp()
+        createdAt: new Date(),
       };
-
-      // 파이어베이스에 추가
+      // 파이어베이스 데이터 가져오기
       const docRef = await addDoc(collection(db, "comments"), newComment);
 
-      // 화면 업데이트 (새로고침 없이 상태 반영)
       setComments((prev) => [
         ...prev,
         { id: docRef.id, ...newComment, createdAt: "방금 전" },
       ]);
+
       setText("");
-      alert("댓글이 등록되었습니다.");
+
+      // 완료 모달 열기
+      setIsConfirmModalOpen(true);
     } catch (e) {
       console.error("댓글 등록 실패:", e);
-      alert("댓글 등록에 실패했습니다.");
     }
+  };
+
+  // 댓글 등록 버튼 클릭 시 모달열기
+  const handleOpenModal = () => {
+    if (!text.trim()) return;
+    setIsModalOpen(true);
   };
 
   return (
     <div className={styles["comment-container"]}>
+      {/* 확인모달 */}
+      {isModalOpen && (
+        <Modal
+          title="등록 확인"
+          message="댓글을 등록하시겠습니까?"
+          cancelText="취소"
+          confirmText="확인"
+          onCancel={() => setIsModalOpen(false)}
+          onConfirm={async () => {
+            await handleSubmit();
+            setIsModalOpen(false);
+          }}
+        />
+      )}
+      {/* 완료 모달 */}
+      {isConfirmModalOpen && (
+        <CheckModal
+          title="등록 완료"
+          message="댓글 등록이 완료되었습니다."
+          onConfirm={() => setIsConfirmModalOpen(false)}
+        />
+      )}
       <h3 className={styles["comment-title"]}>댓글 {comments.length}</h3>
-
       <div className={styles["comment-list"]}>
         {loading ? (
           <p>댓글을 불러오는 중...</p>
@@ -105,7 +137,9 @@ function CommentForm({ postId }) {
           comments.map((comment) => (
             <CommentItem
               key={comment.id}
+              id={comment.id} 
               authorName={comment.authorName}
+              authorId={comment.authorId}
               createdAt={comment.createdAt}
               content={comment.content}
               isAnonymous={comment.isAnonymous}
@@ -113,7 +147,6 @@ function CommentForm({ postId }) {
           ))
         )}
       </div>
-
       <div className={styles["comment-inputbox"]}>
         <textarea
           placeholder="댓글을 입력하세요..."
@@ -121,7 +154,6 @@ function CommentForm({ postId }) {
           onChange={(e) => setText(e.target.value)}
         />
       </div>
-
       <div className={styles["comment-footer"]}>
         <label className={styles["anonymous"]}>
           <input
@@ -132,7 +164,10 @@ function CommentForm({ postId }) {
           익명으로 작성
         </label>
 
-        <button className={styles["comment-submitbtn"]} onClick={handleSubmit}>
+        <button
+          className={styles["comment-submitbtn"]}
+          onClick={handleOpenModal}
+        >
           작성하기
         </button>
       </div>
