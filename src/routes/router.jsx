@@ -120,6 +120,10 @@ export const router = createBrowserRouter([
         element: <PrfFormPage />,
       },
       {
+        path: 'professor/edit/:id',
+        element: <PrfFormPage />,
+      },
+      {
         path: 'professor/manage',
         element: <PrfClassManagePage />,
       },

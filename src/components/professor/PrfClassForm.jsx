@@ -6,10 +6,11 @@ import {
   doc,
   getDoc,
   serverTimestamp,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase/config';
 import { getAuth } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import backButton from '../../assets/icon/backButton.svg';
 import Modal from '../../components/common/Modal';
 import DoneModal from '../../components/common/ConfirmModal';
@@ -27,6 +28,10 @@ function PrfClassForm({ onSuccess, onCancle }) {
     endTime: '',
   });
 
+  const location = useLocation();
+  const editData = location.state?.editData;
+
+  const isEditMode = !!editData;
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showDoneModal, setShowDoneModal] = useState(false);
@@ -53,7 +58,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
   useEffect(() => {
     const fetchUser = async () => {
       const user = getAuth().currentUser;
-      if (!user) return;
+      if (!user || editData) return;
 
       const snap = await getDoc(doc(db, 'users', user.uid));
 
@@ -72,7 +77,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
     };
 
     fetchUser();
-  }, []);
+  }, [editData]);
 
   const [error, setError] = useState({});
 
@@ -90,11 +95,27 @@ function PrfClassForm({ onSuccess, onCancle }) {
     });
   };
 
+  useEffect(() => {
+    if (editData) {
+      setForm({
+        title: editData.title,
+        description: editData.description,
+        branchName: editData.branchName,
+        level: editData.level,
+        capacity: editData.capacity,
+        classMoney: editData.classMoney,
+        day: editData.openDate?.split(' ')[0] || '',
+        startTime: editData.openDate?.split(' ')[1] || '',
+        endTime: editData.openDate?.split(' ')[3] || '',
+      });
+    }
+  }, [editData]);
+
   const handleRealSubmit = async () => {
     const user = getAuth().currentUser;
     if (!user) return;
 
-    setLoading(true); // ⭐ 시작
+    setLoading(true);
 
     const openDate = `${form.day} ${form.startTime} ~ ${form.endTime}`;
 
@@ -105,26 +126,42 @@ function PrfClassForm({ onSuccess, onCancle }) {
     const branchId = reverseBranchMap[form.branchName];
 
     try {
-      await addDoc(collection(db, 'classes'), {
-        professorId: user.uid,
-        title: form.title,
-        professorName: user.email,
-        openDate,
-        branchName: form.branchName,
-        branchId,
-        level: form.level,
-        classMoney: Number(form.classMoney),
-        capacity: Number(form.capacity),
-        currentCap: 0,
-        description: form.description,
-        createdAt: serverTimestamp(),
-      });
+      const userSnap = await getDoc(doc(db, 'users', user.uid));
+      const userData = userSnap.data();
+      if (isEditMode) {
+        // 수정 모드
+        await updateDoc(doc(db, 'classes', editData.id), {
+          title: form.title,
+          openDate,
+          branchName: form.branchName,
+          branchId,
+          level: form.level,
+          classMoney: Number(form.classMoney),
+          capacity: Number(form.capacity),
+          description: form.description,
+        });
+      } else {
+        // 등록 모드
+        await addDoc(collection(db, 'classes'), {
+          professorId: user.uid,
+          title: form.title,
+          professorName: userData.name,
+          openDate,
+          branchName: form.branchName,
+          branchId,
+          level: form.level,
+          classMoney: Number(form.classMoney),
+          capacity: Number(form.capacity),
+          currentCap: 0,
+          description: form.description,
+          createdAt: serverTimestamp(),
+        });
+      }
 
-      setLoading(false);
       setShowDoneModal(true);
     } catch (e) {
       console.error(e);
-      alert('등록 실패');
+      alert(isEditMode ? '수정 실패' : '등록 실패');
     } finally {
       setLoading(false);
     }
@@ -417,16 +454,25 @@ function PrfClassForm({ onSuccess, onCancle }) {
             setShowSubmitModal(true);
           }}
         >
-          수업 등록
+          {isEditMode ? '수정 완료' : '수업 등록'}
         </button>
       </div>
       {loading && (
-        <Modal title="등록 중" message="수업을 등록하는 중입니다..." />
+        <Modal
+          title={isEditMode ? '수정 중' : '등록 중'}
+          message={
+            isEditMode
+              ? '수업을 수정하는 중입니다...'
+              : '수업을 등록하는 중입니다...'
+          }
+        />
       )}
       {showSubmitModal && (
         <Modal
-          title="수업 등록"
-          message="정말 등록하시겠습니까?"
+          title={isEditMode ? '수업 수정' : '수업 등록'}
+          message={
+            isEditMode ? '정말 수정하시겠습니까?' : '정말 등록하시겠습니까?'
+          }
           cancelText="취소"
           confirmText="확인"
           onCancel={() => setShowSubmitModal(false)}
@@ -438,8 +484,12 @@ function PrfClassForm({ onSuccess, onCancle }) {
       )}
       {showCancelModal && (
         <Modal
-          title="등록 취소"
-          message="정말 등록 취소하시겠습니까?"
+          title={isEditMode ? '수정 취소' : '등록 취소'}
+          message={
+            isEditMode
+              ? '수정 내용을 취소하시겠습니까?'
+              : '등록을 취소하시겠습니까?'
+          }
           cancelText="아니오"
           confirmText="예"
           onCancel={() => setShowCancelModal(false)}
@@ -448,10 +498,14 @@ function PrfClassForm({ onSuccess, onCancle }) {
       )}
       {showDoneModal && (
         <DoneModal
-          message="수업이 성공적으로 등록되었습니다."
+          message={
+            isEditMode
+              ? '수업이 성공적으로 수정되었습니다.'
+              : '수업이 성공적으로 등록되었습니다.'
+          }
           onConfirm={() => {
             setShowDoneModal(false);
-            navigate(-1);
+            navigate('/professor/manage');
           }}
         />
       )}

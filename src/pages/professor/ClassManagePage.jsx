@@ -20,6 +20,27 @@ function ClassManagePage() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const [isProfessor, setIsProfessor] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (!user) return;
+
+      const snap = await getDoc(doc(db, 'users', user.uid));
+
+      if (snap.exists()) {
+        const data = snap.data();
+
+        if (data.role === 'professor') {
+          setIsProfessor(true);
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
   useEffect(() => {
     const auth = getAuth();
 
@@ -90,7 +111,15 @@ function ClassManagePage() {
           <span>전체 강의로 돌아가기</span>
         </div>
         <div className={styles.cardWrapper}>
-          <PrfClassCard classes={classes} />
+          <PrfClassCard
+            classes={classes}
+            isProfessor={isProfessor}
+            onEditClick={(id, card) =>
+              navigate(`/professor/edit/${id}`, {
+                state: { editData: card },
+              })
+            }
+          />
         </div>
 
         <div className={styles.bottomBar}>
