@@ -15,8 +15,11 @@ function CommuPage() {
   const navigate = useNavigate();
 
   // 1. 파이어베이스 데이터를 담을 상태(State) 선언
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]); // 게시글
   const [loading, setLoading] = useState(true);
+
+  const [reviews, setReviews] = useState([]); //리뷰
+  const [reviewLoading, setReviewLoading] = useState(true);
 
   // 2. 파이어베이스에서 데이터 가져오기 (Fetch)
   useEffect(() => {
@@ -27,7 +30,7 @@ function CommuPage() {
         const q = query(
           collection(db, "posts"),
           orderBy("createdAt", "desc"),
-          limit(3)
+          limit(3),
         );
 
         const querySnapshot = await getDocs(q);
@@ -47,47 +50,34 @@ function CommuPage() {
     fetchPosts();
   }, []);
 
- 
-  const reviews = [
-    {
-      id: 1,
-      rating: 5,
-      title: "강사님이 정말 좋아요!",
-      content:
-        "처음 시작할 때 너무 친절하게 가르쳐주셔서 금방 적응할 수 있었습니다. 시설도 깨끗하고 좋아요!",
-      author: "익명",
-      date: "2026-04-01",
-      branch: "강남점",
-    },
-    {
-      id: 2,
-      rating: 4,
-      title: "시설이 깨끗하고 좋아요",
-      content: "가나다라",
-      author: "익명",
-      date: "2026-03-25",
-      branch: "강남점",
-    },
-    {
-      id: 3,
-      rating: 4.5,
-      title: "시설이 깨끗하고 좋아요",
-      content: "가나다라",
-      author: "익명",
-      date: "2026-03-26",
-      branch: "강남점",
-    },
-    {
-      id: 4,
-      rating: 3,
-      title: "그럭저럭",
-      content: "가나다라",
-      author: "익명",
-      date: "2026-03-26",
-      branch: "강남점",
-    },
-  ];
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        setReviewLoading(true);
 
+        const q = query(
+          collection(db, "reviews"),
+          orderBy("createdAt", "desc"),
+          limit(3),
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        const fetchedReviews = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setReviews(fetchedReviews);
+      } catch (error) {
+        console.error("리뷰 로드 실패:", error);
+      } finally {
+        setReviewLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
   return (
     <div>
       <div className={headerStyles.header}>
@@ -98,15 +88,18 @@ function CommuPage() {
         <div className={styles["commu-box"]}>
           <div className={styles["commu-title"]}>
             게시글
-            <button onClick={() => navigate("/community")} className={styles["commu-btn"]}>전체보기</button>
+            <button
+              onClick={() => navigate("/community")}
+              className={styles["commu-btn"]}
+            >
+              전체보기
+            </button>
           </div>
           <div className={styles["commu-list"]}>
             {loading ? (
               <p>로딩 중...</p>
             ) : posts.length > 0 ? (
-              posts.map((post) => (
-                <PostItem key={post.id} post={post} />
-              ))
+              posts.map((post) => <PostItem key={post.id} post={post} />)
             ) : (
               <p>게시글이 없습니다.</p>
             )}
@@ -116,12 +109,23 @@ function CommuPage() {
         <div className={styles["commu-box"]}>
           <div className={styles["commu-title"]}>
             리뷰
-            <button onClick={() => navigate("/review")} className={styles["commu-btn"]}>전체보기</button>
+            <button
+              onClick={() => navigate("/review")}
+              className={styles["commu-btn"]}
+            >
+              전체보기
+            </button>
           </div>
           <div className={styles["commu-list"]}>
-            {reviews.slice(0, 3).map((review) => (
-              <BranchReviewItem key={review.id} review={review} />
-            ))}
+            {reviewLoading ? (
+              <p>로딩 중...</p>
+            ) : reviews.length > 0 ?(
+                reviews.map((review) => (
+                  <BranchReviewItem key={review.id} review={review} />
+                ))
+              ) : (
+                <p> 리뷰가 없습니다.</p>
+              )}
           </div>
         </div>
       </div>

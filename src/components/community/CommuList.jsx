@@ -5,7 +5,7 @@ import styles from "../../styles/css/community/CommuList.module.css";
 import filterIcon from "../../assets/icon/commuFilter.svg";
 import PostItem from "./PostItem";
 import { useNavigate } from "react-router-dom";
-
+import icon1 from "../../assets/icon/backIcon.svg"
 function CommuList({ branchId }) {
   const branchNameMap = {
     theclimb_hongdae: "홍대점",
@@ -81,6 +81,9 @@ function CommuList({ branchId }) {
 
   return (
     <div className={styles["commu-wrapper"]}>
+      <div className={styles["post-topbar"]} onClick={() => navigate(-1)}>
+        <img src={icon1} alt="back" /> 뒤로가기
+      </div>
       <div className={styles["commu-header"]}>
         <h2>전체 게시글</h2>
         <button
