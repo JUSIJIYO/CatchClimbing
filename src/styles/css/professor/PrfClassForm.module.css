@@ -100,21 +100,10 @@
   color: #6b7280;
 }
 
-.timeBox {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #f3f4f6;
-  padding: clamp(10px, 1vw, 16px);
-  border-radius: 12px;
-
-  flex-wrap: nowrap;
-}
-
 .timeGroup {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 }
 
 .timeBox select {
@@ -173,4 +162,54 @@
   color: red;
   font-size: 12px;
   margin-top: 4px;
+}
+
+.dateBox input {
+  height: 40px;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.dateBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dateLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dateRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.timeBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #f3f4f6;
+  padding: clamp(10px, 1vw, 16px);
+  border-radius: 12px;
+}
+
+.dateRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dayPreview {
+  font-size: 13px;
+  color: #6b7280;
 }
