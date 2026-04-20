@@ -53,3 +53,8 @@
 .menu-wrapper {
   position: relative;
 }
+
+.comment-delete-btn {
+  border: none;
+  background: none;
+}
