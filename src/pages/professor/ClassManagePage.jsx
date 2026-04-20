@@ -61,6 +61,7 @@ function ClassManagePage() {
         const result = await Promise.all(
           snapshot.docs.map(async (docSnap) => {
             const classData = docSnap.data();
+            const classId = docSnap.id;
 
             const userSnap = await getDoc(
               doc(db, 'users', classData.professorId),
@@ -71,16 +72,23 @@ function ClassManagePage() {
 
             if (userSnap.exists()) {
               const userData = userSnap.data();
-
               professorName = userData.name;
               profileImage = userData.profileImg;
             }
 
+            const studentQuery = query(
+              collection(db, 'classStudents'),
+              where('classId', '==', classId),
+            );
+
+            const studentSnap = await getDocs(studentQuery);
+
             return {
-              id: docSnap.id,
+              id: classId,
               ...classData,
               professorName,
               profileImage,
+              studentCount: studentSnap.size,
             };
           }),
         );

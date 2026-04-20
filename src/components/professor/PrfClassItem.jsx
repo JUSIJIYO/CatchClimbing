@@ -34,6 +34,7 @@ function PrfClassItem({ data, onEditClick, isProfessor }) {
       color: '#ffffff',
     };
   };
+  console.log('class data:', data);
 
   const levelStyle = getLevelStyle(data.level);
   return (
@@ -74,7 +75,7 @@ function PrfClassItem({ data, onEditClick, isProfessor }) {
           <div className={styles.infoRow}>
             <img src={peopleIcon} />
             <span>
-              정원 : {data.currentCap} / {data.capacity}
+              정원 : {data.studentCount} / {data.capacity}
             </span>
           </div>
 
