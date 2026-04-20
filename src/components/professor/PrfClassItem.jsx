@@ -34,6 +34,7 @@ function PrfClassItem({ data, onEditClick, isProfessor }) {
       color: '#ffffff',
     };
   };
+  console.log('class data:', data);
 
   const levelStyle = getLevelStyle(data.level);
   return (
@@ -74,7 +75,7 @@ function PrfClassItem({ data, onEditClick, isProfessor }) {
           <div className={styles.infoRow}>
             <img src={peopleIcon} />
             <span>
-              정원 : {data.currentCap} / {data.capacity}
+              정원 : {data.studentCount} / {data.capacity}
             </span>
           </div>
 
@@ -99,7 +100,12 @@ function PrfClassItem({ data, onEditClick, isProfessor }) {
         >
           수정하기
         </button>
-        <button className={styles.subBtn}>수강생 조회 </button>
+        <button
+          className={styles.subBtn}
+          onClick={() => navigate(`/professor/class/${data.id}/students`)}
+        >
+          수강생 조회
+        </button>
       </div>
     </div>
   );

@@ -44,6 +44,7 @@ import BranchadminBranchManage from "../pages/admin/branch/BranchadminBranchMana
 import BranchApprovePage from "../pages/admin/BranchApprovePage";
 import AdminBranchDetailPage from "../pages/admin/AdminBranchDetailPage";
 import { useAuth } from "../context/AuthContext";
+import CalendarPage from '../pages/calendar/CalendarPage';
 
 function BranchManageRoute() {
   const { role } = useAuth();
@@ -60,7 +61,11 @@ export const router = createBrowserRouter([
         element: <BranchListPage />,
       },
       {
-        path: "branch/:id",
+        path: 'branch',
+        element: <BranchListPage />,
+      },
+      {
+        path: 'branch/:id',
         element: <BranchDetailPage />,
       },
       {
@@ -82,7 +87,12 @@ export const router = createBrowserRouter([
         element: <PostDetailPage />,
       },
       {
-        path: "/postform",
+        path: "/post/edit/:postId",
+        element: <PostFormPage />,
+      },
+  
+      {
+        path: '/postform',
         element: <PostFormPage />,
       },
       {
@@ -124,7 +134,11 @@ export const router = createBrowserRouter([
         element: <RecordEditPage />,
       },
       {
-        path: "profile",
+        path: 'calendar',
+        element: <CalendarPage />,
+      },
+      {
+        path: 'profile',
         element: <ProfilePage />,
       },
       {

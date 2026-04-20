@@ -1,57 +1,82 @@
-import ClassCard from '../../components/class/ClassCard';
-import styles from '../../styles/css/class/ClassListPage.module.css';
-import icon1 from '../../assets/icon/filter.svg';
-import { useState, useEffect } from 'react';
-import ClassFilterButton from '../../components/class/ClassFilterButton';
-import { db } from '../../firebase/config';
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
-import Modal from '../../components/common/Modal';
-import ConfirmModal from '../../components/common/ConfirmModal';
-import CheckModal from '../../components/common/ChkModal';
-import { getAuth } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import ClassCard from "../../components/class/ClassCard";
+import styles from "../../styles/css/class/ClassListPage.module.css";
+import icon1 from "../../assets/icon/filter.svg";
+import { useState, useEffect } from "react";
+import ClassFilterButton from "../../components/class/ClassFilterButton";
+import { db } from "../../firebase/config";
+import { query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  addDoc,
+  updateDoc,
+  increment,
+} from "firebase/firestore";
+import Modal from "../../components/common/Modal";
+import ConfirmModal from "../../components/common/ConfirmModal";
+import CheckModal from "../../components/common/ChkModal";
+import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import icon5 from "../../assets/icon/profile.svg";
 
 function ClassListPage() {
   const [data, setData] = useState([]);
   const [allData, setAllData] = useState([]); // 지점 전체 데이터
   const [branchList, setBranchList] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState('전체');
+  const [selectedBranch, setSelectedBranch] = useState("전체");
 
   const [isModalOpen, setIsModalOpen] = useState(false); // 확인모달
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); //완료모달
   const [selectedClass, setSelectedClass] = useState(null);
   const [isOverModalOpen, setIsOverModalOpen] = useState(false); // 초과 모달
+  const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false); // 중복신청 방지 모달
 
   const [isProfessor, setIsProfessor] = useState(false); // 강사 / 학생
   const navigate = useNavigate();
 
-  // firebase class 데이터 가져오기
+  // firebase class,users 데이터 가져오기
   useEffect(() => {
-    const fetchClasses = async () => {
+    const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'classes'));
+        const userSnap = await getDocs(collection(db, "users"));
 
-        const result = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const userMap = {};
+        userSnap.docs.forEach((doc) => {
+          const data = doc.data();
+          userMap[data.uid] = data.profileImg; // 강사사진 가져오려고
+        });
+
+        const classSnap = await getDocs(collection(db, "classes"));
+
+        const result = classSnap.docs.map((doc) => {
+          const data = doc.data();
+
+          return {
+            id: doc.id,
+            ...data,
+            imageUrl: userMap[data.professorId] || icon5, // fallback 필수
+          };
+        });
 
         setAllData(result);
         setData(result);
-
         const branches = result.map((item) => item.branchName);
         const uniqueBranches = [...new Set(branches)];
 
-        setBranchList(['전체', ...uniqueBranches]);
+        setBranchList(["전체", ...uniqueBranches]);
       } catch (e) {
-        console.error('수업 불러오기 실패:', e);
+        console.error(e);
       }
     };
-    fetchClasses();
+
+    fetchData();
   }, []);
 
+  // 지점별 필터
   useEffect(() => {
-    if (selectedBranch === '전체') {
+    if (selectedBranch === "전체") {
       setData(allData);
     } else {
       const filtered = allData.filter(
@@ -61,22 +86,25 @@ function ClassListPage() {
     }
   }, [selectedBranch, allData]);
 
+  //사용자 구분하는 거
   useEffect(() => {
     const auth = getAuth();
 
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (!user) return;
 
-      const snap = await getDoc(doc(db, 'users', user.uid));
+      const snap = await getDoc(doc(db, "users", user.uid));
 
       if (snap.exists()) {
         const data = snap.data();
 
         // console.log('user data:', data);
 
-        if (data.role === 'professor') {
+        if (data.role === "professor") {
           setIsProfessor(true);
-        }
+        }else {
+        setIsProfessor(false);
+      }
       }
     });
 
@@ -92,15 +120,15 @@ function ClassListPage() {
   return (
     <div>
       {/* 헤더 */}
-      <div className={styles['header']}>
+      <div className={styles["header"]}>
         <h1>수업</h1>
         <p>다음 클라이밍 수업을 예약하세요</p>
       </div>
 
       {/* 필터 */}
-      <div className={styles['filter']}>
-        <img src={icon1} className={styles['class-filter-icon']} />
-        <div className={styles['container']}>
+      <div className={styles["filter"]}>
+        <img src={icon1} className={styles["class-filter-icon"]} />
+        <div className={styles["container"]}>
           지점:
           {branchList.map((branch) => (
             <ClassFilterButton
@@ -114,7 +142,7 @@ function ClassListPage() {
       </div>
 
       {/* 리스트 */}
-      <div className={styles['class-list-page']}>
+      <div className={styles["class-list-page"]}>
         {data.length === 0 ? (
           <p>수업이 없습니다.</p>
         ) : (
@@ -142,14 +170,56 @@ function ClassListPage() {
           cancelText="취소"
           confirmText="신청하기"
           onCancel={() => setIsModalOpen(false)}
-          onConfirm={() => {
-            // console.log("신청 완료:", selectedClass);
+          onConfirm={async () => {
             setIsModalOpen(false);
 
-            if (selectedClass.currentCap >= selectedClass.capacity) {
-              setIsOverModalOpen(true); // 정원 초과
-            } else {
-              setIsConfirmModalOpen(true); // 정상 신청
+            try {
+              const auth = getAuth();
+              const user = auth.currentUser;
+
+              if (!user) {
+                alert("로그인이 필요합니다.");
+                return;
+              }
+
+              // ✅ 1. 정원 초과 먼저
+              if (selectedClass.currentCap >= selectedClass.capacity) {
+                setIsOverModalOpen(true);
+                return;
+              }
+
+              // ✅ 2. 중복 체크
+              const q = query(
+                collection(db, "enrollments"),
+                where("userId", "==", user.uid),
+                where("classId", "==", selectedClass.id),
+              );
+
+              const snapshot = await getDocs(q);
+
+              if (!snapshot.empty) {
+                setIsCompleteModalOpen(true); // 중복 모달
+                return;
+              }
+
+              // ✅ 3. 정상 신청
+              await addDoc(collection(db, "enrollments"), {
+                userId: user.uid,
+                classId: selectedClass.id,
+                professorId: user.uid,
+                title: selectedClass.title,
+                date: selectedClass.openDate,
+                time: "",
+                level: selectedClass.level,
+              });
+
+              await updateDoc(doc(db, "classes", selectedClass.id), {
+                currentCap: increment(1),
+              });
+
+              setIsConfirmModalOpen(true); // 완료 모달
+            } catch (e) {
+              console.error("신청 실패:", e);
             }
           }}
         />
@@ -162,7 +232,7 @@ function ClassListPage() {
           onConfirm={() => setIsConfirmModalOpen(false)}
         />
       )}
-
+      {/* 정원초과모달 */}
       {isOverModalOpen && (
         <CheckModal
           title="정원초과"
@@ -171,18 +241,26 @@ function ClassListPage() {
         />
       )}
 
+      {/* 중복신청모달 */}
+      {isCompleteModalOpen && (
+        <CheckModal
+          message={`${selectedClass?.title}은 이미 신청한 강의입니다.`}
+          onConfirm={() => setIsCompleteModalOpen(false)}
+        />
+      )}
+
       {isProfessor && (
         <div className={styles.floatingBtnGroup}>
           <button
             className={styles.outlineBtn}
-            onClick={() => navigate('/professor/manage')}
+            onClick={() => navigate("/professor/manage")}
           >
             내 강의 조회
           </button>
 
           <button
             className={styles.mainBtn}
-            onClick={() => navigate('/professor/new-class')}
+            onClick={() => navigate("/professor/new-class")}
           >
             강의 등록
           </button>

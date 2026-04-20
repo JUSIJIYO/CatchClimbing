@@ -1,10 +1,12 @@
-import { auth } from '../../firebase/config';
-import ProfileCard from '../../components/mypage/ProfileCard';
-import ProMyClassList from '../../components/mypage/ProMyClassList';
-import styles from '../../styles/css/mypage/Mypage.module.css';
-import headerStyles from '../../styles/css/common/PageHeader.module.css';
-import { useEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from "../../firebase/config";
+import ProfileCard from "../../components/mypage/ProfileCard";
+import ProMyClassList from "../../components/mypage/ProMyClassList";
+import StuClassList from "../../components/mypage/StuClassList";
+import styles from "../../styles/css/mypage/Mypage.module.css";
+import headerStyles from "../../styles/css/common/PageHeader.module.css";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+
 import {
   doc,
   getDoc,
@@ -12,8 +14,8 @@ import {
   getDocs,
   query,
   where,
-} from 'firebase/firestore';
-import { db } from '../../firebase/config';
+} from "firebase/firestore";
+import { db } from "../../firebase/config";
 
 function Mypage() {
   const [userData, setUserData] = useState(null);
@@ -23,12 +25,12 @@ function Mypage() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) return;
 
-      const snap = await getDoc(doc(db, 'users', user.uid));
+      const snap = await getDoc(doc(db, "users", user.uid));
       if (snap.exists()) {
         setUserData(snap.data());
       }
 
-      const q = query(collection(db, 'records'), where('uid', '==', user.uid));
+      const q = query(collection(db, "records"), where("uid", "==", user.uid));
 
       const snapshot = await getDocs(q);
 
@@ -51,7 +53,7 @@ function Mypage() {
       </div>
 
       <ProfileCard userData={userData} attemptCount={attemptCount} />
-      <ProMyClassList />
+      {userData?.role === "professor" ? <ProMyClassList /> : <StuClassList />}
     </div>
   );
 }
