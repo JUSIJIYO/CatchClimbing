@@ -1,9 +1,9 @@
-.wrapper {
+.mypage-container {
   margin: 32px auto;
   max-width: 800px;
 }
 
-.card {
+.mypage-card {
   background: #fff;
   border-radius: 16px;
   padding: 20px;
@@ -12,15 +12,31 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.title {
+.mypage-title {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 12px;
   color: #2c3e50;
 }
 
-.list {
+.mypage-recommendlist{
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.move-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  background: #2C3E50;
+  border-radius: 14px;  
+  cursor: pointer;
+  color: white;
 }
