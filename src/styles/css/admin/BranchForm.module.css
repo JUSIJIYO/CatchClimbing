@@ -31,9 +31,7 @@
   border-radius: 14px;
   border: 0.8px solid #e5e7eb;
   background: #fff;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -190,6 +188,7 @@
   display: flex;
   gap: 12px;
   margin-top: 4px;
+  cursor: pointer;
 }
 
 .branchForm-submit-cancel-button {
@@ -204,7 +203,7 @@
   border: 0.8px solid rgba(44, 62, 80, 0.1);
   background: #fff;
   cursor: pointer;
-  flex : 1;
+  flex: 1;
 }
 
 .branchForm-submit-cancel-button:hover {
@@ -222,7 +221,8 @@
   border-radius: 14px;
   background: #2c3e50;
   cursor: pointer;
-  flex : 1;
+  flex: 1;
+  cursor: pointer;
 }
 
 .branchForm-submit-submit-button:hover {

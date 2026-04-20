@@ -3,10 +3,16 @@ import personIcon from '../../assets/icon/commuPerson.svg';
 import eyeIcon from '../../assets/icon/commuEye.svg';
 import commentIcon from '../../assets/icon/commuComment.svg';
 import styles from '../../styles/css/branch/BranchCommuItem.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function BranchCommuItem({ post }) {
+  const navigate = useNavigate();
   return (
-    <div className={styles['card']}>
+    <div
+      className={styles['card']}
+      onClick={() => navigate(`/post/${post.id}`)}
+      style={{ cursor: 'pointer' }}
+    >
       <div className={styles['top']}>
         <h3>{post.title}</h3>
         <span className={styles.branch}>{post.branch}</span>

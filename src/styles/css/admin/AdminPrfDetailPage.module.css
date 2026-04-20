@@ -26,6 +26,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: 21px;
+  cursor: pointer;
 }
 
 .adminPrfDetailPage-back-button:hover {
@@ -95,7 +96,7 @@
   border: 1px solid #e5e7eb;
   background: #fff;
   padding: 10px 14px;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 14px;
   font-weight: 400;
   color: #2c3e50;
@@ -112,7 +113,7 @@
   border: 1px solid #e5e7eb;
   background: #fff;
   padding: 10px 14px;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 14px;
   font-weight: 400;
   color: #2c3e50;
@@ -155,9 +156,7 @@
   border-radius: 14px;
   border: 1px solid #e5e7eb;
   background: #fff;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   padding: 33px;
   width: 300px;
 }
@@ -215,7 +214,7 @@
   align-items: center;
   gap: 6px;
   color: #2c3e50;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 13px;
   font-weight: 400;
   line-height: 19.5px;
@@ -229,7 +228,7 @@
 
 .prf-qualification-download {
   color: #2c3e50;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 13px;
   font-weight: 500;
   text-decoration: underline;
@@ -309,9 +308,7 @@
   border-radius: 14px;
   border: 1px solid #e5e7eb;
   background: #fff;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   padding: 24px;
 }
 
