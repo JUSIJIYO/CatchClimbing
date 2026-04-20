@@ -6,7 +6,14 @@ import Modal from '../../components/common/Modal';
 import ConfirmModal from '../../components/common/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase/config';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import CheckModal from '../../components/common/ChkModal';
 import { storage } from '../../firebase/config';
@@ -21,8 +28,8 @@ function RecordFormPage() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
-  const handleSubmit = (data) => {
+  const [showConflictModal, setShowConflictModal] = useState(false);
+  const handleSubmit = async (data) => {
     // 필수값 체크
     if (
       !data.title ||
@@ -38,7 +45,16 @@ function RecordFormPage() {
       return;
     }
 
-    // 정상일 때만
+    // 여기 추가
+    const isConflict = await checkTimeConflict(data);
+
+    if (isConflict) {
+      setPendingData(data);
+      setShowConflictModal(true);
+      return;
+    }
+
+    // 정상
     setPendingData(data);
     setShowModal(true);
   };
@@ -53,6 +69,35 @@ function RecordFormPage() {
     return () => unsubscribe();
   }, []);
 
+  const checkTimeConflict = async (data) => {
+    const q = query(
+      collection(db, 'classes'),
+      where('date', '==', data.visitDate)
+    );
+
+    const snap = await getDocs(q);
+
+    const convertToMin = (time) => {
+      const [h, m] = time.split(':');
+      return Number(h) * 60 + Number(m);
+    };
+
+    const newStart = convertToMin(data.startTime);
+    const newEnd = convertToMin(data.endTime);
+
+    for (let docSnap of snap.docs) {
+      const d = docSnap.data();
+
+      const existStart = convertToMin(d.openDate.split(' ')[1]);
+      const existEnd = convertToMin(d.openDate.split(' ')[3]);
+
+      if (newStart < existEnd && newEnd > existStart) {
+        return true;
+      }
+    }
+
+    return false;
+  };
   const handleConfirm = async () => {
     try {
       setShowModal(false);
@@ -158,6 +203,20 @@ function RecordFormPage() {
       )}
       {loading && (
         <Modal title="처리중" message="기록을 저장하는 중입니다..." />
+      )}
+
+      {showConflictModal && (
+        <Modal
+          title="시간 충돌"
+          message="해당 시간에 수업이 있습니다. 그래도 등록하시겠습니까?"
+          cancelText="취소"
+          confirmText="등록"
+          onCancel={() => setShowConflictModal(false)}
+          onConfirm={() => {
+            setShowConflictModal(false);
+            setShowModal(true); // 기존 등록 모달로 넘김
+          }}
+        />
       )}
     </div>
   );
