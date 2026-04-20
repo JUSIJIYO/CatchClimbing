@@ -10,8 +10,7 @@ function CommuPostPage() {
 
   return (
     <div>
-      <div className={headerStyles.header}  onClick={() => navigate(-1)}>
-        <p>← 뒤로가기</p>
+      <div className={headerStyles.header}>
         <h1>전체 커뮤니티</h1>
         <p>클라이머들과 소통해보세요</p>
       </div>
