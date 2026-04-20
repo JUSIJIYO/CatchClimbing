@@ -1,0 +1,115 @@
+.branchApproveItem-ct {
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.branchApproveItem-top-ct {
+  display: flex;
+  justify-content: space-between;
+}
+
+.branchApproveItem-top-ct > p:last-of-type {
+  color: #a65f00;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  border-radius: 9999px;
+  background: #fef9c2;
+  padding: 8px 16px;
+}
+.branchApproveItem-top-ct > p:first-of-type {
+  color: #2c3e50;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.branchApproveItem-ct > p {
+  color: #67798d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.branchApproveItem-middle-ct {
+  border-radius: 10px;
+  background: #f9fafb;
+  padding: 16px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.branchApproveItem-middle-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.branchApproveItem-middle-content > p:first-of-type {
+  color: #67798d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.branchApproveItem-middle-content > p:last-of-type {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.branchApproveItem-button-ct {
+  display: flex;
+  gap: 12px;
+}
+
+.branchApproveItem-approve-button {
+  border-radius: 10px;
+  background: #2c3e50;
+  padding: 14px;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap : 12px
+}
+
+.branchApproveItem-reject-button {
+  border-radius: 10px;
+  border: 2px solid #ffc9c9;
+  background: #fff;
+  color: #e7000b;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap  :12px;
+}

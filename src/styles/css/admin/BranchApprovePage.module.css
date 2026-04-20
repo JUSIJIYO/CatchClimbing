@@ -1,0 +1,36 @@
+.branchApprovePage-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px 10%;
+}
+
+.branchApprovePage-back-btn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #67798d;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.branchApprovePage-back-btn:hover {
+  color: #2c3e50;
+}
+
+.branchApprovePage-top-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.branchApprovePage-top-ct > h2 {
+  color: #2c3e50;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+

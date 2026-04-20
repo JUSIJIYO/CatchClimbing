@@ -1,0 +1,28 @@
+.branchManagePage-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 10%;
+}
+
+.branchManagePage-top-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.branchManagePage-top-ct > h2 {
+  color: #2c3e50;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.branchManagePage-top-ct > p {
+  color: #67798d;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
