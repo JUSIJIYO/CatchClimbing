@@ -20,7 +20,7 @@ function LoginForm() {
   // 비밀번호 보이기 (눈 친구 클릭)
   const [showPassword, setShowPassword] = useState(false);
 
-  
+
   const [autoLogin, setAutoLogin] = useState(false);
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -123,7 +123,7 @@ function LoginForm() {
           <label htmlFor="auto-login">자동 로그인</label>
         </div>
 
-        <button type="submit">로그인</button>
+        <button type="submit" className={styles[`${email && password ? "login-btn-active": ""}`]}>로그인</button>
         <button type="button" onClick={() => navigate("/signup")}>
           회원가입
         </button>
