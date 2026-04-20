@@ -5,14 +5,22 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import headerStyles from '../../styles/css/common/PageHeader.module.css';
 import styles from '../../styles/css/calendar/CalendarPage.module.css';
 import MonthCalendar from '../../components/calendar/MonthCalendar';
+import ScheduleList from '../../components/calendar/ScheduleList';
 
 function CalendarPage() {
+  const handleDelete = (id) => {
+    setRecordList((prev) => prev.filter((item) => item.id !== id));
+    setClassList((prev) => prev.filter((item) => item.id !== id));
+  };
+
   const [classList, setClassList] = useState([]);
   const [loading, setLoading] = useState(true);
   const today = new Date().toISOString().split('T')[0];
   const [recordList, setRecordList] = useState([]);
   const [selectedDate, setSelectedDate] = useState(today);
-
+  const selectedList = [...classList, ...recordList].filter((item) =>
+    selectedDate ? item.date === selectedDate : true
+  );
   useEffect(() => {
     const auth = getAuth();
 
@@ -45,10 +53,13 @@ function CalendarPage() {
 
         const classes = classSnap.docs.map((doc) => {
           const d = doc.data();
+
+          const timeRange = d.openDate?.split(' ').slice(1).join(' ') || '';
           return {
             id: doc.id,
             title: d.title,
             date: d.date,
+            startTime: timeRange,
             type: 'class',
           };
         });
@@ -71,19 +82,34 @@ function CalendarPage() {
 
             if (d.visitDate.seconds) {
               const dateObj = new Date(d.visitDate.seconds * 1000);
-              formatted = dateObj.toISOString().split('T')[0];
+
+              formatted = `${dateObj.getFullYear()}-${String(
+                dateObj.getMonth() + 1
+              ).padStart(2, '0')}-${String(dateObj.getDate()).padStart(
+                2,
+                '0'
+              )}`;
             } else {
-              formatted = new Date(d.visitDate).toISOString().split('T')[0];
+              const dateObj = new Date(d.visitDate);
+
+              formatted = `${dateObj.getFullYear()}-${String(
+                dateObj.getMonth() + 1
+              ).padStart(2, '0')}-${String(dateObj.getDate()).padStart(
+                2,
+                '0'
+              )}`;
             }
 
             return {
               id: doc.id,
-              title: d.title || d.content,
+              title: d.title || d.memo,
               date: formatted,
+              startTime: d.startTime || '',
               type: 'record',
             };
           })
           .filter(Boolean);
+
         setClassList(classes);
         setRecordList(records);
       } catch (e) {
@@ -105,10 +131,11 @@ function CalendarPage() {
         <p>내 클라이밍 일정</p>
       </div>
 
-      <div className={styles.container}>
+      <div className={styles.pageContainer}>
         <div className={styles.wrapper}>
           <div className={styles.left}>
             <MonthCalendar
+              key={classList.length + recordList.length}
               onDateClick={setSelectedDate}
               classList={[...classList, ...recordList]}
               selectedDate={selectedDate}
@@ -116,17 +143,11 @@ function CalendarPage() {
           </div>
 
           <div className={styles.right}>
-            {[...classList, ...recordList]
-              .filter((item) =>
-                selectedDate ? item.date === selectedDate : true
-              )
-              .map((item) => (
-                <div key={item.id}>
-                  <p>
-                    {item.type === 'record' ? '📝' : '📚'} {item.title}
-                  </p>
-                </div>
-              ))}
+            <ScheduleList
+              selectedDate={selectedDate}
+              scheduleList={selectedList}
+              onDelete={handleDelete}
+            />
           </div>
         </div>
       </div>

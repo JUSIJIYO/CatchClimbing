@@ -44,7 +44,7 @@ function MonthCalendar({ onDateClick, classList = [], selectedDate }) {
 
   const days = getDaysInMonth();
 
-  // ✅ 클릭
+  //  클릭
   const handleClick = (day) => {
     if (!day) return;
     onDateClick(formatDate(day));
