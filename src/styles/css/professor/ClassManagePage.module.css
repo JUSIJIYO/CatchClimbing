@@ -27,6 +27,10 @@
   align-items: flex-start;
 }
 
+.cardItem {
+  width: calc(33.333% - 16px);
+}
+
 .bottomBar {
   display: flex;
   justify-content: flex-end;
