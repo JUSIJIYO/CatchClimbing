@@ -1,7 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { db } from '../../firebase/config';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+} from 'firebase/firestore';
 import PrfClassStuList from '../../components/professor/PrfClassStuList';
 import styles from '../../styles/css/professor/PrfClassStuListPage.module.css';
 import backButton from '../../assets/icon/backButton.svg';
@@ -16,7 +23,32 @@ function PrfClassStuListPage() {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // 수강생 가져오기
+  const updateStudentStatus = async (studentId, newStatus) => {
+    try {
+      const docRef = doc(db, 'classStudents', studentId);
+
+      await updateDoc(docRef, {
+        status: newStatus,
+      });
+
+      // UI 반영
+      const updated = students.map((stu) =>
+        stu.id === studentId ? { ...stu, status: newStatus } : stu,
+      );
+
+      setStudents(updated);
+
+      // 현재 검색어 기준으로 다시 필터
+      const filteredData = updated.filter((stu) =>
+        stu.name?.toLowerCase().includes(search.toLowerCase()),
+      );
+
+      setFiltered(filteredData);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     const fetchStudents = async () => {
       try {
@@ -32,33 +64,8 @@ function PrfClassStuListPage() {
           ...doc.data(),
         }));
 
-        // 여기서 처리해야 함
-        if (result.length === 0) {
-          const dummy = [
-            {
-              id: '1',
-              name: '김민지',
-              level: 'V4',
-              phone: '010-1234-1234',
-              email: 'test1@naver.com',
-              status: 'approved',
-            },
-            {
-              id: '2',
-              name: '박지훈',
-              level: 'V5',
-              phone: '010-5678-5678',
-              email: 'test2@naver.com',
-              status: 'pending',
-            },
-          ];
-
-          setStudents(dummy);
-          setFiltered(dummy);
-        } else {
-          setStudents(result);
-          setFiltered(result);
-        }
+        setStudents(result);
+        setFiltered(result);
       } catch (e) {
         console.error(e);
       } finally {
@@ -68,7 +75,6 @@ function PrfClassStuListPage() {
 
     fetchStudents();
   }, [id]);
-
   //  검색
   useEffect(() => {
     const filteredData = students.filter((stu) =>
@@ -98,9 +104,12 @@ function PrfClassStuListPage() {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <PrfClassStuList students={filtered} />
+        <PrfClassStuList
+          students={filtered}
+          onUpdateStatus={updateStudentStatus}
+        />
 
-        <div className={styles.footer}>총 {filtered.length}명 수강생</div>
+        <div className={styles.footer}>총 {students.length}명 수강생</div>
       </div>
     </>
   );

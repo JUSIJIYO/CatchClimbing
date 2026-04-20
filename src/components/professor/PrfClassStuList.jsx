@@ -1,7 +1,7 @@
 import PrfClassStuItem from './PrfClassStuItem';
 import styles from '../../styles/css/professor/PrfClassStuList.module.css';
 
-function PrfClassStuList({ students }) {
+function PrfClassStuList({ students, onUpdateStatus }) {
   return (
     <table className={styles.table}>
       <thead>
@@ -23,7 +23,12 @@ function PrfClassStuList({ students }) {
           </tr>
         ) : (
           students.map((stu, idx) => (
-            <PrfClassStuItem key={stu.id} stu={stu} index={idx} />
+            <PrfClassStuItem
+              key={stu.id}
+              stu={stu}
+              index={idx}
+              onUpdateStatus={onUpdateStatus}
+            />
           ))
         )}
       </tbody>
