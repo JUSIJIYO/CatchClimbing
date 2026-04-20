@@ -580,6 +580,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
 
       {showDupModal && (
         <ChkModal
+          title={'등록 오류'}
           message="해당 날짜와 시간에 이미 등록된 수업이 있습니다."
           onConfirm={() => setShowDupModal(false)}
         />
