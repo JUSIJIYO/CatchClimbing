@@ -45,6 +45,7 @@ import BranchApprovePage from "../pages/admin/BranchApprovePage";
 import AdminBranchDetailPage from "../pages/admin/AdminBranchDetailPage";
 import { useAuth } from "../context/AuthContext";
 import CalendarPage from '../pages/calendar/CalendarPage';
+import ReviewFormPage from "../pages/community/ReviewFormPage";
 
 function BranchManageRoute() {
   const { role } = useAuth();
@@ -99,6 +100,11 @@ export const router = createBrowserRouter([
         path: "/reviewdetail",
         element: <ReviewDetailPage />,
       },
+      {
+        path: "/reviewform",
+        element: <ReviewFormPage />,
+      },
+
 
       {
         path: "class",
