@@ -1,5 +1,5 @@
 .pageContainer {
-  background: #f5f7fb;
+  background: linear-gradient(180deg, #eff6ff 0%, #fff 100%);
   min-height: calc(100vh - 120px);
   padding: 60px 20px;
 
