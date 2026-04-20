@@ -36,7 +36,7 @@ import CommuReviewPage from '../pages/community/CommuReviewPage';
 import PostDetailPage from '../pages/community/PostDetailpage';
 import ReviewDetailPage from '../pages/community/ReviewDetailPage';
 import PostFormPage from '../pages/community/PostFormPage';
-import PrfClassStuList from '../pages/professor/PrfClassStuList';
+import PrfClassStuList from '../pages/professor/PrfClassStuListPage';
 import PrfClassManagePage from '../pages/professor/ClassManagePage';
 import AdminPrfApprovePage from '../pages/admin/AdminPrfApprovePage'
 export const router = createBrowserRouter([

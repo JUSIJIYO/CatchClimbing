@@ -1,0 +1,73 @@
+.approved {
+  background: #dcfce7;
+  color: #008236;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.pending {
+  background: #fef9c2;
+  color: #a65f00;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+}
+
+.approve,
+.reject {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.approve {
+  background: #00a63e;
+  color: #fff;
+}
+
+.approve:hover {
+  background: #15803d;
+}
+
+.reject:hover {
+  background: #fecaca;
+}
+
+.cancel {
+  border-radius: 10px;
+  border: 1px solid #ffc9c9;
+  background: #fff;
+  color: #e7000b;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.reject {
+  border: 1px solid #ffc9c9;
+  background: #fff;
+  color: #e7000b;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+table td {
+  vertical-align: middle;
+}
+
+table tr {
+  height: 70px;
+}

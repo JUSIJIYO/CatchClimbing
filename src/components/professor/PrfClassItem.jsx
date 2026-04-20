@@ -99,7 +99,12 @@ function PrfClassItem({ data, onEditClick, isProfessor }) {
         >
           수정하기
         </button>
-        <button className={styles.subBtn}>수강생 조회 </button>
+        <button
+          className={styles.subBtn}
+          onClick={() => navigate(`/professor/class/${data.id}/students`)}
+        >
+          수강생 조회
+        </button>
       </div>
     </div>
   );
