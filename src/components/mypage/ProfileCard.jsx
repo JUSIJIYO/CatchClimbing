@@ -25,7 +25,7 @@ function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
 
   const navigate = useNavigate();
   const name = userData?.name || '사용자';
-  const branch = branchMap[userData?.branchId] || '지점 없음';
+  const branch = branchMap[userData?.branchId] || '';
   const level = userData?.level || 'V0';
   const levelNumber = parseInt(level.replace('V', '')) || 0;
   const nextLevel = `V${levelNumber + 1}`;

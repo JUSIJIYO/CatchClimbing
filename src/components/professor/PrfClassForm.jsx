@@ -26,6 +26,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
     day: '',
     startTime: '',
     endTime: '',
+    date: '',
   });
 
   const location = useLocation();
@@ -84,10 +85,20 @@ function PrfClassForm({ onSuccess, onCancle }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setForm({
-      ...form,
-      [name]: value,
-    });
+    if (name === 'date') {
+      const day = getDayFromDate(value);
+
+      setForm({
+        ...form,
+        date: value,
+        day,
+      });
+    } else {
+      setForm({
+        ...form,
+        [name]: value,
+      });
+    }
 
     setError({
       ...error,
@@ -99,12 +110,13 @@ function PrfClassForm({ onSuccess, onCancle }) {
     if (editData) {
       setForm({
         title: editData.title,
+        date: editData.date || '',
         description: editData.description,
         branchName: editData.branchName,
         level: editData.level,
         capacity: editData.capacity,
         classMoney: editData.classMoney,
-        day: editData.openDate?.split(' ')[0] || '',
+        day: editData.date ? getDayFromDate(editData.date) : '',
         startTime: editData.openDate?.split(' ')[1] || '',
         endTime: editData.openDate?.split(' ')[3] || '',
       });
@@ -133,6 +145,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
         await updateDoc(doc(db, 'classes', editData.id), {
           title: form.title,
           openDate,
+          date: form.date,
           branchName: form.branchName,
           branchId,
           level: form.level,
@@ -147,6 +160,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
           title: form.title,
           professorName: userData.name,
           openDate,
+          date: form.date,
           branchName: form.branchName,
           branchId,
           level: form.level,
@@ -178,7 +192,8 @@ function PrfClassForm({ onSuccess, onCancle }) {
     if (!form.level) newError.level = '난이도를 선택해주세요';
     if (!form.capacity) newError.capacity = '수강 인원을 입력해주세요';
     if (!form.classMoney) newError.classMoney = '수강료를 입력해주세요';
-    if (!form.day) newError.day = '요일을 선택해주세요';
+    // if (!form.day) newError.day = '요일을 선택해주세요';
+    if (!form.date) newError.date = '날짜를 선택해주세요';
     if (!form.branchName) {
       newError.branchName = '지점 정보를 불러오는 중입니다';
     }
@@ -203,33 +218,21 @@ function PrfClassForm({ onSuccess, onCancle }) {
     String(i).padStart(2, '0'),
   );
 
+  const getDayFromDate = (dateStr) => {
+    const days = [
+      '일요일',
+      '월요일',
+      '화요일',
+      '수요일',
+      '목요일',
+      '금요일',
+      '토요일',
+    ];
+    const date = new Date(dateStr);
+    return days[date.getDay()];
+  };
+
   const minutes = ['00', '10', '20', '30', '40', '50'];
-
-  //   const branchId = reverseBranchMap[form.branchName];
-
-  //   try {
-  //     await addDoc(collection(db, 'classes'), {
-  //       professorId: user.uid,
-  //       title: form.title,
-  //       professorName: user.email,
-  //       openDate,
-  //       branchName: form.branchName,
-  //       branchId: branchId,
-  //       level: form.level,
-  //       classMoney: Number(form.classMoney),
-  //       capacity: Number(form.capacity),
-  //       currentCap: 0,
-  //       description: form.description,
-  //       createdAt: serverTimestamp(),
-  //     });
-
-  //     alert('수업 등록 완료');
-  //     onSuccess && onSuccess();
-  //   } catch (e) {
-  //     console.error(e);
-  //     alert('등록 실패');
-  //   }
-  // };
 
   return (
     <div className={styles.container}>
@@ -342,98 +345,104 @@ function PrfClassForm({ onSuccess, onCancle }) {
             <label>수업 일정 *</label>
 
             <div className={styles.timeBox}>
-              <select name="day" value={form.day} onChange={handleChange}>
-                <option value="">요일</option>
-                <option value="월요일">월요일</option>
-                <option value="화요일">화요일</option>
-                <option value="수요일">수요일</option>
-                <option value="목요일">목요일</option>
-                <option value="금요일">금요일</option>
-                <option value="토요일">토요일</option>
-                <option value="일요일">일요일</option>
-              </select>
+              <div className={styles.dateRow}>
+                <div className={styles.dateBox}>
+                  <div className={styles.dateLeft}>
+                    <input
+                      type="date"
+                      name="date"
+                      value={form.date}
+                      onChange={handleChange}
+                    />
+                  </div>
 
-              <span className={styles.divider}>|</span>
-
-              <div className={styles.timeGroup}>
-                <select
-                  value={form.startTime.split(':')[0] || ''}
-                  onChange={(e) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      startTime: `${e.target.value}:${prev.startTime.split(':')[1] || '00'}`,
-                    }))
-                  }
-                >
-                  <option value="">시</option>
-                  {hours.map((h) => (
-                    <option key={h} value={h}>
-                      {h}
-                    </option>
-                  ))}
-                </select>
-                <span>시</span>
-
-                <select
-                  value={form.startTime.split(':')[1] || ''}
-                  onChange={(e) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      startTime: `${prev.startTime.split(':')[0] || '00'}:${e.target.value}`,
-                    }))
-                  }
-                >
-                  <option value="">분</option>
-                  {minutes.map((m) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                </select>
-                <span>분</span>
+                  <div className={styles.dateRight}>
+                    <span className={styles.dayPreview}>{form.day}</span>
+                  </div>
+                </div>
+                {error.date && <p className={styles.error}>{error.date}</p>}
               </div>
 
-              <span className={styles.tilde}>~</span>
+              <div className={styles.timeRow}>
+                <div className={styles.timeGroup}>
+                  <select
+                    value={form.startTime.split(':')[0] || ''}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        startTime: `${e.target.value}:${prev.startTime.split(':')[1] || '00'}`,
+                      }))
+                    }
+                  >
+                    <option value="">시</option>
+                    {hours.map((h) => (
+                      <option key={h} value={h}>
+                        {h}
+                      </option>
+                    ))}
+                  </select>
+                  <span>시</span>
 
-              <div className={styles.timeGroup}>
-                <select
-                  value={form.endTime.split(':')[0] || ''}
-                  onChange={(e) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      endTime: `${e.target.value}:${prev.endTime.split(':')[1] || '00'}`,
-                    }))
-                  }
-                >
-                  <option value="">시</option>
-                  {hours.map((h) => (
-                    <option key={h} value={h}>
-                      {h}
-                    </option>
-                  ))}
-                </select>
-                <span>시</span>
+                  <select
+                    value={form.startTime.split(':')[1] || ''}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        startTime: `${prev.startTime.split(':')[0] || '00'}:${e.target.value}`,
+                      }))
+                    }
+                  >
+                    <option value="">분</option>
+                    {minutes.map((m) => (
+                      <option key={m} value={m}>
+                        {m}
+                      </option>
+                    ))}
+                  </select>
+                  <span>분</span>
+                </div>
 
-                <select
-                  value={form.endTime.split(':')[1] || ''}
-                  onChange={(e) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      endTime: `${prev.endTime.split(':')[0] || '00'}:${e.target.value}`,
-                    }))
-                  }
-                >
-                  <option value="">분</option>
-                  {minutes.map((m) => (
-                    <option key={m} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                </select>
-                <span>분</span>
+                <span className={styles.tilde}>~</span>
+
+                <div className={styles.timeGroup}>
+                  <select
+                    value={form.endTime.split(':')[0] || ''}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        endTime: `${e.target.value}:${prev.endTime.split(':')[1] || '00'}`,
+                      }))
+                    }
+                  >
+                    <option value="">시</option>
+                    {hours.map((h) => (
+                      <option key={h} value={h}>
+                        {h}
+                      </option>
+                    ))}
+                  </select>
+                  <span>시</span>
+
+                  <select
+                    value={form.endTime.split(':')[1] || ''}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        endTime: `${prev.endTime.split(':')[0] || '00'}:${e.target.value}`,
+                      }))
+                    }
+                  >
+                    <option value="">분</option>
+                    {minutes.map((m) => (
+                      <option key={m} value={m}>
+                        {m}
+                      </option>
+                    ))}
+                  </select>
+                  <span>분</span>
+                </div>
               </div>
             </div>
-            {error.day && <p className={styles.error}>{error.day}</p>}
             {error.time && <p className={styles.error}>{error.time}</p>}
           </div>
         </div>
