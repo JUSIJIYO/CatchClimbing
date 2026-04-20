@@ -1,0 +1,6 @@
+.container {
+  background: linear-gradient(180deg, #eff6ff 0%, #fff 100%);
+  min-height: calc(100vh - 120px);
+  padding: 40px 60px;
+  box-sizing: border-box;
+}

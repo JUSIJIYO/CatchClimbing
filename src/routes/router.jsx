@@ -37,6 +37,7 @@ import ReviewDetailPage from '../pages/community/ReviewDetailPage';
 import PostFormPage from '../pages/community/PostFormPage';
 import PrfClassStuList from '../pages/professor/PrfClassStuListPage';
 import PrfClassManagePage from '../pages/professor/ClassManagePage';
+import CalendarPage from '../pages/calendar/CalendarPage';
 
 export const router = createBrowserRouter([
   {
@@ -130,6 +131,10 @@ export const router = createBrowserRouter([
       {
         path: 'professor/class/:id/students',
         element: <PrfClassStuList />,
+      },
+      {
+        path: '/calendar',
+        element: <CalendarPage />,
       },
       {
         element: <AuthLayout />,
