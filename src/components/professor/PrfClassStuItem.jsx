@@ -4,14 +4,14 @@ import Modal from '../../components/common/Modal';
 import ConfirmModal from '../../components/common/ConfirmModal';
 import CheckModal from '../../components/common/ChkModal';
 
-function PrfClassStuItem({ stu, index }) {
+function PrfClassStuItem({ stu, index, onUpdateStatus }) {
   const [showModal, setShowModal] = useState(false); // 확인 모달
   const [showLoading, setShowLoading] = useState(false); // 로딩
   const [showDone, setShowDone] = useState(false); // 승인 완료
   const [showRejectDone, setShowRejectDone] = useState(false); // 거절 완료
   const [showCancelDone, setShowCancelDone] = useState(false);
   const [actionType, setActionType] = useState(null);
-  const [status, setStatus] = useState(stu.status);
+  const status = stu.status;
   const [showRejectCancelDone, setShowRejectCancelDone] = useState(false);
 
   const getLevelStyle = (level) => {
@@ -49,25 +49,26 @@ function PrfClassStuItem({ stu, index }) {
     if (actionType === 'approve') {
       setShowLoading(true);
 
+      onUpdateStatus(stu.id, 'approved');
+
       setTimeout(() => {
         setShowLoading(false);
-        setStatus('approved');
         setShowDone(true);
-      }, 1000);
+      }, 500);
     }
 
     if (actionType === 'reject') {
-      setStatus('rejected');
+      onUpdateStatus(stu.id, 'rejected');
       setShowRejectDone(true);
     }
 
     if (actionType === 'cancel') {
-      setStatus('pending');
+      onUpdateStatus(stu.id, 'pending');
       setShowCancelDone(true);
     }
 
     if (actionType === 'rejectCancel') {
-      setStatus('pending');
+      onUpdateStatus(stu.id, 'pending');
       setShowRejectCancelDone(true);
     }
   };
