@@ -1,0 +1,88 @@
+.dataTable-ct {
+  border-radius: 14px;
+  border: 0.8px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dataTable-table-ct {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dataTable-table-th {
+  padding: 15px 24px;
+  text-align: left;
+  color: #101828;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  border-bottom: 0.8px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.dataTable-table-tr {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dataTable-table-tr:hover {
+  background: #f9fafb;
+}
+
+.dataTable-table-td {
+  padding: 20px 20px;
+  color: #101828;
+  font-family: "Pretendard Variable";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+/* 페이지네이션 */
+.dataTable-pagination-ct {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 20px;
+}
+
+.dataTable-page-button {
+  width: 32px;
+  height: 32px;
+  background: #ffffff;
+  color: #4a5565;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;  
+  cursor: pointer;
+  border-radius: 6px;
+  border: 0.8px solid #e5e7eb;
+}
+
+.dataTable-page-button:disabled {
+  color: #d1d5db;
+  cursor: default;
+}
+
+.dataTable-error-ct {
+  padding: 32px 20px;
+  text-align: center;
+  color: #ef4444;
+  font-size: 14px;
+}
+
+.dataTable-page-button-actvie {
+  background: #1f2937;
+  color: #ffffff;
+  border-color: #1f2937;
+  font-weight: 600;
+}

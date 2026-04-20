@@ -1,50 +1,152 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/css/community/CommentForm.module.css";
 import CommentItem from "../../components/community/CommentItem";
+import { db } from "../../firebase/config";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  serverTimestamp,
+} from "firebase/firestore";
+import Modal from "../../components/common/Modal";
+import CheckModal from "../common/ChkModal";
 
-function CommentForm() {
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      authorName: "김클라이머",
-      createdAt: "1시간 전",
-      content: "저도 같은 고민이었어요. 발 기술 연습하면 도움이 많이 됩니다!",
-      isAnonymous: false,
-    },
-    {
-      id: 2,
-      authorName: "익명",
-      createdAt: "30분 전",
-      content: "강사님께 피드백 받아보시는 것도 추천드려요.",
-      isAnonymous: true,
-    },
-  ]);
-
+// 부모 컴포넌트로부터 postId를 넘겨받는다고 가정합니다.
+function CommentForm({ postId }) {
+  const [comments, setComments] = useState([]);
   const [text, setText] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // 댓글 작성 함수(아직 댓글 작성까지 구현X)
-  const handleSubmit = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  // 1. 댓글 데이터 불러오기 (Fetch)
+  useEffect(() => {
+    const fetchComments = async () => {
+      if (!postId) return;
+
+      try {
+        setLoading(true);
+        const q = query(
+          collection(db, "comments"),
+          where("postId", "==", postId),
+          orderBy("createdAt", "asc"),
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        const fetchedComments = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          let timeString = "방금 전";
+
+          if (data.createdAt) {
+            const date = data.createdAt.toDate
+              ? data.createdAt.toDate()
+              : new Date(data.createdAt);
+            timeString = date.toLocaleString();
+          }
+
+          return {
+            id: doc.id,
+            ...data,
+            createdAt: timeString,
+          };
+        });
+
+        setComments(fetchedComments);
+      } catch (e) {
+        console.error("댓글 불러오기 실패:", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComments();
+  }, [postId]);
+
+  // 2. 댓글 작성 함수 (Create)
+  const handleSubmit = async () => {
     if (!text.trim()) return;
-    setText("");
+
+    try {
+      const newComment = {
+        postId: postId,
+        authorId: "current_user_id",
+        authorName: isAnonymous ? "익명" : "홍길동",
+        isAnonymous: isAnonymous,
+        isProfessor: false,
+        content: text,
+        createdAt: new Date(),
+      };
+      // 파이어베이스 데이터 가져오기
+      const docRef = await addDoc(collection(db, "comments"), newComment);
+
+      setComments((prev) => [
+        ...prev,
+        { id: docRef.id, ...newComment, createdAt: "방금 전" },
+      ]);
+
+      setText("");
+
+      // 완료 모달 열기
+      setIsConfirmModalOpen(true);
+    } catch (e) {
+      console.error("댓글 등록 실패:", e);
+    }
+  };
+
+  // 댓글 등록 버튼 클릭 시 모달열기
+  const handleOpenModal = () => {
+    if (!text.trim()) return;
+    setIsModalOpen(true);
   };
 
   return (
     <div className={styles["comment-container"]}>
+      {/* 확인모달 */}
+      {isModalOpen && (
+        <Modal
+          title="등록 확인"
+          message="댓글을 등록하시겠습니까?"
+          cancelText="취소"
+          confirmText="확인"
+          onCancel={() => setIsModalOpen(false)}
+          onConfirm={async () => {
+            await handleSubmit();
+            setIsModalOpen(false);
+          }}
+        />
+      )}
+      {/* 완료 모달 */}
+      {isConfirmModalOpen && (
+        <CheckModal
+          title="등록 완료"
+          message="댓글 등록이 완료되었습니다."
+          onConfirm={() => setIsConfirmModalOpen(false)}
+        />
+      )}
       <h3 className={styles["comment-title"]}>댓글 {comments.length}</h3>
-
-      <div className={styles["comment-List"]}>
-        {comments.map((comment) => (
-          <CommentItem
-            key={comment.id}
-            authorName={comment.authorName}
-            createdAt={comment.createdAt}
-            content={comment.content}
-            isAnonymous={comment.isAnonymous}
-          />
-        ))}
+      <div className={styles["comment-list"]}>
+        {loading ? (
+          <p>댓글을 불러오는 중...</p>
+        ) : (
+          comments.map((comment) => (
+            <CommentItem
+              key={comment.id}
+              id={comment.id} 
+              authorName={comment.authorName}
+              authorId={comment.authorId}
+              createdAt={comment.createdAt}
+              content={comment.content}
+              isAnonymous={comment.isAnonymous}
+            />
+          ))
+        )}
       </div>
-
       <div className={styles["comment-inputbox"]}>
         <textarea
           placeholder="댓글을 입력하세요..."
@@ -52,7 +154,6 @@ function CommentForm() {
           onChange={(e) => setText(e.target.value)}
         />
       </div>
-
       <div className={styles["comment-footer"]}>
         <label className={styles["anonymous"]}>
           <input
@@ -63,7 +164,10 @@ function CommentForm() {
           익명으로 작성
         </label>
 
-        <button className={styles["comment-submitbtn"]} onClick={handleSubmit}>
+        <button
+          className={styles["comment-submitbtn"]}
+          onClick={handleOpenModal}
+        >
           작성하기
         </button>
       </div>

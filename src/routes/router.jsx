@@ -18,6 +18,7 @@ import MyLevelSystemPage from '../pages/mypage/MyLevelSystemPage';
 import RecordListPage from '../pages/record/RecordListPage';
 import RecordFormPage from '../pages/record/RecordFormPage';
 import PrfManagePage from '../pages/admin/branch/PrfManagePage';
+import AdminPrfDetailPage from '../pages/admin/AdminPrfDetailPage';
 import BranchManagePage from '../pages/admin/BranchManagePage';
 import MemberManagePage from '../pages/admin/total/MemberManagePage';
 import ClassManagePage from '../pages/admin/ClassManagePage';
@@ -37,8 +38,8 @@ import ReviewDetailPage from '../pages/community/ReviewDetailPage';
 import PostFormPage from '../pages/community/PostFormPage';
 import PrfClassStuList from '../pages/professor/PrfClassStuListPage';
 import PrfClassManagePage from '../pages/professor/ClassManagePage';
+import AdminPrfApprovePage from '../pages/admin/AdminPrfApprovePage'
 import CalendarPage from '../pages/calendar/CalendarPage';
-
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <BranchListPage />,
+      },
+      {
+        path: 'branch',
         element: <BranchListPage />,
       },
       {
@@ -67,9 +72,14 @@ export const router = createBrowserRouter([
       },
 
       {
-        path: '/postdetail',
+        path: "/post/:id",
         element: <PostDetailPage />,
       },
+      {
+        path: "/post/edit/:postId",
+        element: <PostFormPage />,
+      },
+  
       {
         path: '/postform',
         element: <PostFormPage />,
@@ -111,6 +121,10 @@ export const router = createBrowserRouter([
       {
         path: 'record/edit/:id',
         element: <RecordEditPage />,
+      },
+      {
+        path: 'calendar',
+        element: <CalendarPage />,
       },
       {
         path: 'profile',
@@ -182,8 +196,20 @@ export const router = createBrowserRouter([
         element: <MemberManagePage />,
       },
       {
+        path: 'usermanage/prfapporve',
+        element: <AdminPrfApprovePage />,
+      },
+      {
         path: 'prfmanage',
         element: <PrfManagePage />,
+      },
+      {
+        path: 'prfmanage/prfapporve',
+        element: <AdminPrfApprovePage />,
+      },
+      {
+        path: 'professor/:id',
+        element: <AdminPrfDetailPage />,
       },
       {
         path: 'branchmanage',
