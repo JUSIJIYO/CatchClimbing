@@ -1,0 +1,296 @@
+.adminBranchDetail-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px 10%;
+}
+
+.adminBranchDetail-loading {
+  padding: 40px;
+  text-align: center;
+  color: #67798d;
+  font-size: 14px;
+}
+
+.adminBranchDetail-back-button {
+  color: #67798d;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  align-self: flex-start;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.adminBranchDetail-back-button:hover {
+  color: #2c3e50;
+}
+
+.adminBranchDetail-heder-ct {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.adminBranchDetail-heder-title-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adminBranchDetail-heder-title {
+  color: #2c3e50;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.adminBranchDetail-heder-status {
+  align-self: flex-start;
+  border-radius: 9999px;
+  color: #008236;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 4px 16px;
+}
+
+.adminBranchDetail-heder-status-approved {
+  background: #dcfce7;
+  color: #008236;
+}
+
+.adminBranchDetail-heder-status-pending {
+  background: #fef9c2;
+  color: #a65f00;
+}
+
+.detail-status-disabled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.adminBranchDetail-button-ct {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.adminBranchDetail-delete-button,
+.adminBranchDetail-edit-button,
+.adminBranchDetail-deactivate-button {
+  border-radius: 10px;
+  border: 1px solid #2c3e50;
+  background: #2c3e50;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  padding: 8px 24px;
+}
+
+.adminBranchDetail-deactivate-button {
+  display: flex;
+  gap: 12px;
+}
+
+.adminBranchDetail-middle-ct {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+}
+
+.adminBranchDetail-middle-left-ct,
+.adminBranchDetail-middle-right-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.adminBranchDetail-middle-content-ct {
+  border-radius: 14px;
+  border: 0.753px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.adminBranchDetail-middle-content-title {
+  color: #2c3e50;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.adminBranchDetail-img-ct {
+  border-radius: 10px;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1.6px dashed #d1d5dc;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafb;
+}
+
+.adminBranchDetail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.adminBranchDetail-img-none {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px;
+}
+
+.adminBranchDetail-img-none > p:first-of-type {
+  color: #67798d;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.adminBranchDetail-img-none > p:last-of-type {
+  color: #67798d;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.adminBranchDetail-address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  color: #67798d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.adminBranchDetail-none-professor {
+  color: #9ca3af;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.adminBranchDetail-prf-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adminBranchDetail-prf-content-ct {
+  border-radius: 10px;
+  background: #f9fafb;
+  padding: 16px;
+}
+
+.adminBranchDetail-prf-title {
+  color: #2c3e50;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.adminBranchDetail-prf-level {
+  color: #67798d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.adminBranchDetail-map-ct {
+  border-radius: 10px;
+  overflow: hidden;
+  height: 160px;
+  background: #f3f4f6;
+}
+
+.adminBranchDetail-map-none {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adminBranchDetail-number-ct,
+.adminBranchDetail-opentime-ct {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.adminBranchDetail-number-title {
+  color: #67798d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.adminBranchDetail-number {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.adminBranchDetail-opentime {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.adminBranchDetail-statistics-ct {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.adminBranchDetail-statistics-title {
+  color: #67798d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.adminBranchDetail-statistics {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}

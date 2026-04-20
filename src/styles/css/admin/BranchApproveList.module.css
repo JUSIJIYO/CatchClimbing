@@ -1,0 +1,12 @@
+.branchApprovePage-none {
+  color: #67798d;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.branchApproveList-ct {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}

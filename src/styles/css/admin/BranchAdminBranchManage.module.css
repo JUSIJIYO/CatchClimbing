@@ -1,0 +1,183 @@
+.b-branchManage-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 10%;
+}
+
+.b-branchManage-header-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.b-branchManage-header-ct > h2 {
+  color: #2c3e50;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.b-branchManage-header-ct > p {
+  color: #67798d;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.b-branchManage-unEroll-ct {
+  border-radius: 14px;
+  border: 0.8px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  padding: 32px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.b-branchManage-unEroll-top-ct {
+  display: flex;
+  gap: 12px;
+}
+
+.b-branchManage-unEroll-top-ct > p:first-of-type {
+  color: #2c3e50;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.b-branchManage-unEroll-top-ct > p:last-of-type {
+  border-radius: 9999px;
+  background: #f3f4f6;
+  color: #364153;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 4px 12px;
+}
+
+.b-branchManage-unEroll-ct > p {
+  color: #67798d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  margin-bottom: 16px;
+}
+
+.b-branchManage-eroll-button {
+  border-radius: 14px;
+  background: #2c3e50;
+  padding: 11px;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+}
+
+.b-branchManage-Eroll-ct {
+  padding: 32px;
+  border-radius: 14px;
+  border: 0.8px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.b-branchManage-Eroll-top-ct {
+  display: flex;
+  gap: 12px;
+}
+
+.b-branchManage-Eroll-top-ct > p:first-of-type {
+  color: #2c3e50;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.b-branchManage-Eroll-top-ct > p:last-of-type {
+  color: #a65f00;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  border-radius: 9999px;
+  background: #fef9c2;
+  padding: 4px 12px;
+}
+
+.b-branchManage-Eroll-ct > p {
+  color: #67798d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.b-branchManage-branch-inf-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.b-branchManage-branch-inf {
+  display: flex;
+}
+
+.b-branchManage-branch-content-inf-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.b-branchManage-branch-content-inf-ct > p {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.b-branchManage-branch-content-inf-ct > p:first-of-type {
+  color: #67798d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.b-branchManage-badge-approved {
+  color: #166534 !important;
+  background: #dcfce7 !important;
+}
+
+.b-branchManage-branch-edit-button {
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  border-radius: 14px;
+  background: #2c3e50;
+  padding : 12px;
+}
