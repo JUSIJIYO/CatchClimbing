@@ -158,6 +158,10 @@ export const router = createBrowserRouter([
         element: <PrfClassStuList />,
       },
       {
+        path: '/calendar',
+        element: <CalendarPage />,
+      },
+      {
         element: <AuthLayout />,
         children: [
           {
