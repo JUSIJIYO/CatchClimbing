@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import {
   buildUsersQuery,
   fetchBranchNames,
+  updateUserDoc,
 } from "../../../services/adminService";
 import DataTable from "../../../components/admin/DataTable";
 import FileterBar from "../../../components/admin/FileterBar";
 import useAdminData from "../../../hooks/useAdminData";
+import Modal from "../../../components/common/Modal";
+import ConfirmModal from "../../../components/common/ConfirmModal";
 import styles from "../../../styles/css/admin/MemberManagePage.module.css";
+import adminBranchEye from "../../../assets/icon/adminBrancheye.svg";
 
 // 한 페이지에 보이는 No. 갯수
 const PAGE_SIZE = 5;
@@ -63,6 +67,15 @@ function MemberManagePage() {
   // 지점목록 관리
   const [branches, setBranches] = useState([]);
 
+  // 모달 상태 관리
+  const [modal, setModal] = useState(null);
+
+  // 완료 모달 상태 관리
+  const [doneModal, setDoneModal] = useState(false);
+
+  // Firestore 업데이트 후 로컬 상태 반영용 오버라이드 맵
+  const [previews, setPreviews] = useState({});
+
   // 탭(Nav) 바뀌면 초기화되게
   useEffect(() => {
     setFilters(FILTERS);
@@ -104,7 +117,7 @@ function MemberManagePage() {
     // 통합관리자는 회원 조회에 안보이도록 설정
     let users = data.filter((user) => user.role !== "totalAdmin");
 
-    // role 별 탭은 서버 orderBy 없음 → 클라이언트 정렬
+    // all이 아닌 탭에서 유저끼리 값 비교해서 자동으로 정렬되도록 설정
     if (activeTab !== "all") {
       users = [...users].sort((a, b) => {
         const userTime = a.createdAt?.seconds ?? 0;
@@ -125,8 +138,16 @@ function MemberManagePage() {
       );
     }
 
-    return users.map((row, idx) => ({ ...row, index: idx }));
-  }, [data, filters.search, activeTab, filters.sortOrder]);
+    //
+    return users.map((row, idx) => ({
+      ...row,
+      index: idx,
+      isactivate:
+        row.id in previews
+          ? previews[row.id]
+          : row.isactivate,
+    }));
+  }, [data, filters.search, activeTab, filters.sortOrder, previews]);
 
   const set = (key) => (val) => setFilters((prev) => ({ ...prev, [key]: val }));
 
@@ -140,8 +161,27 @@ function MemberManagePage() {
   // 필터 초기화 관리 함수
   const handleReset = () => setFilters(FILTERS);
 
-  // 유저 비활성화 관리 함수
-  const handleDeactivate = (userId) => console.log("비활성화:", userId);
+  // 비활성화/활성화 버튼 클릭 → 1차 확인 모달 열기
+  const handleDeactivate = (row) => {
+    setModal({ id: row.id, name: row.name, isactivate: row.isactivate });
+  };
+
+  // 모달에서 확인 버튼 클릭시 firebase 업데이트
+  const handleConfirm = async () => {
+    if (!modal) {
+      return;
+    }
+    const currentIsActive = modal.isactivate !== false;
+    await updateUserDoc(modal.id, { isactivate: !currentIsActive });
+    setPreviews((item) => ({ ...item, [modal.id]: !currentIsActive }));
+    setDoneModal(true);
+  };
+
+  // 모달 닫기 함수
+  const handleDoneClose = () => {
+    setModal(null);
+    setDoneModal(false);
+  };
 
   // 유저 상세조회 (보기버튼 클릭) 관리 함수
   const handleView = (userId) => navigate(`/admin/professor/${userId}`);
@@ -327,23 +367,31 @@ function MemberManagePage() {
           className={styles["memberManagePage-view-button"]}
           onClick={() => handleView(row.id)}
         >
-          👁 보기
+          <img src={adminBranchEye} alt="눈 이미지" />
+          보기
         </button>
       ),
     };
 
-    // 비활성화 버튼
+    // 비활성화/활성화 버튼
     const deactivateBtn = {
       key: "_action",
       label: "",
-      render: (_, row) => (
-        <button
-          className={styles["memberManagePage-deactivate-button"]}
-          onClick={() => handleDeactivate(row.id)}
-        >
-          비활성화
-        </button>
-      ),
+      render: (_, row) => {
+        const isActive = row.isactivate !== false;
+        return (
+          <button
+            className={
+              isActive
+                ? styles["memberManagePage-deactivate-button"]
+                : styles["memberManagePage-activate-button"]
+            }
+            onClick={() => handleDeactivate(row)}
+          >
+            {isActive ? "비활성화" : "활성화"}
+          </button>
+        );
+      },
     };
 
     // 역할일떄 보여줄 테이블 제목들 설정
@@ -376,7 +424,7 @@ function MemberManagePage() {
       default:
         return [no, name, phone, role, joinedAt, email];
     }
-  }, [activeTab, branchNames]);
+  }, [activeTab, branchNames, previews]);
 
   return (
     <div className={styles["memberManagePage-ct"]}>
@@ -411,6 +459,32 @@ function MemberManagePage() {
         loading={loading}
         error={error}
       />
+
+      {modal && !doneModal && (
+        <Modal
+          title={modal.isactivate !== false ? "유저 비활성화" : "유저 활성화"}
+          message={
+            modal.isactivate !== false
+              ? `${modal.name}님을 비활성화하시겠습니까?`
+              : `${modal.name}님을 활성화하시겠습니까?`
+          }
+          cancelText="취소"
+          confirmText="확인"
+          onCancel={() => setModal(null)}
+          onConfirm={handleConfirm}
+        />
+      )}
+
+      {doneModal && (
+        <ConfirmModal
+          message={
+            modal?.isactivate !== false
+              ? `${modal?.name}님이 비활성화 되었습니다.`
+              : `${modal?.name}님이 활성화 되었습니다.`
+          }
+          onConfirm={handleDoneClose}
+        />
+      )}
     </div>
   );
 }

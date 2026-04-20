@@ -3,12 +3,17 @@ import { useNavigate } from "react-router-dom";
 import {
   buildUsersQuery,
   fetchBranchNames,
+  updateUserDoc,
 } from "../../../services/adminService";
 import { useAuth } from "../../../context/AuthContext";
 import DataTable from "../../../components/admin/DataTable";
 import FileterBar from "../../../components/admin/FileterBar";
 import useAdminData from "../../../hooks/useAdminData";
+import Modal from "../../../components/common/Modal";
+import ConfirmModal from "../../../components/common/ConfirmModal";
 import styles from "../../../styles/css/admin/PrfManagePage.module.css";
+import adminBranchEye from "../../../assets/icon/adminBrancheye.svg";
+
 
 // 한 페이지에 보이는 No. 갯수
 const PAGE_SIZE = 5;
@@ -44,6 +49,15 @@ function PrfManagePage() {
   // 지점명 관리
   const [branchNames, setBranchNames] = useState({});
 
+  // 모달 상태 관리
+  const [modal, setModal] = useState(null);
+
+  // 완료 모달 상태 관리
+  const [doneModal, setDoneModal] = useState(false);
+
+  // Firestore 업데이트 후 로컬 상태 반영용 오버라이드 맵
+  const [previews, setPreviews] = useState({});
+
   // 지점 목록 조회 (최초 1회만)
   useEffect(() => {
     fetchBranchNames()
@@ -72,7 +86,6 @@ function PrfManagePage() {
 
   const { data, loading, error } = useAdminData(baseCondition);
 
-  // ─── 정렬 + 검색 + 전역 번호 부여 ───────────────────────────
   // 화면에 보여지는 데이터 관리
   const displayData = useMemo(() => {
     // 클라이언트 정렬
@@ -94,8 +107,12 @@ function PrfManagePage() {
       );
     }
 
-    return users.map((row, idx) => ({ ...row, index: idx }));
-  }, [data, filters.search, filters.sortOrder]);
+    return users.map((row, idx) => ({
+      ...row,
+      index: idx,
+      isactivate: row.id in previews ? previews[row.id] : row.isactivate,
+    }));
+  }, [data, filters.search, filters.sortOrder, previews]);
 
   const set = (key) => (val) => setFilters((prev) => ({ ...prev, [key]: val }));
 
@@ -109,17 +126,40 @@ function PrfManagePage() {
   // 필터 초기화 관리 함수
   const handleReset = () => setFilters(FILTERS);
 
-  // 유저 비활성화 관리 함수
-  const handleDeactivate = (userId) => console.log("비활성화:", userId);
+  // 비활성화/활성화 버튼 클릭 → 1차 확인 모달 열기
+  const handleDeactivate = (row) => {
+    setModal({ id: row.id, name: row.name, isactivate: row.isactivate });
+  };
+
+  // 모달에서 확인 버튼 클릭시 firebase 업데이트
+  const handleConfirm = async () => {
+    if (!modal) {
+      return;
+    }
+    const currentIsActive = modal.isactivate !== false;
+    await updateUserDoc(modal.id, { isactivate: !currentIsActive });
+    setPreviews((prev) => ({
+      ...prev,
+      [modal.id]: !currentIsActive,
+    }));
+    setDoneModal(true);
+  };
+
+  // 모달 닫기 함수
+  const handleDoneClose = () => {
+    setModal(null);
+    setDoneModal(false);
+  };
 
   // 유저 상세조회 (보기버튼 클릭) 관리 함수
   const handleView = (userId) => navigate(`/admin/professor/${userId}`);
 
   // 승인대기목록 관리 함수
   const handlePendingList = () =>
-    navigate(`/admin/prfmanage/prfapporve${branchId ? `?branchId=${branchId}` : ""}`);
+    navigate(
+      `/admin/prfmanage/prfapporve${branchId ? `?branchId=${branchId}` : ""}`,
+    );
 
-  // ─── 컬럼 정의 ───────────────────────────────────────────────
   const columns = useMemo(() => {
     // 넘버링
     const no = {
@@ -162,28 +202,39 @@ function PrfManagePage() {
       key: "_view",
       label: "조회",
       render: (_, row) => (
-        <button className={styles["prfManagePage-view-button"]} onClick={() => handleView(row.id)}>
-          👁 보기
+        <button
+          className={styles["prfManagePage-view-button"]}
+          onClick={() => handleView(row.id)}
+        >
+          <img src={adminBranchEye} alt="눈 이미지" />
+          보기
         </button>
       ),
     };
 
-    // 비활성화 버튼
+    // 비활성화/활성화 버튼
     const deactivateBtn = {
       key: "_action",
       label: "",
-      render: (_, row) => (
-        <button
-          className={styles["prfManagePage-deactivate-button"]}
-          onClick={() => handleDeactivate(row.id)}
-        >
-          비활성화
-        </button>
-      ),
+      render: (_, row) => {
+        const isActive = row.isactivate !== false;
+        return (
+          <button
+            className={
+              isActive
+                ? styles["prfManagePage-deactivate-button"]
+                : styles["prfManagePage-activate-button"]
+            }
+            onClick={() => handleDeactivate(row)}
+          >
+            {isActive ? "비활성화" : "활성화"}
+          </button>
+        );
+      },
     };
 
     return [no, name, phone, joinedAt, email, status, viewBtn, deactivateBtn];
-  }, []);
+  }, [previews]);
 
   // 필터 관리 함수
   const filterBarProps = useMemo(
@@ -239,6 +290,32 @@ function PrfManagePage() {
         loading={loading}
         error={error}
       />
+
+      {modal && !doneModal && (
+        <Modal
+          title={modal.isactivate !== false ? "비활성화" : "활성화"}
+          message={
+            modal.isactivate !== false
+              ? `${modal.name}님을 비활성화하시겠습니까?`
+              : `${modal.name}님을 활성화하시겠습니까?`
+          }
+          cancelText="취소"
+          confirmText="확인"
+          onCancel={() => setModal(null)}
+          onConfirm={handleConfirm}
+        />
+      )}
+
+      {doneModal && (
+        <ConfirmModal
+          message={
+            modal?.isactivate !== false
+              ? `${modal?.name}님이 비활성화 되었습니다.`
+              : `${modal?.name}님이 활성화 되었습니다.`
+          }
+          onConfirm={handleDoneClose}
+        />
+      )}
     </div>
   );
 }
