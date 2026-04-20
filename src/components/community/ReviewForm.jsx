@@ -5,6 +5,8 @@ import Modal from "../../components/common/Modal";
 import ComfirmModal from "../../components/common/ConfirmModal";
 import { db } from "../../firebase/config";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useLocation } from "react-router-dom";
+
 
 export default function ReviewForm() {
   const [title, setTitle] = useState("");
@@ -23,23 +25,28 @@ export default function ReviewForm() {
   };
 
   const submitReview = async () => {
-  try {
-    await addDoc(collection(db, "reviews"), {
-      title,
-      content,
-      rating,
-      isAnonymous: anonymous,
+    try {
+      await addDoc(collection(db, "reviews"), {
+        title,
+        content,
+        rating,
+        isAnonymous: anonymous,
+        branchId,
+        branchName,
 
-      // 기본 정보 (리스트 정렬/표시용)
-      viewer: 0,
-      createdAt: serverTimestamp(),
-    });
+        // 기본 정보 (리스트 정렬/표시용)
+        viewer: 0,
+        createdAt: serverTimestamp(),
+      });
 
-    setIsCompleteModalOpen(true);
-  } catch (e) {
-    console.error("리뷰 저장 실패:", e);
-  }
-};
+      setIsCompleteModalOpen(true);
+    } catch (e) {
+      console.error("리뷰 저장 실패:", e);
+    }
+  };
+
+  const location = useLocation();
+  const { classId, title: classTitle, branchId, branchName } = location.state || {};
 
   return (
     <div className={styles["form-container"]}>
