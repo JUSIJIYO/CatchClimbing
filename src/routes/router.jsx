@@ -39,6 +39,7 @@ import PostFormPage from '../pages/community/PostFormPage';
 import PrfClassStuList from '../pages/professor/PrfClassStuListPage';
 import PrfClassManagePage from '../pages/professor/ClassManagePage';
 import AdminPrfApprovePage from '../pages/admin/AdminPrfApprovePage'
+import CalendarPage from '../pages/calendar/CalendarPage';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <BranchListPage />,
+      },
+      {
+        path: 'branch',
         element: <BranchListPage />,
       },
       {
@@ -116,6 +121,10 @@ export const router = createBrowserRouter([
       {
         path: 'record/edit/:id',
         element: <RecordEditPage />,
+      },
+      {
+        path: 'calendar',
+        element: <CalendarPage />,
       },
       {
         path: 'profile',
