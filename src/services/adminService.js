@@ -21,6 +21,11 @@ export const fetchBranchNames = async () => {
   return map
 }
 
+export const getBranchName = async (branchId) => {
+  const snap = await getDoc(doc(db, 'branches', branchId))
+  return snap.exists() ? (snap.data().name ?? branchId) : branchId
+}
+
 export const updateUserDoc = async (uid, fields) => {
   await updateDoc(doc(db, 'users', uid), fields);
 };
