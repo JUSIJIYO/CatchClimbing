@@ -2,12 +2,13 @@ import React from 'react';
 import styles from '../../styles/css/mypage/LevelCard.module.css';
 import levelIcon from '../../assets/icon/mypageLevelup.svg';
 
-function LevelCard({ userData }) {
+function LevelCard({ userData, attemptCount = 0 }) {
   const levelNumber = parseInt(userData?.level?.replace('V', '')) || 0;
 
   const total = 4;
-  const current = levelNumber % total;
-  const remain = total - current;
+  const point = Math.floor(attemptCount / 7);
+  const remain =
+    point % total === 0 && point !== 0 ? 0 : total - (point % total);
 
   return (
     <div className={styles.card}>
