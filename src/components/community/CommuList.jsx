@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase/config";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import styles from "../../styles/css/community/CommuList.module.css";
 import filterIcon from "../../assets/icon/commuFilter.svg";
 import PostItem from "./PostItem";
@@ -42,43 +42,34 @@ function CommuList({ branchId }) {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        setLoading(true);
+    let q;
 
-        let q;
+    if (branchId) {
+      q = query(collection(db, "posts"), where("branchId", "==", branchId));
+    } else {
+      q = collection(db, "posts");
+    }
 
-        if (branchId) {
-          q = query(collection(db, "posts"), where("branchId", "==", branchId));
-        } else {
-          q = collection(db, "posts");
-        }
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => {
+        const d = doc.data();
 
-        const snapshot = await getDocs(q);
+        return {
+          id: doc.id,
+          title: d.title,
+          authorName: d.isAnonymous ? "익명" : d.authorName,
+          viewer: d.viewer || 0,
+          commentCount: d.commentCount || 0,
+          branchId: d.branchId,
+          createdAt: d.createdAt,
+        };
+      });
 
-        const data = snapshot.docs.map((doc) => {
-          const d = doc.data();
+      setPosts(data);
+      setLoading(false);
+    });
 
-          return {
-            id: doc.id,
-            title: d.title,
-            authorName: d.isAnonymous ? "익명" : d.authorName,
-            viewer: d.viewer || 0,
-            commentCount: d.commentCount || 0,
-            branchId: d.branchId,
-            createdAt: d.createdAt,
-          };
-        });
-
-        setPosts(data);
-      } catch (e) {
-        console.error("게시글 불러오기 실패:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
+    return () => unsubscribe();
   }, [branchId]);
 
   const sortedPosts = [...posts].sort((a, b) => {
