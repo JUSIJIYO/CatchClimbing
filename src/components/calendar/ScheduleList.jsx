@@ -5,11 +5,13 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase/config';
 import Modal from '../../components/common/Modal';
 import ConfirmModal from '../../components/common/ConfirmModal';
+import { useNavigate } from 'react-router-dom';
 
 function ScheduleList({ selectedDate, scheduleList = [], onDelete }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [target, setTarget] = useState(null);
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     if (!target) return;
@@ -38,7 +40,12 @@ function ScheduleList({ selectedDate, scheduleList = [], onDelete }) {
           <h3>{selectedDate} 일정</h3>
         </div>
 
-        <button className={styles.detailBtn}>자세히보기</button>
+        <button
+          className={styles.detailBtn}
+          onClick={() => navigate(`/schedule/${selectedDate}`)}
+        >
+          자세히보기
+        </button>
       </div>
 
       <div className={styles.list}>
