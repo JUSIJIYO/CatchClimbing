@@ -1,8 +1,108 @@
-* {
-    box-sizing: border-box;
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/Pretendard-1.3.9/web/variable/woff2/PretendardVariable.woff2') format('woff2-variations');
 }
 
 * {
-    margin : 0px;
-    padding: 0px;
+  box-sizing: border-box;
+  font-family: 'Pretendard Variable', sans-serif;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* datefiker 내장 css들 */
+
+/* 모듈 사용시 클래스 해시값이 붙어서 라이브러리 내부에서 참조하지 못한다고 해서 전역 global.css에 적었습돠 */
+
+/* DatePicker 캘린더 크기 설정 */
+.signup-datepicker-calendar {
+  width: 253px;
+  height: 300px;
+  border-radius: 14px;
+  font-family: "Pretendard Variable";
+}
+
+/* DatePicker 캘린더 상단 년도정보? 관련 */
+.signup-datepicker-calendar .react-datepicker__header {
+  background: #ffffff;
+  border-bottom: 1px solid #d8d8d8;
+  padding: 12px 0 15px;
+}
+
+/* DatePicker 캘린더가 위치하는 월  */
+.signup-datepicker-calendar .react-datepicker__current-month {
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* DatePicker 캘린더 일 */
+.signup-datepicker-calendar .react-datepicker__day-name {
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  color: #67798d;
+  width: 32px;
+  line-height: 28px;
+  margin: 1px;
+}
+
+/* DatePicker 캘린더 모든 일 기본 스타일  */
+.signup-datepicker-calendar .react-datepicker__day {
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  color: #2c3e50;
+  width: 32px;
+  line-height: 32px;
+  margin: 1px;
+}
+
+/* DatePicker 캘린더 상단 일 호버시 */
+.signup-datepicker-calendar .react-datepicker__day:hover {
+  background: #e4e7eb;
+}
+
+/* DatePicker 캘린더 일 선택시 */
+.signup-datepicker-calendar .react-datepicker__day--selected {
+  background: #2c3e507d;
+  color: #2c3e50;
+}
+
+/* DatePicker 캘린더 현재 월 아닌 다른 월에 일 */
+.signup-datepicker-calendar .react-datepicker__day--outside-month {
+  color: #D8D8D8;
+}
+
+/* DatePicker 캘린더 상단 뒤로가기 버튼? */
+.signup-datepicker-calendar .react-datepicker__navigation {
+  top: 5px;
+}
+
+/* DatePicker 캘린더 년도, 월 선택 */
+.signup-datepicker-calendar .react-datepicker__year-select,
+.signup-datepicker-calendar .react-datepicker__month-select {
+  border: 1px solid rgba(44, 62, 80, 0.15);
+  border-radius: 6px;
+  font-family: "Pretendard Variable";
+  font-size: 12px;
+  color: #2c3e50;
+  margin-top : 20px;
+  padding: 5px 5px;
+}
+
+/* DatePicker 캘린더 비활성화된 일 (현재 날짜보다 앞에 있는 일) */
+.signup-datepicker-calendar .react-datepicker__day--disabled {
+    color : #D8D8D8;
+}
+
+/* DatePicker 캘린더 비활성화된 일 호버시 */
+.signup-datepicker-calendar .react-datepicker__day--disabled:hover {
+    color : #D8D8D8;
+    background-color: #FFFFFF;
 }

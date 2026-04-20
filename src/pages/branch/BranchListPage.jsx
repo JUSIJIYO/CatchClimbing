@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { auth, onAuthStateChanged } from '../../services/authService';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Modal from '../../components/common/Modal';
 import BranchCard from '../../components/branch/BranchCard';
 import { useNavigate } from 'react-router-dom';
@@ -35,11 +35,12 @@ function BranchListPage() {
   }, []);
 
   useEffect(() => {
+    const auth = getAuth();
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsLogin(true);
-      }
+      setIsLogin(!!user);
     });
+
     return () => unsubscribe();
   }, []);
 
@@ -52,7 +53,11 @@ function BranchListPage() {
       <div className={styles['content']}>
         <div className={styles['branch-list']}>
           {branchList.map((branch) => (
-            <BranchCard key={branch.id} branch={branch} />
+            <BranchCard
+              key={branch.id}
+              branch={branch}
+              onClick={() => navigate(`/branch/${branch.id}`)}
+            />
           ))}
         </div>
       </div>

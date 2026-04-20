@@ -28,7 +28,11 @@ function BranchCommuItem({ post }) {
           <span>{post.comments}</span>
         </div>
 
-        <span>{post.time}</span>
+        <span>
+          {post.createdAt
+            ? new Date(post.createdAt.seconds * 1000).toLocaleDateString()
+            : ''}
+        </span>
       </div>
     </div>
   );

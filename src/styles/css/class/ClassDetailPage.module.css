@@ -1,24 +1,68 @@
 .class-container {
-    width: 100%;
-    min-height: 100vh;
-    background: #F9FAFB;
-    padding: 40px 20px;
+  width: 100%;
+  min-height: 100vh;
+  background: #f9fafb;
+  padding: 40px 20px;
 }
 
 .class-header {
-    max-width: 1024px;
-    margin: 0 auto 32px;
+  max-width: 1024px;
+  margin: 0 auto 32px;
 }
 
 .class-back {
-    font-size: 14px;
-    color: #9CA3AF;
-    margin-bottom: 16px; 
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #67798d;
+  cursor: pointer;
+}
+
+.class-back img {
+  width: 18px;
+  height: 18px;
 }
 
 .class-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #1F2937;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.editBtn,
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.editBtn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #f1f3f5;
+  color: #333;
+  border: 1px solid #ddd;
+  cursor: pointer;
 }

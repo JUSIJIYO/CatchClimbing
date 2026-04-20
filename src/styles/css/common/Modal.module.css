@@ -72,3 +72,27 @@
   color: white;
   border: none;
 }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 999;
+
+  pointer-events: all;
+}
+
+.overlay.loading {
+  cursor: wait;
+}
+
+.loadingContainer {
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}

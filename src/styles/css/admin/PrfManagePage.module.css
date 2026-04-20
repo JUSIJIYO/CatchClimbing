@@ -1,0 +1,83 @@
+.prfManagePage-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 10%;
+}
+
+.prfManagePage-header-ct > h2 {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.prfManagePage-header-ct > p {
+  color: #67798d;
+  font-family: "Pretendard Variable";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.prfManagePage-status {
+  padding: 5px 12px;
+  font-family: "Pretendard Variable";
+  font-size: 10 px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  border-radius: 9999px;
+  background: #dcfce7;
+}
+
+.prfManagePage-status-approve {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.prfManagePage-status-pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+
+/* 비활성화 버튼 */
+.prfManagePage-deactivate-button {
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid #e7000b;
+  background: #fff;
+  color: #e7000b;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+}
+
+.prfManagePage-deactivate-button:hover {
+  background: #fef2f2;
+}
+
+/* 보기 버튼 */
+.prfManagePage-view-button {
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 0.8px solid rgba(44, 62, 80, 0.1);
+  background: #fff;
+
+  color: #2c3e50;
+  text-align: center;
+  font-family: "Pretendard Variable";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.prfManagePage-view-button:hover {
+  background: #f3f4f6;
+}

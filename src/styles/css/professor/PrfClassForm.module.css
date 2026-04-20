@@ -1,0 +1,215 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px clamp(16px, 4vw, 32px);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #6b7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.backBtn img {
+  width: 18px;
+  height: 18px;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.section h3 {
+  font-size: clamp(18px, 1.5vw, 24px);
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.container .label > input,
+.container textarea,
+.container select {
+  font-size: clamp(13px, 1vw, 16px);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.container input,
+.container textarea,
+.container select {
+  width: 100%;
+  padding: clamp(10px, 1vw, 14px);
+  border-radius: 12px;
+  border: none;
+  background: #f3f4f6;
+  font-size: 14px;
+}
+
+.container textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+.row3 {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.row3 > div {
+  flex: 1;
+  min-width: 200px;
+}
+
+.inputWithUnit {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 0 10px;
+}
+
+.inputWithUnit input {
+  border: none;
+  background: transparent;
+  flex: 1;
+  padding: 12px;
+}
+
+.inputWithUnit span {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.timeGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeBox select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 40px;
+}
+
+.timeBox select,
+.timeBox span {
+  font-size: 16px;
+  color: #67798d;
+  font-weight: 500;
+  margin: 0 2px;
+}
+
+.divider {
+  margin: 0 6px;
+  color: #9ca3af;
+}
+
+.tilde {
+  margin: 0 6px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.cancleBtn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.saveBtn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #2c3e50;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.dateBox input {
+  height: 40px;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.dateBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dateLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dateRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.timeBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #f3f4f6;
+  padding: clamp(10px, 1vw, 16px);
+  border-radius: 12px;
+}
+
+.dateRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dayPreview {
+  font-size: 13px;
+  color: #6b7280;
+}

@@ -1,0 +1,230 @@
+.branchForm-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 10%;
+}
+
+.branchForm-header-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.branchForm-header-ct > h2 {
+  color: #2c3e50;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.branchForm-header-ct > p {
+  color: #67798d;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.branchForm-form-ct {
+  border-radius: 14px;
+  border: 0.8px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.branchForm-form-title {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.branchForm-form-star {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+/* 이미지 업로드 */
+.branchForm-form-image-ct {
+  border-radius: 14px;
+  border: 1.6px dashed #d1d5dc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 240px;
+}
+
+.branchForm-form-image-ct > p {
+  color: #67798d;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.branchForm-form-image-ct > span {
+  color: #67798d;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.branchForm-form-image-ct:hover {
+  border-color: #9ca3af;
+}
+
+.branchForm-form-image-ct > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.branchForm-middle-ct {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.branchForm-middle-ct > div {
+  flex: 1;
+}
+
+.branchForm-input-ct {
+  position: relative;
+}
+
+.branchForm-input-icon {
+  position: absolute;
+  top: 14px;
+  left: 12px;
+}
+.branchForm-common-input {
+  width: 100%;
+  padding: 12px 34px;
+  border-radius: 14px;
+  border: 0.8px solid #e5e7eb;
+  background: #f8f9fa;
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.branchForm-common-input::placeholder {
+  color: #67798d;
+}
+
+.branchForm-common-input:focus {
+  border-color: #6b7280;
+}
+
+.barnchForm-form-map-ct {
+  border-radius: 14px;
+  border: 0.8px solid #e5e7eb;
+  background: #f8f9fa;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.barnchForm-form-map-ct:hover {
+  border-color: #9ca3af;
+}
+
+.branchForm-form-map-active {
+  cursor: default;
+}
+
+.branchForm-form-map-active:hover {
+  border-color: #e5e7eb;
+}
+
+.barnchForm-form-map-ct > p {
+  margin-top: 10px;
+  color: #67798d;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+/* 재검색 버튼 */
+.branchForm-form-address-research {
+  margin-top: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: #6b7280;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.branchForm-form-address-research:hover {
+  background: #f3f4f6;
+}
+
+/* 하단 버튼 */
+.branchForm-submit-button-ct {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.branchForm-submit-cancel-button {
+  padding: 12px 28px;
+  color: #2c3e50;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  border-radius: 14px;
+  border: 0.8px solid rgba(44, 62, 80, 0.1);
+  background: #fff;
+  cursor: pointer;
+  flex : 1;
+}
+
+.branchForm-submit-cancel-button:hover {
+  background: #f9fafb;
+}
+
+.branchForm-submit-submit-button {
+  padding: 12px 28px;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  border-radius: 14px;
+  background: #2c3e50;
+  cursor: pointer;
+  flex : 1;
+}
+
+.branchForm-submit-submit-button:hover {
+  background: #374151;
+}

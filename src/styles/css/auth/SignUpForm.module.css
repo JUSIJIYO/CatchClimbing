@@ -69,14 +69,26 @@
 .signup-birthday-ct {
   position: relative;
   display: flex;
+
 }
 
-.signup-password-ct > img,
-.signup-birthday-ct > img {
+.signup-password-ct > img {
   width: 24px;
+  height : 12px;
   position: absolute;
-  top: 20px;
+  top: 15px;
   right: 20px;
+}
+
+.signup-birthday-img {
+  width: 24px;
+}
+
+.datepicker-ct {
+  position: absolute;
+  right : 20px;
+  width : 24px;
+  top : 10px;
 }
 
 .signup-birthday-ct > img {
@@ -121,7 +133,7 @@
 }
 
 .active {
-  border: 1.6px solid #2C3E50 !important;
+  border: 1.6px solid #2c3e50 !important;
   background: #eaf0fb !important;
 }
 
@@ -138,7 +150,7 @@
   line-height: 20px;
   border: 0px;
   border-radius: 14px;
-  opacity: 0.5;
+  opacity: 0.4;
   background: #2c3e50;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -149,4 +161,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: not-allowed;
 }
+
+.signup-nextbtn-active {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.signup-pharse {
+  color: red !important;
+}
+
+.signup-error {
+  outline: none;
+  border: 1px solid red !important;
+}
+
+.signup-pharse-complete {
+  color: #00a63e !important;
+}
+
+.signup-complete {
+  outline: none;
+  border: 1px solid #00a63e !important;
+}
+

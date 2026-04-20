@@ -1,0 +1,86 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 1280px;
+  background: #FFFFFF;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  height: 678px;
+}
+
+.form-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 17px;
+  color: #2C3E50;
+}
+
+.form-box {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-box label {
+  font-size: 14px;
+  margin-bottom: 6px;
+    color: #67798D;
+}
+
+.form-box input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #F8F9FA;
+  border-radius: 14px;
+  font-size: 14px;
+  color: #67798D;
+}
+
+.form-box textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #F8F9FA;
+  border-radius: 14px;
+  font-size: 14px;
+  color: #67798D;
+  height: 368px;
+}
+
+.form-chkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.form-btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-cancel {
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: 0.752756px solid rgba(44, 62, 80, 0.1);
+  background: white;
+  width: 100px;
+}
+
+.form-submit {
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: #2C3E50;
+  color: white;
+   width: 100px;
+}
+

@@ -1,0 +1,169 @@
+.card {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+
+  background: #ffffff;
+  border-radius: 16px;
+
+  box-shadow:
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: 0.753px solid rgba(44, 62, 80, 0.1);
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actionRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.actionRow button {
+  flex: 1;
+  height: 35px;
+  border-radius: 14px;
+  border: 0.753px solid rgba(44, 62, 80, 0.1);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.actionRow button:hover {
+  background: #e9ecef;
+}
+
+.actions img {
+  width: 14px;
+}
+
+.level {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.label {
+  color: #67798d;
+}
+
+.value {
+  color: #2c3e50;
+  margin-left: 4px;
+}
+
+.info img {
+  width: 16px;
+}
+
+.info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.section p:first-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.section p:last-child {
+  font-size: 13px;
+  color: #67798d;
+  line-height: 1.5;
+}
+
+.section img {
+  width: 16px;
+}
+
+.imageList {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.image {
+  min-width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalImage {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+}

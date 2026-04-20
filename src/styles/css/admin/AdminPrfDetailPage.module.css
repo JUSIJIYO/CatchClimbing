@@ -1,0 +1,392 @@
+.adminPrfDetailPage-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 10%;
+}
+
+/* Header */
+.adminPrfDetailPage-header-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.adminPrfDetailPage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.adminPrfDetailPage-back-button {
+  color: #67798d;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+}
+
+.adminPrfDetailPage-back-button:hover {
+  color: #2c3e50;
+}
+
+.adminPrfDetailPage-header-btn-ct {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.adminPrfDetailPage-edit-button {
+  border-radius: 10px;
+  background: #2c3e50;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.adminPrfDetailPage-edit-button:hover {
+  background: #1a2b3c;
+}
+
+.adminPrfDetailPage-cancel-button {
+  border-radius: 10px;
+  background: #fff;
+  color: #2c3e50;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  padding: 8px 18px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+}
+
+.adminPrfDetailPage-cancel-button:hover {
+  background: #f3f4f6;
+}
+
+.adminPrfDetailPage-save-button {
+  border-radius: 10px;
+  background: #16a34a;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.adminPrfDetailPage-save-button:hover {
+  background: #15803d;
+}
+
+.adminPrfDetailPage-edit-input {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 10px 14px;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-weight: 400;
+  color: #2c3e50;
+  outline: none;
+  width: 100%;
+}
+
+.adminPrfDetailPage-edit-input:focus {
+  border-color: #2c3e50;
+}
+
+.adminPrfDetailPage-edit-textarea {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 10px 14px;
+  font-family: "Pretendard Variable";
+  font-size: 14px;
+  font-weight: 400;
+  color: #2c3e50;
+  outline: none;
+  width: 100%;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.adminPrfDetailPage-edit-textarea:focus {
+  border-color: #2c3e50;
+}
+
+.adminPrfDetailPage-header-ct > h2 {
+  color: #2c3e50;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 48px;
+}
+
+.adminPrfDetailPage-header-ct > p {
+  color: #67798d;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.adminPrfDetailPage-body-ct {
+  display: flex;
+  gap: 20px;
+}
+
+.adminPrfDetailPage-profile-ct {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  padding: 33px;
+  width: 300px;
+}
+
+.adminPrfDetailPage-profile-img-ct {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.adminPrfDetailPage-profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.adminPrfDetailPage-professor-name {
+  color: #2c3e50;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px;
+}
+
+.adminPrfDetailPage-status {
+  border-radius: 9999px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  padding: 6px 16px;
+}
+
+.adminPrfDetailPage-status-approved {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.adminPrfDetailPage-status-pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+
+.prf-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #e5e7eb;
+  border-radius: 50%;
+}
+
+.prf-qualification-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19.5px;
+  margin-top: 4px;
+}
+
+.prf-qualification-date {
+  color: #67798d;
+  font-size: 12px;
+}
+
+.prf-qualification-download {
+  color: #2c3e50;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.prf-qualification-download:hover {
+  color: #3b82f6;
+}
+
+.adminPrfDetailPage-professor-info-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.adminPrfDetailPage-professor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.adminPrfDetailPage-professor-info > p:first-of-type {
+  color: #67798d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.adminPrfDetailPage-professor-info > p:last-of-type {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.adminPrfDetailPage-professor-qualification {
+  color: #67798d;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.prf-download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 0.8px solid #e5e7eb;
+  background: #f3f4f6;
+  cursor: pointer;
+  color: #67798d;
+  margin-top: 2px;
+}
+
+.prf-download-btn:hover {
+  background: #e5e7eb;
+}
+
+.adminPrfDetailPage-right-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.adminPrfDetailPage-right-content-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  padding: 24px;
+}
+
+.adminPrfDetailPage-right-content {
+  color: #2c3e50;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+.adminPrfDetailPage-right-content-title {
+  color: #67798d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.adminPrfDetailPage-right-inf {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.adminPrfDetailPage-class-list-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.adminPrfDetailPage-class-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 20px;
+}
+
+.adminPrfDetailPage-class-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.adminPrfDetailPage-class-title {
+  color: #2c3e50;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+}
+
+.adminPrfDetailPage-class-time {
+  color: #67798d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.adminPrfDetailPage-class-students {
+  color: #67798d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+
+  display: flex;
+  gap: 10px;
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+}

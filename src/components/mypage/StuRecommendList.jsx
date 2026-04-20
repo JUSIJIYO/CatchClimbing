@@ -1,9 +1,58 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import styles from "../../styles/css/mypage/StuList.module.css";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase/config";
+import { useNavigate } from "react-router-dom";
+import StuClassItem from "./StuClassItem";
 
 function StuRecommendList() {
+  const [recommendList, setRecommendList] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // 추천 수업 데이터를 가져옴
+      const snap = await getDocs(collection(db, "classStudents"));
+
+      const list = snap.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+        };
+      });
+
+      setRecommendList(list.slice(0, 3));
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div></div>
-  )
+    <div className={styles["mypage-container"]}>
+      <div className={styles["mypage-card"]}>
+        <h3 className={styles["mypage-title"]}>추천 수업</h3>
+
+        <div className={styles["mypage-recommendlist"]}>
+          {recommendList.length === 0 ? (
+            <p className={styles["empty"]}>추천할 수업이 없습니다.</p>
+          ) : (
+            recommendList.map((item) => (
+              <StuClassItem
+                key={item.id}
+                item={{
+                  ...item,
+                  openDate: item.openDate || "상시 개강",
+                }}
+                // id 대신 item.classId를 사용하여 상세페이지로 이동
+                onClick={() => navigate(`/class/${item.classId}`)}
+              />
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default StuRecommendList
+export default StuRecommendList;

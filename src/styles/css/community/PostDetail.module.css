@@ -1,0 +1,82 @@
+.post-container {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.post-card {
+    width: 100%;
+    max-width: 895px;
+    height: 230px;
+    background: #FFFFFF;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 32px 32px 0px;
+
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-title {
+    color: #2C3E50;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+
+.post-btnGroup {
+  display: flex;
+  gap: 8px;         
+}
+
+.post-reportBtn {
+    width: 92px;
+    height: 35px;
+    background: #2C3E50;
+    border-radius: 14px;
+    color: #ffffff;
+    padding: 0px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+
+    
+}
+.post-infomation {
+  margin-top: 18px;
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+  color: #2C3E50;
+  align-items: center;
+}
+
+.post-click{
+  margin-top: 11px;
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  color: #67798D;
+  align-items: center;
+}
+
+.post-line {
+  margin: 16px 0px;
+  height: 1px;
+  background-color: rgba(44, 62, 80, 0.1);
+
+}
+
+.post-content{
+  font-size: 15px;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+

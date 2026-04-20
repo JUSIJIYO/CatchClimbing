@@ -6,7 +6,7 @@ import { db } from '../../firebase/config';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { query, where } from 'firebase/firestore';
 
-function BranchClassCard({ onOpenModal, branchId }) {
+function BranchClassCard({ onOpenModal, branchId, appliedClasses, userRole }) {
   const [classList, setClassList] = useState([]);
 
   useEffect(() => {
@@ -23,7 +23,6 @@ function BranchClassCard({ onOpenModal, branchId }) {
           querySnapshot.docs.map(async (docSnap) => {
             const d = docSnap.data();
 
-            // 🔥 강사 정보 가져오기
             const userRef = doc(db, 'users', d.professorId);
             const userSnap = await getDoc(userRef);
             const userData = userSnap.exists() ? userSnap.data() : null;
@@ -63,8 +62,9 @@ function BranchClassCard({ onOpenModal, branchId }) {
             <BranchClassItem
               key={item.id}
               item={item}
-              onOpenModal={onOpenModal}
-              // role={userRole}
+              onOpenModal={(type) => onOpenModal(type, item.id)}
+              isApplied={appliedClasses.includes(item.id)}
+              role={userRole}
             />
           ))}
         </div>

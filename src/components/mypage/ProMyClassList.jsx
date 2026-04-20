@@ -1,24 +1,46 @@
 import React from 'react';
 import ProMyClassItem from './ProMyClassItem';
 import styles from '../../styles/css/mypage/ProMyClassList.module.css';
+import { useEffect, useState } from 'react';
+import { db } from '../../firebase/config';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 function ProMyClassList() {
-  const classList = [
-    {
-      id: 1,
-      title: '클라이밍 입문반',
-      date: '2026-04-20',
-      time: '18:00',
-      level: 'V2',
-    },
-    {
-      id: 2,
-      title: '중급자 테크닉',
-      date: '2026-04-22',
-      time: '20:00',
-      level: 'V4',
-    },
-  ];
+  const [classList, setClassList] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (!user) return;
+
+      const q = query(
+        collection(db, 'classes'),
+        where('professorId', '==', user.uid),
+      );
+
+      const snapshot = await getDocs(q);
+
+      const data = snapshot.docs.map((doc) => {
+        const d = doc.data();
+
+        return {
+          id: doc.id,
+          title: d.title,
+          date: d.openDate,
+          time: '',
+          level: d.level,
+        };
+      });
+
+      setClassList(data);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -26,9 +48,17 @@ function ProMyClassList() {
         <h3 className={styles.title}>등록된 수업</h3>
 
         <div className={styles.list}>
-          {classList.map((item) => (
-            <ProMyClassItem key={item.id} item={item} />
-          ))}
+          {classList.length === 0 ? (
+            <p className={styles.empty}>등록된 수업이 없습니다.</p>
+          ) : (
+            classList.map((item) => (
+              <ProMyClassItem
+                key={item.id}
+                item={item}
+                onClick={(item) => navigate(`/class/${item.id}`)}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>
