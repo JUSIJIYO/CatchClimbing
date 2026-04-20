@@ -42,7 +42,7 @@ export default function PostForm() {
 
       const userRef = doc(db, "users", currentUserId);
       const userSnap = await getDoc(userRef);
-
+      
       if (userSnap.exists()) {
         setUserName(userSnap.data().name);
       }
@@ -109,7 +109,7 @@ export default function PostForm() {
 
   return (
     <div className={styles["form-container"]}>
-      {/* 등록 확인 모달 */}
+      {/* 등록 확인/수정 모달 */}
       {isModalOpen && (
         <Modal
           title={isEditMode ? "수정 확인" : "등록 확인"}
@@ -128,7 +128,7 @@ export default function PostForm() {
         />
       )}
 
-      {/* 등록 완료 모달 */}
+      {/* 등록/수정 완료 모달 */}
       {isCompleteOpen && (
         <ComfirmModal
           message={
