@@ -3,9 +3,8 @@ import styles from "../../styles/css/auth/LoginForm.module.css";
 import { useNavigate } from "react-router-dom";
 import closeEye from "../../assets/icon/closeEye.svg";
 import openEye from "../../assets/icon/openEye.svg";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../firebase/config";
+import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
+import { auth } from "../../firebase/config";
 import CheckModal from "../common/ChkModal";
 
 function LoginForm() {
@@ -20,7 +19,7 @@ function LoginForm() {
   // 비밀번호 보이기 (눈 친구 클릭)
   const [showPassword, setShowPassword] = useState(false);
 
-  
+
   const [autoLogin, setAutoLogin] = useState(false);
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -42,10 +41,10 @@ function LoginForm() {
     setErrors({});
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      if (autoLogin) {
-        await updateDoc(doc(db, "users", userCredential.user.uid), { autoLogin: true });
-      }
+      // 자동로그인 체크에 따른 로그인 정보 로컬, 세션 선택
+      const autoLoginStatus = autoLogin ? browserLocalPersistence : browserSessionPersistence;
+      await setPersistence(auth, autoLoginStatus);
+      await signInWithEmailAndPassword(auth, email, password);
       setShowModal(true);
     } catch (error) {
       if (
@@ -123,7 +122,7 @@ function LoginForm() {
           <label htmlFor="auto-login">자동 로그인</label>
         </div>
 
-        <button type="submit">로그인</button>
+        <button type="submit" className={styles[`${email && password ? "login-btn-active": ""}`]}>로그인</button>
         <button type="button" onClick={() => navigate("/signup")}>
           회원가입
         </button>

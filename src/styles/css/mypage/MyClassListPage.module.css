@@ -1,0 +1,69 @@
+.mypage-container {
+  margin: 32px auto;
+  max-width: 800px;
+}
+
+.mypage-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.mypage-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* 리스트 */
+.class-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 각 아이템 카드 */
+.class-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #f8f9fb;
+  transition: 0.2s;
+}
+
+.class-item:hover {
+  background: #eef2f7;
+}
+
+/* 텍스트 */
+.class-info {
+  font-size: 15px;
+  color: #2c3e50;
+}
+
+/* 버튼 */
+.review-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  border: none;
+  border-radius: 10px;
+  background-color: #2c3e50;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.review-btn:hover {
+  background-color: #1a252f;
+}
+
+/* 빈 데이터 */
+.empty {
+  text-align: center;
+  color: #888;
+  padding: 20px 0;
+}

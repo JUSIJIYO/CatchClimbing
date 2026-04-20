@@ -1,5 +1,5 @@
 import { db } from '../firebase/config';
-import { collection, getDocs, query, where, orderBy, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, query, where, orderBy, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 // 파이어베이스 연동관련코드는 AI를 이용하여 작성했습니다
 export const buildUsersQuery = (role = null, { orderDir = 'desc', isApproved = null, branchId = null } = {}) => {
@@ -137,6 +137,14 @@ export const buildReviewsQuery = ({ branchId = null, orderDir = 'desc' } = {}) =
   constraints.push(orderBy('createdAt', orderDir))
   return query(ref, ...constraints)
 }
+
+export const deletePost = async (postId) => {
+  await deleteDoc(doc(db, 'posts', postId));
+};
+
+export const deleteReview = async (reviewId) => {
+  await deleteDoc(doc(db, 'reviews', reviewId));
+};
 
 export const getClassesByProfessor = async (professorUid) => {
   const q = query(

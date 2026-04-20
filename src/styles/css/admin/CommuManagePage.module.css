@@ -58,6 +58,10 @@
   font-weight: 500;
   line-height: 20px;
   cursor: pointer;
+
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 .commuManagePage-view-button:hover {

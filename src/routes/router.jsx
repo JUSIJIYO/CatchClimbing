@@ -47,6 +47,7 @@ import { useAuth } from '../context/AuthContext';
 import CalendarPage from '../pages/calendar/CalendarPage';
 import ScheduleDetailPage from '../pages/calendar/ScheduleDetailPage';
 import ReviewFormPage from "../pages/community/ReviewFormPage";
+import MyClassListPage from "../pages/mypage/MyClassListPage";
 
 function BranchManageRoute() {
   const { role } = useAuth();
@@ -124,7 +125,11 @@ export const router = createBrowserRouter([
         element: <Mypage />,
       },
       {
-        path: 'edit-profile',
+        path: "/mypage/classlist",
+        element: <MyClassListPage />,
+      },
+      {
+        path: "edit-profile",
         element: <EditProfilePage />,
       },
       {
