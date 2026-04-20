@@ -2,9 +2,7 @@
   border-radius: 14px;
   border: 1px solid #e5e7eb;
   background: #fff;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
   padding: 25px;
 
   display: flex;
@@ -76,6 +74,7 @@
 .branchApproveItem-button-ct {
   display: flex;
   gap: 12px;
+  cursor: pointer;
 }
 
 .branchApproveItem-approve-button {
@@ -93,7 +92,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap : 12px
+  gap: 12px;
+  cursor: pointer;
 }
 
 .branchApproveItem-reject-button {
@@ -111,5 +111,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap  :12px;
+  gap: 12px;
+  cursor: pointer;
 }

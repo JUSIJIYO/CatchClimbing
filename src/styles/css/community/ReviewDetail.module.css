@@ -1,6 +1,6 @@
 .commu-wrapper {
-  margin: 24px auto;   
-  max-width: 895px;  
+  margin: 24px auto;
+  max-width: 895px;
   width: 100%;
 }
 
@@ -15,10 +15,8 @@
   padding: 15px 20px;
   cursor: pointer;
   font-size: 14px;
-  color: #67798D;
+  color: #67798d;
 }
-
-
 
 .commu-filter {
   display: flex;
@@ -31,8 +29,8 @@
   border-radius: 16px;
   margin: 0 20px 16px 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  flex-wrap: nowrap; 
-  overflow-x: auto; 
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 .branch-filter-container {
@@ -54,7 +52,7 @@
   padding: 6px 28px 6px 10px;
   border-radius: 10px;
   border: 1px solid #e2e8f0;
-  background-color: #F8F9FA;
+  background-color: #f8f9fa;
   font-size: 13px;
   font-weight: 500;
   outline: none;
@@ -69,15 +67,16 @@
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .commu-filter button {
   border: none;
-  background: #F8F9FA;
+  background: #f8f9fa;
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 12px;
-  color: #2C3E50;
+  color: #2c3e50;
   cursor: pointer;
   transition: 0.2s;
   white-space: nowrap;
@@ -103,14 +102,13 @@
 .commu-header h2 {
   font-size: 18px;
   font-weight: 700;
-  color: #2C3E50;
+  color: #2c3e50;
   margin: 0px;
 }
 .branch-filter-container span {
   font-size: 13px;
   color: #2c3e50;
 }
-
 
 /* 필터 아이콘 */
 .commu-filter > img {

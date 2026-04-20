@@ -7,22 +7,27 @@ import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { query, where } from 'firebase/firestore';
 
 function BranchClassCard({ onOpenModal, branchId, appliedClasses, userRole }) {
+  // 지점에 해당하는 수업 목록 상태
   const [classList, setClassList] = useState([]);
 
   useEffect(() => {
+    // firestore에서 수업 데이터 가져오는 함수
     const fetchClasses = async () => {
       try {
+        // classes 컬렉션에서 현재 지점(branchId)에 해당하는 수업 조회
         const q = query(
           collection(db, 'classes'),
-          where('branchId', '==', branchId),
+          where('branchId', '==', branchId)
         );
 
         const querySnapshot = await getDocs(q);
 
+        // 각 수업 문서에 대해 필요한 데이터 가공
         const data = await Promise.all(
           querySnapshot.docs.map(async (docSnap) => {
             const d = docSnap.data();
 
+            // 강사 정보(users 컬렉션) 추가 조회
             const userRef = doc(db, 'users', d.professorId);
             const userSnap = await getDoc(userRef);
             const userData = userSnap.exists() ? userSnap.data() : null;
@@ -37,7 +42,7 @@ function BranchClassCard({ onOpenModal, branchId, appliedClasses, userRole }) {
               time: d.time || '시간 미정',
               people: `${d.currentCap}/${d.capacity}`,
             };
-          }),
+          })
         );
 
         setClassList(data);
@@ -46,6 +51,7 @@ function BranchClassCard({ onOpenModal, branchId, appliedClasses, userRole }) {
       }
     };
 
+    // branchId가 있을 때만 데이터 조회 실행
     if (branchId) {
       fetchClasses();
     }
