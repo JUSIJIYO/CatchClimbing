@@ -26,9 +26,13 @@ function StuClassList() {
 
         const data = snapshot.docs.map((doc) => {
           const d = doc.data();
+          
+          // 데이터가 잘 오는지 확인용 로그 (콘솔에서 classId가 있는지 확인하세요!)
+          console.log("신청 내역 데이터:", d); 
 
           return {
-            id: doc.id,
+            id: doc.id, 
+            classId: d.classId,
             title: d.title,
             openDate: d.openDate,
             startTime: d.startTime,
@@ -59,7 +63,7 @@ function StuClassList() {
               <StuClassItem
                 key={item.id}
                 item={item}
-                onClick={() => navigate(`/class/${item.id}`)}
+                onClick={() => navigate(`/class/${item.classId}`)}
               />
             ))
           )}
