@@ -1,0 +1,33 @@
+/* 전체 컨테이너 레이아웃 */
+.mypage-container {
+  margin: 32px auto;
+  max-width: 800px;
+}
+
+.mypage-card {
+  padding: 20px;
+  background: #FFFFFF;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+}
+
+
+.mypage-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #2C3E50;
+}
+
+.mypage-recommendlist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
+}
+
+.empty {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  padding: 40px 0px;
+}

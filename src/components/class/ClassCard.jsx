@@ -3,7 +3,6 @@ import icon1 from "../../assets/icon/openDate.svg";
 import icon2 from "../../assets/icon/capacity.svg";
 import icon3 from "../../assets/icon/branch.svg";
 import icon4 from "../../assets/icon/detailsee.svg";
-import icon5 from "../../assets/icon/profile.svg";
 import { useNavigate } from "react-router-dom";
 
 function ClassCard({

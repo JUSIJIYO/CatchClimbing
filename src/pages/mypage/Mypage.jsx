@@ -16,6 +16,8 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import StuRecommendList from "../../components/mypage/StuRecommendList";
+import StuCompleteList from "../../components/mypage/StuCompleteList";
 
 function Mypage() {
   const [userData, setUserData] = useState(null);
@@ -53,7 +55,15 @@ function Mypage() {
       </div>
 
       <ProfileCard userData={userData} attemptCount={attemptCount} />
-      {userData?.role === "professor" ? <ProMyClassList /> : <StuClassList />}
+      {userData?.role === "professor" ? (
+        <ProMyClassList />
+      ) : (
+        <>
+          <StuClassList />
+          <StuRecommendList />
+          <StuCompleteList />
+        </>
+      )}
     </div>
   );
 }
