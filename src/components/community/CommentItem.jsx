@@ -6,6 +6,8 @@ import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import ComfirmModal from "../../components/common/ConfirmModal";
 import Modal from "../../components/common/Modal";
+import { useAuth } from "../../context/AuthContext";
+import deletebtn from "../../assets/icon/adminDeleteButton.svg";
 
 function CommentItem({
   id,
@@ -20,11 +22,24 @@ function CommentItem({
   const [editText, setEditText] = useState(content);
   const [isDeleted, setIsDeleted] = useState(false);
 
+  /* 기존코드 혹시 몰라서 작성해놓겠습니다
   // 현재 로그인 유저 (임시)
   const currentUserId = "current_user_id";
+  */
+
+  // useAuth에서 현재 유저의 정보와, 역할 구조분해할당으로 저장
+  const { currentUser, role } = useAuth();
+
+  /* 기존코드 혹시 몰라서 작성해놓겠습니다
+  const isMyComment = authorId === currentUserId;
+  */
 
   // 내 댓글 여부
-  const isMyComment = authorId === currentUserId;
+  // 옵셔널 체이닝 연산자 + useAuth에서 가져온 현재 사용자 정보랑 일치하는지 확인 (이전 방식으로 바꾸고 싶으시면 바꾸셔도 상관없습다)
+  const isMyComment = authorId === currentUser?.uid;
+
+  // 관리자 여부
+  const isAdmin = role === "totalAdmin" || role === "branchAdmin";
 
   // 댓글 수정 클릭
   const handleEdit = () => {
@@ -183,19 +198,32 @@ function CommentItem({
         </div>
 
         <div className={styles["menu-wrapper"]}>
-          <button
-            className={styles["comment-menu-btn"]}
-            onClick={() => setOpen(!open)}
-          >
-            ⋮
-          </button>
-
-          {open &&
-            (isMyComment ? (
-              <CommentDropdown onEdit={handleEdit} onDelete={handleDelete} />
-            ) : (
-              <CommentReportDropdown onReport={handleReport} />
-            ))}
+          {isAdmin ? (
+            <button
+              className={styles["comment-delete-btn"]}
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              <img src={deletebtn} />
+            </button>
+          ) : (
+            <>
+              <button
+                className={styles["comment-menu-btn"]}
+                onClick={() => setOpen(!open)}
+              >
+                ⋮
+              </button>
+              {open &&
+                (isMyComment ? (
+                  <CommentDropdown
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
+                ) : (
+                  <CommentReportDropdown onReport={handleReport} />
+                ))}
+            </>
+          )}
         </div>
       </div>
 
