@@ -19,7 +19,7 @@ function ProMyClassList() {
 
       const q = query(
         collection(db, 'classes'),
-        where('instructorId', '==', user.uid),
+        where('professorId', '==', user.uid),
       );
 
       const snapshot = await getDocs(q);
@@ -30,8 +30,8 @@ function ProMyClassList() {
         return {
           id: doc.id,
           title: d.title,
-          date: d.date,
-          time: d.time,
+          date: d.openDate,
+          time: '',
           level: d.level,
         };
       });
