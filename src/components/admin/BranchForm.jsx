@@ -11,6 +11,8 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/config";
 import { useAuth } from "../../context/AuthContext";
+import Modal from "../common/Modal";
+import ConfirmModal from "../common/ConfirmModal";
 import styles from "../../styles/css/admin/BranchForm.module.css";
 import adminBranchSign from "../../assets/icon/adminBranchSign.svg";
 import adminBranchPhone from "../../assets/icon/adminBranchPhone.svg";
@@ -79,6 +81,12 @@ function BranchForm() {
   // 제출 상태 관리
   const [submitting, setSubmitting] = useState(false);
 
+  // 수정 확인 모달 상태 관리
+  const [modal, setModal] = useState(false);
+
+  // 수정 완료 모달 상태 관리
+  const [doneModal, setDoneModal] = useState(false);
+
   // 폼 입력값 상태 관리
   const [form, setForm] = useState({
     branchName: "",
@@ -98,7 +106,9 @@ function BranchForm() {
         openHours: editBranch.openHours ?? "",
         instagram: editBranch.instagram ?? "",
       });
-      if (editBranch.image) setImagePreview(editBranch.image);
+      if (editBranch.image) {
+       setImagePreview(editBranch.image);
+      }
       if (editBranch.latitude && editBranch.longtitude) {
         setCoords({ lat: editBranch.latitude, lng: editBranch.longtitude });
       }
@@ -146,20 +156,77 @@ function BranchForm() {
     }
   };
 
-  // 제출 함수
-  const handleSubmit = async (e) => {
+  // 수정하기 버튼 클릭 함수
+  const handleEditClick = (e) => {
     e.preventDefault();
     // 유효성 검사
     if (!form.branchName || !form.phone || !form.address || !form.openHours) {
       alert("필수 항목을 모두 입력해주세요.");
       return;
     }
+    setModal(true);
+  };
+
+  // 수정확인 모달에서 확인 버튼 함수
+  const handleEditConfirm = async () => {
+    setModal(false);
     setSubmitting(true);
     try {
       // 이미지 url 처리 수정할때는 기존 이미지 없을 때는 빈값(추가할 수 있게)
       let imageUrl = editBranch?.image ?? "";
       if (imageFile) {
-        // firestore에 저장할 경로 설정 
+        // firestore에 저장할 경로 설정
+        const storageRef = ref(storage, `branches/${currentUser.uid}/${Date.now()}`);
+        // 이미지 파일 firestore에 업로드
+        const snapshot = await uploadBytes(storageRef, imageFile);
+        // 업로드 이미지 다운로드 URL 저장 (이미지 표시)
+        imageUrl = await getDownloadURL(snapshot.ref);
+      }
+
+      // firebase에 보낼 데이터
+      const branchData = {
+        name: form.branchName,
+        phone: form.phone,
+        address: form.address,
+        openHours: form.openHours,
+        instagram: form.instagram,
+        image: imageUrl,
+        latitude: coords?.lat ?? null,
+        longtitude: coords?.lng ?? null,
+        adminId: currentUser.uid,
+      };
+
+      // 지점 정보 업데이트
+      await updateDoc(doc(db, "branches", editBranch.id), branchData);
+      setDoneModal(true);
+    } catch (err) {
+      console.error(err);
+      alert("저장 중 오류가 발생했습니다.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // 신청하기 버튼 클릭 → 확인 모달 열기
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // 유효성 검사
+    if (!form.branchName || !form.phone || !form.address || !form.openHours) {
+      alert("필수 항목을 모두 입력해주세요.");
+      return;
+    }
+    setModal(true);
+  };
+
+  // 확인 모달에서 확인 클릭 → 실제 신청 처리
+  const handleRegisterConfirm = async () => {
+    setModal(false);
+    setSubmitting(true);
+    try {
+      // 이미지 url 처리 없을 때는 빈값(추가할 수 있게)
+      let imageUrl = "";
+      if (imageFile) {
+        // firestore에 저장할 경로 설정
         const storageRef = ref(storage, `branches/${currentUser.uid}/${Date.now()}`);
         // 이미지 파일 firesotre에 업로드
         const snapshot = await uploadBytes(storageRef, imageFile);
@@ -181,23 +248,17 @@ function BranchForm() {
       };
 
       // firebase 연동 함수
-      // 수정 모드일때
-      if (editBranch) {
-        // 지점 정보 업데이트
-        await updateDoc(doc(db, "branches", editBranch.id), branchData);
-      } else {
-        // 신규 생성할 때
-        // 지점 정보 추가
-        await addDoc(collection(db, "branches"), {
-          ...branchData,
-          status: "pending",
-          rating: 0,
-          createdAt: serverTimestamp(),
-          joinAt: null,
-        });
-      }
+      // 신규 생성할 때
+      // 지점 정보 추가
+      await addDoc(collection(db, "branches"), {
+        ...branchData,
+        status: "pending",
+        rating: 0,
+        createdAt: serverTimestamp(),
+        joinAt: null,
+      });
 
-      navigate("/admin/branchmanage");
+      setDoneModal(true);
     } catch (err) {
       console.error(err);
       alert("저장 중 오류가 발생했습니다.");
@@ -397,13 +458,31 @@ function BranchForm() {
           </button>
           <button
             className={styles["branchForm-submit-submit-button"]}
-            onClick={handleSubmit}
+            onClick={editBranch ? handleEditClick : handleSubmit}
             disabled={submitting}
           >
             {submitting ? "저장 중..." : editBranch ? "수정하기" : "신청하기"}
           </button>
         </div>
       </div>
+
+      {modal && (
+        <Modal
+          title={editBranch ? "수정 확인" : "등록 확인"}
+          message={editBranch ? "지점 정보를 수정하시겠습니까?" : "등록하시겠습니까?"}
+          cancelText="취소"
+          confirmText={editBranch ? "수정" : "등록"}
+          onCancel={() => setModal(false)}
+          onConfirm={editBranch ? handleEditConfirm : handleRegisterConfirm}
+        />
+      )}
+
+      {doneModal && (
+        <ConfirmModal
+          message={editBranch ? "수정이 완료되었습니다." : "등록되었습니다."}
+          onConfirm={() => navigate("/admin/branchmanage")}
+        />
+      )}
     </div>
   );
 }
