@@ -7,10 +7,15 @@ import styles from '../../styles/css/layout/header.module.css';
 import Nav from './Nav';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import Modal from '../../components/common/Modal';
+import ConfirmModal from '../../components/common/ConfirmModal';
 
 function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showDoneModal, setShowDoneModal] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -22,15 +27,21 @@ function Header() {
     return () => unsubscribe();
   }, []);
 
-  const handleAuth = async () => {
-    const auth = getAuth();
-
+  const handleAuth = () => {
     if (user) {
-      await signOut(auth);
-      navigate('/');
+      setShowLogoutModal(true);
     } else {
       navigate('/login');
     }
+  };
+
+  const handleLogoutConfirm = async () => {
+    const auth = getAuth();
+
+    await signOut(auth);
+
+    setShowLogoutModal(false);
+    setShowDoneModal(true);
   };
 
   return (
@@ -59,6 +70,27 @@ function Header() {
           </button>
         </div>
       </header>
+
+      {showLogoutModal && (
+        <Modal
+          title="로그아웃"
+          message="정말 로그아웃 하시겠습니까?"
+          cancelText="취소"
+          confirmText="로그아웃"
+          onCancel={() => setShowLogoutModal(false)}
+          onConfirm={handleLogoutConfirm}
+        />
+      )}
+
+      {showDoneModal && (
+        <ConfirmModal
+          message="로그아웃되었습니다."
+          onConfirm={() => {
+            setShowDoneModal(false);
+            navigate('/');
+          }}
+        />
+      )}
     </>
   );
 }
