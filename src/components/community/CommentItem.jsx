@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import styles from "../../styles/css/community/CommentItem.module.css";
-import CommentDropdown from "./CommentDropdown";
-import CommentReportDropdown from "../../components/community/CommentReportDropdown";
-import { doc, updateDoc, deleteDoc, increment } from "firebase/firestore";
-import { db } from "../../firebase/config";
-import ComfirmModal from "../../components/common/ConfirmModal";
-import Modal from "../../components/common/Modal";
-import { useAuth } from "../../context/AuthContext";
-import deletebtn from "../../assets/icon/adminDeleteButton.svg";
+import React, { useState } from 'react';
+import styles from '../../styles/css/community/CommentItem.module.css';
+import CommentDropdown from './CommentDropdown';
+import CommentReportDropdown from '../../components/community/CommentReportDropdown';
+import { doc, updateDoc, deleteDoc, increment } from 'firebase/firestore';
+import { db } from '../../firebase/config';
+import ComfirmModal from '../../components/common/ConfirmModal';
+import Modal from '../../components/common/Modal';
+import { useAuth } from '../../context/AuthContext';
+import deletebtn from '../../assets/icon/adminDeleteButton.svg';
 
 function CommentItem({
   id,
   authorId,
+  postId,
   authorName,
   createdAt,
   content,
   isAnonymous,
-  postId,
 }) {
   const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -40,7 +40,7 @@ function CommentItem({
   const isMyComment = authorId === currentUser?.uid;
 
   // 관리자 여부
-  const isAdmin = role === "totalAdmin" || role === "branchAdmin";
+  const isAdmin = role === 'totalAdmin' || role === 'branchAdmin';
 
   // 댓글 수정 클릭
   const handleEdit = () => {
@@ -65,7 +65,7 @@ function CommentItem({
     if (!editText.trim()) return;
 
     try {
-      const commentUpdate = doc(db, "comments", id);
+      const commentUpdate = doc(db, 'comments', id);
 
       await updateDoc(commentUpdate, {
         content: editText,
@@ -74,46 +74,52 @@ function CommentItem({
       setIsEditing(false);
       setIsComfirmModelOpen(true);
     } catch (e) {
-      console.error("수정 실패:", e);
+      console.error('수정 실패:', e);
     }
   };
 
   //댓글 삭제 함수
   const submitDelete = async () => {
-  if (!id || !postId) return;
+    if (!id) {
+      console.error('id 없음');
+      return;
+    }
 
-  try {
-    await deleteDoc(doc(db, "comments", id));
+    try {
+      const commentDelete = doc(db, 'comments', id);
 
-    await updateDoc(doc(db, "posts", postId), {
-      commentCount: increment(-1),
-    });
+      await deleteDoc(commentDelete);
 
-    setIsDeleteCompleteModalOpen(true);
-  } catch (e) {
-    console.error("삭제 실패:", e);
-  }
-};
+      await updateDoc(doc(db, 'posts', postId), {
+        commentCount: increment(-1),
+      });
+
+      setIsDeleteCompleteModalOpen(true); // 완료 모달 열기
+    } catch (e) {
+      console.error('삭제 실패:', e);
+    }
+  };
 
   // 댓글 신고 함수
   const submitReport = async () => {
     try {
       setIsReportCompleteOpen(true);
     } catch (e) {
-      console.error("신고 실패:", e);
+      console.error('신고 실패:', e);
     }
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false); // 수정 확인 모달
   const [isComfirmModelOpen, setIsComfirmModelOpen] = useState(false); // 수정 완료 모달
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // 삭제 확인
-  const [isDeleteCompleteModalOpen, setIsDeleteCompleteModalOpen] =useState(false); // 삭제 완료
+  const [isDeleteCompleteModalOpen, setIsDeleteCompleteModalOpen] =
+    useState(false); // 삭제 완료
   const [isReportModalOpen, setIsReportModalOpen] = useState(false); // 신고 확인
   const [isReportCompleteOpen, setIsReportCompleteOpen] = useState(false); // 신고 완료
 
   if (isDeleted) return null;
   return (
-    <div className={styles["comment-item"]}>
+    <div className={styles['comment-item']}>
       {/* 수정 확인 모달 */}
       {isModalOpen && (
         <Modal
@@ -186,20 +192,20 @@ function CommentItem({
         />
       )}
 
-      <div className={styles["comment-header"]}>
-        <div className={styles["comment-userinfo"]}>
-          <span className={styles["comment-author"]}>
-            {isAnonymous ? "익명" : authorName || "이름 없음"}
+      <div className={styles['comment-header']}>
+        <div className={styles['comment-userinfo']}>
+          <span className={styles['comment-author']}>
+            {isAnonymous ? '익명' : authorName || '이름 없음'}
           </span>
-          <span className={styles["comment-time"]}>
-            {typeof createdAt === "string" ? createdAt : "방금 전"}
+          <span className={styles['comment-time']}>
+            {typeof createdAt === 'string' ? createdAt : '방금 전'}
           </span>
         </div>
 
-        <div className={styles["menu-wrapper"]}>
+        <div className={styles['menu-wrapper']}>
           {isAdmin ? (
             <button
-              className={styles["comment-delete-btn"]}
+              className={styles['comment-delete-btn']}
               onClick={() => setIsDeleteModalOpen(true)}
             >
               <img src={deletebtn} />
@@ -207,7 +213,7 @@ function CommentItem({
           ) : (
             <>
               <button
-                className={styles["comment-menu-btn"]}
+                className={styles['comment-menu-btn']}
                 onClick={() => setOpen(!open)}
               >
                 ⋮
@@ -227,30 +233,20 @@ function CommentItem({
       </div>
 
       {/* 댓글 내용 */}
-      <div className={styles["comment-content"]}>
+      <div className={styles['comment-content']}>
         {isEditing ? (
           <>
             <textarea
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
             />
-            <div className={styles["comment-edit-actions"]}>
-              <button
-                className={styles["comment-save-btn"]}
-                onClick={() => setIsModalOpen(true)}
-              >
-                저장
-              </button>
-              <button
-                className={styles["comment-cancel-btn"]}
-                onClick={() => setIsEditing(false)}
-              >
-                취소
-              </button>
+            <div>
+              <button onClick={() => setIsModalOpen(true)}>저장</button>
+              <button onClick={() => setIsEditing(false)}>취소</button>
             </div>
           </>
         ) : (
-          content || "내용이 없습니다."
+          content || '내용이 없습니다.'
         )}
       </div>
     </div>
