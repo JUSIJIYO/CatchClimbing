@@ -6,7 +6,7 @@ function CommentReportDropdown({ onReport }) {
   return (
     <div className={styles["comment-dropdown"]}>
       <button onClick={onReport} className={styles["comment-item"]}>
-        <img src={icon1} /> 댓글 신고
+        <img src={icon1} alt="댓글신고"/> 댓글 신고
       </button>
     </div>
   );

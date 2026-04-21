@@ -46,6 +46,7 @@ function StuRecommendList() {
                 }}
                 // id 대신 item.classId를 사용하여 상세페이지로 이동
                 onClick={() => navigate(`/class/${item.classId}`)}
+                showCancel={false}
               />
             ))
           )}

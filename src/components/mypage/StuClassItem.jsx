@@ -1,26 +1,35 @@
-import React from 'react';
-import styles from '../../styles/css/mypage/ProMyClassItem.module.css';
-import calendarIcon from '../../assets/icon/calender.svg';
-import rightArrow from '../../assets/icon/rightarrow.svg';
+import React from "react";
+import styles from "../../styles/css/mypage/ProMyClassItem.module.css";
+import calendarIcon from "../../assets/icon/calender.svg";
+import rightArrow from "../../assets/icon/rightarrow.svg";
 
-function StuClassItem({ item, onClick }) {
+
+function StuClassItem({ item, onClick, onCancel, showCancel = false }) {
   return (
-    <div className={styles['card']} onClick={() => onClick?.(item)}>
-      <div className={styles['left']}>
-        <img src={calendarIcon} alt="캘린더" className={styles['icon']} />
+    <div className={styles["card"]} onClick={() => onClick?.(item)}>
+      <div className={styles["left"]}>
+        <img src={calendarIcon} alt="캘린더" className={styles["icon"]} />
 
-        <div className={styles['info']}>
-          <p className={styles['title']}>
-            {item?.title || '제목 없음'}
-          </p>
+        <div className={styles["info"]}>
+          <p className={styles["title"]}>{item?.title || "제목 없음"}</p>
 
-          <p className={styles['meta']}>
-            {item?.openDate || '날짜 없음'} · {item?.level || '레벨 없음'}
+          <p className={styles["meta"]}>
+            {item?.openDate || "날짜 없음"} · {item?.level || "레벨 없음"}
           </p>
+          {showCancel && (
+            <button className={styles["class-btn"]}
+              onClick={(e) => {
+                e.stopPropagation();
+                onCancel?.(item);
+              }}
+            >
+              수강취소
+            </button>
+          )}
         </div>
       </div>
 
-      <img src={rightArrow} alt="이동" className={styles['arrow']} />
+      <img src={rightArrow} alt="이동" className={styles["arrow"]} />
     </div>
   );
 }

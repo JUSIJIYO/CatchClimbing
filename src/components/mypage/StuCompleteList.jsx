@@ -53,6 +53,7 @@ function StuCompleteList() {
                 key={item.id}
                 item={item}
                 onClick={() => navigate(`/class/${item.classId}`)}
+                showCancel={false} // 
               />
             ))
           )}

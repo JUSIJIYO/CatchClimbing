@@ -123,7 +123,7 @@ function ClassDetailPage() {
               className={styles['deleteBtn']}
               onClick={() => setShowDeleteModal(true)}
             >
-              <img src={deleteIcon} />
+              <img src={deleteIcon} alt="deleteIcon" />
               삭제
             </button>
           </div>
