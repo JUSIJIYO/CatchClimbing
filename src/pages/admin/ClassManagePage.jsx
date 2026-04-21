@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   buildClassesQuery,
   fetchBranchNames,
@@ -8,6 +9,7 @@ import FileterBar from "../../components/admin/FileterBar";
 import useAdminData from "../../hooks/useAdminData";
 import { useAuth } from "../../context/AuthContext";
 import styles from "../../styles/css/admin/classManagePage.module.css";
+import adminBranchEye from '../../assets/icon/adminBrancheye.svg'
 
 // 한 페이지에 보이는 No. 데이터 개수
 const PAGE_SIZE = 5;
@@ -33,6 +35,7 @@ const FILTERS = {
 };
 
 function ClassManagePage() {
+  const navigate = useNavigate();
   // 로그인한 사용자 역할 받아오기
   const { role, branchId: myBranchId } = useAuth();
 
@@ -115,7 +118,7 @@ function ClassManagePage() {
   const handleRegister = () => console.log("강의 등록");
 
   // 강의 상세조회 (보기버튼 클릭) 관리 함수
-  const handleView = (id) => console.log("보기:", id);
+  const handleView = (classes) => navigate(`/class/${classes.id}`);
 
   // 테이블에 들어갈 데이터
   const columns = useMemo(
@@ -145,9 +148,10 @@ function ClassManagePage() {
         render: (_, row) => (
           <button
             className={styles["classManagePage-view-button"]}
-            onClick={() => handleView(row.id)}
+            onClick={() => handleView(row)}
           >
-            👁 보기
+            <img src={adminBranchEye} />
+            보기
           </button>
         ),
       },

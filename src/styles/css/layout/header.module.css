@@ -84,7 +84,7 @@
   z-index: 1000;
 }
 
-.header-admin-ct > p:first-child {
+.header-admin-left > p {
   color: #2c3e50;
   font-size: 20px;
   font-style: normal;
