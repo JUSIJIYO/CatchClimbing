@@ -9,7 +9,7 @@ import { auth, onAuthStateChanged } from '../../services/authService';
 import {
   getUserDoc,
   getTotalUserCount,
-  getTotalBranchCount,
+  subscribeBranchCount,
   getTodayReservationStats,
   getPopularClasses,
   getBranchUtilization,
@@ -57,6 +57,8 @@ function DashBoardPage() {
 
 
   useEffect(() => {
+    let unsubscribeBranch = null;
+
     // 사용자 로그인 상태 확인
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) { setLoading(false); return; }
@@ -69,16 +71,20 @@ function DashBoardPage() {
       // 전체관리자 일 때 조건
       if (userRole === 'totalAdmin') {
         const userCount = await getTotalUserCount();
-        const branchCount = await getTotalBranchCount();
         const reservationStats = await getTodayReservationStats();
         const classes = await getPopularClasses();
         const utilization = await getBranchUtilization();
         const professors = await getPendingProfessors();
-        setStats({ userCount, branchCount, reservationCount: reservationStats.count, reservationIncrease: reservationStats.increase });
+        setStats((prev) => ({ ...prev, userCount, reservationCount: reservationStats.count, reservationIncrease: reservationStats.increase }));
         setPopularClasses(classes);
         setBranchUtilization(utilization);
         setPendingProfessors(professors);
-        
+
+        // 운영 지점 수
+        unsubscribeBranch = subscribeBranchCount((count) => {
+          setStats((item) => ({ ...item, branchCount: count }));
+        });
+
         // 지점관리자 일 때 조건
       } else if (userRole === 'branchAdmin') {
         const reservationStats = await getTodayReservationStats(branchId);
@@ -89,7 +95,11 @@ function DashBoardPage() {
 
       setLoading(false);
     });
-    return () => unsubscribe();
+
+    return () => {
+      unsubscribe();
+      if (unsubscribeBranch) unsubscribeBranch();
+    };
   }, []);
 
   if (loading) return <div className={styles["dashboard-ct"]}><p>로딩 중...</p></div>;

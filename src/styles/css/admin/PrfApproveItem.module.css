@@ -5,7 +5,9 @@
   border-radius: 14px;
   border: 0.8px solid #e5e7eb;
   background: #fff;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
   width: 40%;
   padding: 24px;
 }
@@ -35,6 +37,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.prfApproveItem-prf-reject-status {
+  color: #e7000b;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; 
+  border-radius: 9999px;
+  background: rgba(231, 0, 11, 0.5);
 }
 
 .prfApproveItem-prf-date-title,
