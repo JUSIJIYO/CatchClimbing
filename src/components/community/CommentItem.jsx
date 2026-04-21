@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import styles from "../../styles/css/community/CommentItem.module.css";
-import CommentDropdown from "./CommentDropdown";
-import CommentReportDropdown from "../../components/community/CommentReportDropdown";
-import { doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../../firebase/config";
-import ComfirmModal from "../../components/common/ConfirmModal";
-import Modal from "../../components/common/Modal";
+import React, { useState } from 'react';
+import styles from '../../styles/css/community/CommentItem.module.css';
+import CommentDropdown from './CommentDropdown';
+import CommentReportDropdown from '../../components/community/CommentReportDropdown';
+import { doc, updateDoc, deleteDoc, increment } from 'firebase/firestore';
+import { db } from '../../firebase/config';
+import ComfirmModal from '../../components/common/ConfirmModal';
+import Modal from '../../components/common/Modal';
+import { useAuth } from '../../context/AuthContext';
+import deletebtn from '../../assets/icon/adminDeleteButton.svg';
 
 function CommentItem({
   id,
   authorId,
+  postId,
   authorName,
   createdAt,
   content,
@@ -20,11 +23,24 @@ function CommentItem({
   const [editText, setEditText] = useState(content);
   const [isDeleted, setIsDeleted] = useState(false);
 
+  /* 기존코드 혹시 몰라서 작성해놓겠습니다
   // 현재 로그인 유저 (임시)
   const currentUserId = "current_user_id";
+  */
+
+  // useAuth에서 현재 유저의 정보와, 역할 구조분해할당으로 저장
+  const { currentUser, role } = useAuth();
+
+  /* 기존코드 혹시 몰라서 작성해놓겠습니다
+  const isMyComment = authorId === currentUserId;
+  */
 
   // 내 댓글 여부
-  const isMyComment = authorId === currentUserId;
+  // 옵셔널 체이닝 연산자 + useAuth에서 가져온 현재 사용자 정보랑 일치하는지 확인 (이전 방식으로 바꾸고 싶으시면 바꾸셔도 상관없습다)
+  const isMyComment = authorId === currentUser?.uid;
+
+  // 관리자 여부
+  const isAdmin = role === 'totalAdmin' || role === 'branchAdmin';
 
   // 댓글 수정 클릭
   const handleEdit = () => {
@@ -49,7 +65,7 @@ function CommentItem({
     if (!editText.trim()) return;
 
     try {
-      const commentUpdate = doc(db, "comments", id);
+      const commentUpdate = doc(db, 'comments', id);
 
       await updateDoc(commentUpdate, {
         content: editText,
@@ -58,25 +74,29 @@ function CommentItem({
       setIsEditing(false);
       setIsComfirmModelOpen(true);
     } catch (e) {
-      console.error("수정 실패:", e);
+      console.error('수정 실패:', e);
     }
   };
 
   //댓글 삭제 함수
   const submitDelete = async () => {
     if (!id) {
-      console.error("id 없음");
+      console.error('id 없음');
       return;
     }
 
     try {
-      const commentDelete = doc(db, "comments", id);
+      const commentDelete = doc(db, 'comments', id);
 
       await deleteDoc(commentDelete);
 
+      await updateDoc(doc(db, 'posts', postId), {
+        commentCount: increment(-1),
+      });
+
       setIsDeleteCompleteModalOpen(true); // 완료 모달 열기
     } catch (e) {
-      console.error("삭제 실패:", e);
+      console.error('삭제 실패:', e);
     }
   };
 
@@ -85,7 +105,7 @@ function CommentItem({
     try {
       setIsReportCompleteOpen(true);
     } catch (e) {
-      console.error("신고 실패:", e);
+      console.error('신고 실패:', e);
     }
   };
 
@@ -99,7 +119,7 @@ function CommentItem({
 
   if (isDeleted) return null;
   return (
-    <div className={styles["comment-item"]}>
+    <div className={styles['comment-item']}>
       {/* 수정 확인 모달 */}
       {isModalOpen && (
         <Modal
@@ -172,35 +192,48 @@ function CommentItem({
         />
       )}
 
-      <div className={styles["comment-header"]}>
-        <div className={styles["comment-userinfo"]}>
-          <span className={styles["comment-author"]}>
-            {isAnonymous ? "익명" : authorName || "이름 없음"}
+      <div className={styles['comment-header']}>
+        <div className={styles['comment-userinfo']}>
+          <span className={styles['comment-author']}>
+            {isAnonymous ? '익명' : authorName || '이름 없음'}
           </span>
-          <span className={styles["comment-time"]}>
-            {typeof createdAt === "string" ? createdAt : "방금 전"}
+          <span className={styles['comment-time']}>
+            {typeof createdAt === 'string' ? createdAt : '방금 전'}
           </span>
         </div>
 
-        <div className={styles["menu-wrapper"]}>
-          <button
-            className={styles["comment-menu-btn"]}
-            onClick={() => setOpen(!open)}
-          >
-            ⋮
-          </button>
-
-          {open &&
-            (isMyComment ? (
-              <CommentDropdown onEdit={handleEdit} onDelete={handleDelete} />
-            ) : (
-              <CommentReportDropdown onReport={handleReport} />
-            ))}
+        <div className={styles['menu-wrapper']}>
+          {isAdmin ? (
+            <button
+              className={styles['comment-delete-btn']}
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              <img src={deletebtn} />
+            </button>
+          ) : (
+            <>
+              <button
+                className={styles['comment-menu-btn']}
+                onClick={() => setOpen(!open)}
+              >
+                ⋮
+              </button>
+              {open &&
+                (isMyComment ? (
+                  <CommentDropdown
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
+                ) : (
+                  <CommentReportDropdown onReport={handleReport} />
+                ))}
+            </>
+          )}
         </div>
       </div>
 
       {/* 댓글 내용 */}
-      <div className={styles["comment-content"]}>
+      <div className={styles['comment-content']}>
         {isEditing ? (
           <>
             <textarea
@@ -213,7 +246,7 @@ function CommentItem({
             </div>
           </>
         ) : (
-          content || "내용이 없습니다."
+          content || '내용이 없습니다.'
         )}
       </div>
     </div>

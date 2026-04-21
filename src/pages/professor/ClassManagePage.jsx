@@ -53,7 +53,7 @@ function ClassManagePage() {
       try {
         const q = query(
           collection(db, 'classes'),
-          where('professorId', '==', user.uid),
+          where('professorId', '==', user.uid)
         );
 
         const snapshot = await getDocs(q);
@@ -64,7 +64,7 @@ function ClassManagePage() {
             const classId = docSnap.id;
 
             const userSnap = await getDoc(
-              doc(db, 'users', classData.professorId),
+              doc(db, 'users', classData.professorId)
             );
 
             let professorName = classData.professorName;
@@ -78,7 +78,7 @@ function ClassManagePage() {
 
             const studentQuery = query(
               collection(db, 'classStudents'),
-              where('classId', '==', classId),
+              where('classId', '==', classId)
             );
 
             const studentSnap = await getDocs(studentQuery);
@@ -90,7 +90,7 @@ function ClassManagePage() {
               profileImage,
               studentCount: studentSnap.size,
             };
-          }),
+          })
         );
 
         setClasses(result);
@@ -119,15 +119,19 @@ function ClassManagePage() {
           <span>전체 강의로 돌아가기</span>
         </div>
         <div className={styles.cardWrapper}>
-          <PrfClassCard
-            classes={classes}
-            isProfessor={isProfessor}
-            onEditClick={(id, card) =>
-              navigate(`/professor/edit/${id}`, {
-                state: { editData: card },
-              })
-            }
-          />
+          {classes.map((c) => (
+            <div className={styles.cardItem} key={c.id}>
+              <PrfClassCard
+                classes={[c]}
+                isProfessor={isProfessor}
+                onEditClick={(id, card) =>
+                  navigate(`/professor/edit/${id}`, {
+                    state: { editData: card },
+                  })
+                }
+              />
+            </div>
+          ))}
         </div>
 
         <div className={styles.bottomBar}>

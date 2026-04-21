@@ -58,7 +58,7 @@ function PrfApproveItem({ professor, onStatusChange }) {
     <article className={styles["prfApporveItem-ct"]}>
       <div className={styles["prfApproveItem-content-ct"]}>
         <p className={styles["prfApproveItem-prf-name"]}>{professor.name}</p>
-        <p className={styles["prfApproveItem-prf-status"]}>{statusLabel}</p>
+        <p className={`${styles["prfApproveItem-prf-status"]}${professor.isApproved === "reject" ? ` ${styles["prfApproveItem-prf-reject-status"]}` : ""}`}>{statusLabel}</p>
       </div>
 
       <div className={styles["prfApproveItem-content-ct"]}>

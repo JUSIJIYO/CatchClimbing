@@ -7,7 +7,7 @@
 
 .prfManagePage-header-ct > h2 {
   color: #2c3e50;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -16,7 +16,7 @@
 
 .prfManagePage-header-ct > p {
   color: #67798d;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -25,7 +25,7 @@
 
 .prfManagePage-status {
   padding: 5px 12px;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 10 px;
   font-style: normal;
   font-weight: 500;
@@ -43,7 +43,6 @@
   color: #ca8a04;
 }
 
-/* 비활성화 버튼 */
 .prfManagePage-deactivate-button {
   padding: 4px 12px;
   border-radius: 10px;
@@ -51,31 +50,55 @@
   background: #fff;
   color: #e7000b;
   text-align: center;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 21px;
+  cursor: pointer;
 }
 
 .prfManagePage-deactivate-button:hover {
   background: #fef2f2;
 }
 
-/* 보기 버튼 */
+.prfManagePage-activate-button {
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+  text-align: center;
+  font-family: 'Pretendard Variable';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  cursor: pointer;
+}
+
+.prfManagePage-activate-button:hover {
+  background: #eff6ff;
+}
+
 .prfManagePage-view-button {
   padding: 4px 12px;
   border-radius: 10px;
   border: 0.8px solid rgba(44, 62, 80, 0.1);
   background: #fff;
+  cursor: pointer;
 
   color: #2c3e50;
   text-align: center;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
+
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 .prfManagePage-view-button:hover {

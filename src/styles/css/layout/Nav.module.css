@@ -24,12 +24,12 @@
     min-width: 100px;
     height: 40px;
     font-size: clamp(14px, 1.5vw, 18px);
+
 }
 
 .active {
   background: rgba(44, 62, 80, 0.1);
   border-radius: 14px;
-  width: 118px;
-  height: 40px;
-
 }
+
+

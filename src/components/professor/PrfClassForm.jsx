@@ -7,6 +7,9 @@ import {
   getDoc,
   serverTimestamp,
   updateDoc,
+  query,
+  where,
+  getDocs,
 } from 'firebase/firestore';
 import { db } from '../../firebase/config';
 import { getAuth } from 'firebase/auth';
@@ -14,6 +17,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import backButton from '../../assets/icon/backButton.svg';
 import Modal from '../../components/common/Modal';
 import DoneModal from '../../components/common/ConfirmModal';
+import ChkModal from '../../components/common/ChkModal';
 
 function PrfClassForm({ onSuccess, onCancle }) {
   const [form, setForm] = useState({
@@ -37,6 +41,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showDoneModal, setShowDoneModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showDupModal, setShowDupModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -132,7 +137,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
     const openDate = `${form.day} ${form.startTime} ~ ${form.endTime}`;
 
     const reverseBranchMap = Object.fromEntries(
-      Object.entries(branchMap).map(([k, v]) => [v, k]),
+      Object.entries(branchMap).map(([k, v]) => [v, k])
     );
 
     const branchId = reverseBranchMap[form.branchName];
@@ -181,6 +186,44 @@ function PrfClassForm({ onSuccess, onCancle }) {
     }
   };
 
+  const checkDuplicateClass = async () => {
+    const user = getAuth().currentUser;
+    if (!user) return false;
+
+    const q = query(
+      collection(db, 'classes'),
+      where('professorId', '==', user.uid),
+      where('date', '==', form.date)
+    );
+
+    const snap = await getDocs(q);
+
+    const newStart = convertToMin(form.startTime);
+    const newEnd = convertToMin(form.endTime);
+
+    for (let docSnap of snap.docs) {
+      const data = docSnap.data();
+
+      // 수정 모드면 자기 자신 제외
+      if (isEditMode && docSnap.id === editData.id) continue;
+
+      const existStart = convertToMin(data.openDate.split(' ')[1]);
+      const existEnd = convertToMin(data.openDate.split(' ')[3]);
+
+      // 시간 겹침 체크
+      if (newStart < existEnd && newEnd > existStart) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  const convertToMin = (time) => {
+    const [h, m] = time.split(':');
+    return Number(h) * 60 + Number(m);
+  };
+
   const validate = () => {
     let newError = {};
 
@@ -215,7 +258,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
   };
 
   const hours = Array.from({ length: 24 }, (_, i) =>
-    String(i).padStart(2, '0'),
+    String(i).padStart(2, '0')
   );
 
   const getDayFromDate = (dateStr) => {
@@ -370,7 +413,9 @@ function PrfClassForm({ onSuccess, onCancle }) {
                     onChange={(e) =>
                       setForm((prev) => ({
                         ...prev,
-                        startTime: `${e.target.value}:${prev.startTime.split(':')[1] || '00'}`,
+                        startTime: `${e.target.value}:${
+                          prev.startTime.split(':')[1] || '00'
+                        }`,
                       }))
                     }
                   >
@@ -388,7 +433,9 @@ function PrfClassForm({ onSuccess, onCancle }) {
                     onChange={(e) =>
                       setForm((prev) => ({
                         ...prev,
-                        startTime: `${prev.startTime.split(':')[0] || '00'}:${e.target.value}`,
+                        startTime: `${prev.startTime.split(':')[0] || '00'}:${
+                          e.target.value
+                        }`,
                       }))
                     }
                   >
@@ -410,7 +457,9 @@ function PrfClassForm({ onSuccess, onCancle }) {
                     onChange={(e) =>
                       setForm((prev) => ({
                         ...prev,
-                        endTime: `${e.target.value}:${prev.endTime.split(':')[1] || '00'}`,
+                        endTime: `${e.target.value}:${
+                          prev.endTime.split(':')[1] || '00'
+                        }`,
                       }))
                     }
                   >
@@ -428,7 +477,9 @@ function PrfClassForm({ onSuccess, onCancle }) {
                     onChange={(e) =>
                       setForm((prev) => ({
                         ...prev,
-                        endTime: `${prev.endTime.split(':')[0] || '00'}:${e.target.value}`,
+                        endTime: `${prev.endTime.split(':')[0] || '00'}:${
+                          e.target.value
+                        }`,
                       }))
                     }
                   >
@@ -458,8 +509,16 @@ function PrfClassForm({ onSuccess, onCancle }) {
         <button
           className={styles.saveBtn}
           disabled={loading}
-          onClick={() => {
+          onClick={async () => {
             if (!validate()) return;
+
+            const isDup = await checkDuplicateClass();
+
+            if (isDup) {
+              setShowDupModal(true);
+              return;
+            }
+
             setShowSubmitModal(true);
           }}
         >
@@ -516,6 +575,14 @@ function PrfClassForm({ onSuccess, onCancle }) {
             setShowDoneModal(false);
             navigate('/professor/manage');
           }}
+        />
+      )}
+
+      {showDupModal && (
+        <ChkModal
+          title={'등록 오류'}
+          message="해당 날짜와 시간에 이미 등록된 수업이 있습니다."
+          onConfirm={() => setShowDupModal(false)}
         />
       )}
     </div>

@@ -1,9 +1,11 @@
-import React from 'react'
-
 function ReviewDetailPage() {
+  
+
   return (
-    <div></div>
-  )
+    <div>
+     
+    </div>
+  );
 }
 
-export default ReviewDetailPage
+export default ReviewDetailPage;

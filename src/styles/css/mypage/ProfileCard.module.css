@@ -54,6 +54,7 @@
 .mypage-buttons {
   display: flex;
   gap: 10px;
+  cursor: pointer;
 }
 
 .mypage-btn {

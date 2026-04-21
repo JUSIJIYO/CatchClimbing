@@ -6,7 +6,7 @@ function LoginPage() {
     <>
       <main className={styles['login-ct']}>
         <h2> 로그인 </h2>
-        <p> 다시 오신 것을 환영합니다.</p>
+        <p> 잡아주시지요에 오신 것을 환영합니다.</p>
         <LoginForm />
       </main>
     </>

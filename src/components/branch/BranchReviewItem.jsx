@@ -3,6 +3,9 @@ import styles from '../../styles/css/branch/BranchReviewItem.module.css';
 import star from '../../assets/icon/reviewstar.svg';
 
 function BranchReviewItem({ review }) {
+  
+  if (!review) return null;
+  
   const branchMap = {
     theclimb_hongdae: '홍대점',
     theclimb_gangnam: '강남점',

@@ -23,7 +23,7 @@ function DashboardPopularClassCard({ number, title, professorName, branchName, o
         <div className={styles["popular-class-card-top-left"]}>
           <div>
             <p className={styles["popular-class-card-class-title"]}>{title}</p>
-            <p className={styles["popular-class-card-class-state"]}>{state}</p>
+            <p className={`${styles["popular-class-card-class-state"]}${state === '마감' ? ` ${styles["popular-class-card-class-dealine-state"]}` : ""}`}>{state}</p>
           </div>
           <p className={styles["popular-class-card-prf-name"]}>{professorName}</p>
         </div>

@@ -78,6 +78,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  cursor: pointer;
 }
 
 .adminBranchDetail-delete-button,
@@ -94,11 +95,29 @@
   line-height: 20px;
   cursor: pointer;
   padding: 8px 24px;
+  cursor: pointer;
 }
 
 .adminBranchDetail-deactivate-button {
   display: flex;
   gap: 12px;
+  cursor: pointer;
+}
+
+.adminBranchDetail-activate-button {
+  display: flex;
+  gap: 12px;
+  border-radius: 10px;
+  border: 1px solid #16a34a;
+  background: #16a34a;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  padding: 8px 24px;
 }
 
 .adminBranchDetail-middle-ct {
@@ -118,9 +137,7 @@
   border-radius: 14px;
   border: 0.753px solid #e5e7eb;
   background: #fff;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
   padding: 24px;
   display: flex;
   flex-direction: column;

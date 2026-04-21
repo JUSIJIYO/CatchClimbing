@@ -89,6 +89,7 @@
   justify-content: center;
   align-items: center;
   border: 1px solid rgba(44, 62, 80, 0.1);
+  cursor: pointer;
 }
 
 .classcard-register-button {
@@ -99,9 +100,11 @@
   justify-content: center;
   align-items: center;
   color: white;
+  cursor: pointer;
 }
 
 .footer button {
   flex: 1;
   margin: 8px;
+  cursor: pointer;
 }

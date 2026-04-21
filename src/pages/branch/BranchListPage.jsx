@@ -5,7 +5,7 @@ import BranchCard from '../../components/branch/BranchCard';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/css/branch/BranchListPage.module.css';
 import { db } from '../../firebase/config';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import headerStyles from '../../styles/css/common/PageHeader.module.css';
 
 function BranchListPage() {
@@ -18,7 +18,12 @@ function BranchListPage() {
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'branches'));
+        const q = query(
+          collection(db, 'branches'),
+          where('status', '==', 'approved')
+        );
+
+        const querySnapshot = await getDocs(q);
 
         const data = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -27,7 +32,7 @@ function BranchListPage() {
 
         setBranchList(data);
       } catch (e) {
-        console.error(' branches 가져오기 실패:', e);
+        console.error('branches 가져오기 실패:', e);
       }
     };
 

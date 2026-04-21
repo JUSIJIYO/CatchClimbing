@@ -7,7 +7,6 @@
 
 .memberManagePage-header-ct > h2 {
   color: #2c3e50;
-  font-family: "Pretendard Variable";
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -16,14 +15,12 @@
 
 .memberManagePage-header-ct > p {
   color: #67798d;
-  font-family: "Pretendard Variable";
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
 }
 
-/* 탭 바 */
 .memberManagePage-navbar-ct {
   display: flex;
 }
@@ -35,7 +32,6 @@
   border-radius: 14px;
   color: #2c3e50;
   text-align: center;
-  font-family: "Pretendard Variable";
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -56,7 +52,6 @@
 .memberManagePage-role,
 .memberManagePage-status {
   padding: 5px 12px;
-  font-family: "Pretendard Variable";
   font-size: 10 px;
   font-style: normal;
   font-weight: 500;
@@ -91,7 +86,6 @@
   color: #ca8a04;
 }
 
-/* 비활성화 버튼 */
 .memberManagePage-deactivate-button {
   padding: 4px 12px;
   border-radius: 10px;
@@ -99,15 +93,33 @@
   background: #fff;
   color: #e7000b;
   text-align: center;
-  font-family: "Pretendard Variable";
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 21px;
+  cursor: pointer;
 }
 
 .memberManagePage-deactivate-button:hover {
   background: #fef2f2;
+}
+
+.memberManagePage-activate-button {
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  cursor: pointer;
+}
+
+.memberManagePage-activate-button:hover {
+  background: #eff6ff;
 }
 
 .memberManagePage-view-button {
@@ -115,14 +127,18 @@
   border-radius: 10px;
   border: 0.8px solid rgba(44, 62, 80, 0.1);
   background: #fff;
+  cursor: pointer;
 
   color: #2c3e50;
   text-align: center;
-  font-family: "Pretendard Variable";
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
+
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 .memberManagePage-view-button:hover {

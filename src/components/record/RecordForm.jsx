@@ -20,7 +20,7 @@ function RecordForm({ onSubmit, initialData }) {
     tryCount: '',
     description: '',
     memo: '',
-    image: null,
+    image: [],
   });
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function RecordForm({ onSubmit, initialData }) {
         setPreviews(
           Array.isArray(initialData.image)
             ? initialData.image
-            : [initialData.image],
+            : [initialData.image]
         );
       }
     }
@@ -69,6 +69,35 @@ function RecordForm({ onSubmit, initialData }) {
     'V8+',
   ];
 
+  const checkTimeConflict = async (form) => {
+    const user = getAuth().currentUser;
+    if (!user) return false;
+
+    const q = query(
+      collection(db, 'classes'),
+      where('professorId', '==', user.uid),
+      where('date', '==', form.visitDate)
+    );
+
+    const snap = await getDocs(q);
+
+    const newStart = convertToMin(form.startTime);
+    const newEnd = convertToMin(form.endTime);
+
+    for (let docSnap of snap.docs) {
+      const data = docSnap.data();
+
+      const existStart = convertToMin(data.openDate.split(' ')[1]);
+      const existEnd = convertToMin(data.openDate.split(' ')[3]);
+
+      if (newStart < existEnd && newEnd > existStart) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -81,16 +110,18 @@ function RecordForm({ onSubmit, initialData }) {
   const handleImage = (e) => {
     const files = Array.from(e.target.files);
 
+    if (!files.length) return;
+
     const newPreviews = files.map((file) => URL.createObjectURL(file));
 
     setForm((prev) => ({
       ...prev,
-      image: [...(prev.image || []), ...files],
+      image: [...prev.image, ...files],
     }));
 
     setPreviews((prev) => [...prev, ...newPreviews]);
 
-    e.target.value = null;
+    e.target.value = '';
   };
 
   const handleSubmit = (e) => {
@@ -99,7 +130,7 @@ function RecordForm({ onSubmit, initialData }) {
   };
 
   const hours = Array.from({ length: 24 }, (_, i) =>
-    String(i).padStart(2, '0'),
+    String(i).padStart(2, '0')
   );
 
   const minutes = ['00', '10', '20', '30', '40', '50'];
@@ -175,7 +206,9 @@ function RecordForm({ onSubmit, initialData }) {
             onChange={(e) =>
               setForm((prev) => ({
                 ...prev,
-                startTime: `${e.target.value}:${prev.startTime.split(':')[1] || '00'}`,
+                startTime: `${e.target.value}:${
+                  prev.startTime.split(':')[1] || '00'
+                }`,
               }))
             }
           >
@@ -192,7 +225,9 @@ function RecordForm({ onSubmit, initialData }) {
             onChange={(e) =>
               setForm((prev) => ({
                 ...prev,
-                startTime: `${prev.startTime.split(':')[0] || '00'}:${e.target.value}`,
+                startTime: `${prev.startTime.split(':')[0] || '00'}:${
+                  e.target.value
+                }`,
               }))
             }
           >
@@ -211,7 +246,9 @@ function RecordForm({ onSubmit, initialData }) {
             onChange={(e) =>
               setForm((prev) => ({
                 ...prev,
-                endTime: `${e.target.value}:${prev.endTime.split(':')[1] || '00'}`,
+                endTime: `${e.target.value}:${
+                  prev.endTime.split(':')[1] || '00'
+                }`,
               }))
             }
           >
@@ -228,7 +265,9 @@ function RecordForm({ onSubmit, initialData }) {
             onChange={(e) =>
               setForm((prev) => ({
                 ...prev,
-                endTime: `${prev.endTime.split(':')[0] || '00'}:${e.target.value}`,
+                endTime: `${prev.endTime.split(':')[0] || '00'}:${
+                  e.target.value
+                }`,
               }))
             }
           >
@@ -307,13 +346,10 @@ function RecordForm({ onSubmit, initialData }) {
           사진 업로드
         </label>
 
-        <div className={styles.uploadBox}>
-          <div
-            className={styles.uploadOverlay}
-            onClick={() => fileInputRef.current.click()}
-            style={{ display: previews.length > 0 ? 'none' : 'block' }}
-          />
-
+        <div
+          className={styles.uploadBox}
+          onClick={() => fileInputRef.current.click()}
+        >
           <input
             type="file"
             ref={fileInputRef}

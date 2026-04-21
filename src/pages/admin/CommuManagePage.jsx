@@ -1,14 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   buildPostsQuery,
   buildReviewsQuery,
   fetchBranchNames,
+  deletePost,
+  deleteReview,
 } from "../../services/adminService";
 import DataTable from "../../components/admin/DataTable";
 import FileterBar from "../../components/admin/FileterBar";
 import useAdminData from "../../hooks/useAdminData";
+import Modal from "../../components/common/Modal";
+import ConfirmModal from "../../components/common/ConfirmModal";
 import styles from "../../styles/css/admin/CommuManagePage.module.css";
 import deletebtn from '../../assets/icon/adminDeleteButton.svg'
+import adminBranchEye from '../../assets/icon/adminBrancheye.svg'
 
 // 한 페이지에 보이는 데이터 No. 갯수
 const PAGE_SIZE = 5;
@@ -34,6 +40,8 @@ const signDate = (time) => {
 };
 
 function CommuManagePage() {
+  const navigate = useNavigate();
+
   // 필터 상태 관리
   const [filters, setFilters] = useState(FILTERS);
 
@@ -42,6 +50,15 @@ function CommuManagePage() {
 
   // 지점명 상태 관리
   const [branchNames, setBranchNames] = useState({});
+
+  // 삭제 확인 모달 상태 관리
+  const [modal, setModal] = useState(false);
+
+  // 삭제 완료 모달 상태 관리
+  const [doneModal, setDoneModal] = useState(false);
+
+  // 삭제할 게시글 or 댓글 모달 유지되는 동안 임시 저장할 수 있게 상태관리
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   // 지점 목록 조회 (최초 1회만)
   useEffect(() => {
@@ -121,10 +138,36 @@ function CommuManagePage() {
   const handleReset = () => setFilters(FILTERS);
 
   // 게시글, 리뷰 상세보기 관리 함수
-  const handleView = (id, type) => console.log("보기:", id, type);
+  const handleView = (id, type) => {
+    if (type === "post") {
+      navigate(`/post/${id}`);
+    } else {
+      navigate("/reviewdetail", { state: { reviewId: id } });
+    }
+  };
 
-  // 게시글, 리뷰 삭세 함수
-  const handleDelete = (id, type) => console.log("삭제:", id, type);
+  // 게시글, 리뷰 삭제 버튼 클릭 함수
+  const handleDelete = (id, type) => {
+    setPendingDelete({ id, type });
+    setModal(true);
+  };
+
+  // 삭제 확인 모달에서 확인 클릭 함수
+  const handleDeleteConfirm = async () => {
+    if (!pendingDelete) return;
+    setModal(false);
+    try {
+      if (pendingDelete.type === "post") {
+        await deletePost(pendingDelete.id);
+      } else {
+        await deleteReview(pendingDelete.id);
+      }
+      setDoneModal(true);
+    } catch (err) {
+      console.error(err);
+      alert("삭제 중 오류가 발생했습니다.");
+    }
+  };
 
   // 테이블에 들어갈 데이터 배열
   const columns = useMemo(
@@ -174,7 +217,8 @@ function CommuManagePage() {
             className={styles["commuManagePage-view-button"]}
             onClick={() => handleView(row.id, row._type)}
           >
-            👁 보기
+            <img src={adminBranchEye}/>
+            보기
           </button>
         ),
       },
@@ -247,6 +291,27 @@ function CommuManagePage() {
         loading={loading}
         error={null}
       />
+
+      {modal && (
+        <Modal
+          title="삭제 확인"
+          message={`해당 ${pendingDelete?.type === "post" ? "게시글" : "리뷰"}을 삭제하시겠습니까?`}
+          cancelText="취소"
+          confirmText="삭제"
+          onCancel={() => setModal(false)}
+          onConfirm={handleDeleteConfirm}
+        />
+      )}
+
+      {doneModal && (
+        <ConfirmModal
+          message="삭제가 완료되었습니다."
+          onConfirm={() => {
+            setDoneModal(false);
+            setPendingDelete(null);
+          }}
+        />
+      )}
     </div>
   );
 }

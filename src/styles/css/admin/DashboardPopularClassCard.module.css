@@ -65,6 +65,16 @@
   padding: 4px 8px;
 }
 
+.popular-class-card-class-dealine-state {
+  color: #e7000b;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  border-radius: 25258300px;
+  background: rgba(231, 0, 11, 0.5);
+}
+
 .popular-class-card-prf-name {
   color: #67798d;
   font-family: "Pretendard Variable";

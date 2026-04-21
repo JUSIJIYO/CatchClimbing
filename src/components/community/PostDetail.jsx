@@ -1,16 +1,27 @@
-import React, { useState, useEffect } from "react";
-import styles from "../../styles/css/community/PostDetail.module.css";
-import icon1 from "../../assets/icon/people2.svg";
-import icon2 from "../../assets/icon/eyeicon.svg";
-import icon3 from "../../assets/icon/comment.svg";
-import { db } from "../../firebase/config"; // 파이어베이스 설정 임포트
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
-import Modal from "../common/Modal";
-import ConfirmModal from "../../components/common/ConfirmModal.jsx";
-import { getAuth } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import styles from '../../styles/css/community/PostDetail.module.css';
+import icon1 from '../../assets/icon/people2.svg';
+import icon2 from '../../assets/icon/eyeicon.svg';
+import icon3 from '../../assets/icon/comment.svg';
+import { db } from '../../firebase/config'; // 파이어베이스 설정 임포트
+import {
+  doc,
+  getDoc,
+  deleteDoc,
+  updateDoc,
+  increment,
+  collection,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore';
+import Modal from '../common/Modal';
+import ConfirmModal from '../../components/common/ConfirmModal.jsx';
+import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 function PostDetail({ postId }) {
+  const docRef = doc(db, 'posts', postId);
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,16 +33,25 @@ function PostDetail({ postId }) {
 
   const auth = getAuth(); // Firebase 인증 객체 가져오기
   const currentUserId = auth.currentUser?.uid; // 현재 로그인한 사용자의 uid (로그인 안 했으면 undefined)
+  const [commentCount, setCommentCount] = useState(0);
 
   useEffect(() => {
-    // 게시글 데이터를 가져오는 함수
     const fetchPost = async () => {
       if (!postId) return;
 
       setLoading(true);
 
-      const docRef = doc(db, "posts", postId);
+      const docRef = doc(db, 'posts', postId);
       const docSnap = await getDoc(docRef);
+
+      // 댓글 개수 가져오기
+      const q = query(
+        collection(db, 'comments'),
+        where('postId', '==', postId)
+      );
+
+      const snapshot = await getDocs(q);
+      setCommentCount(snapshot.size);
 
       if (docSnap.exists()) {
         setPost({ id: docSnap.id, ...docSnap.data() });
@@ -56,23 +76,23 @@ function PostDetail({ postId }) {
     try {
       setIsReportModalComplete(true);
     } catch (e) {
-      console.error("신고 실패:", e);
+      console.error('신고 실패:', e);
     }
   };
 
   // 삭제 함수
   const handleDelete = async () => {
     try {
-      const docRef = doc(db, "posts", postId);
+      const docRef = doc(db, 'posts', postId);
       await deleteDoc(docRef);
 
       setIsDeleteCompleteModal(true);
     } catch (e) {
-      console.error("삭제 실패:", e);
+      console.error('삭제 실패:', e);
     }
   };
   return (
-    <div className={styles["post-container"]}>
+    <div className={styles['post-container']}>
       {/* 신고 확인 모달 */}
       {isReportModal && (
         <Modal
@@ -118,25 +138,25 @@ function PostDetail({ postId }) {
           message="게시글이 삭제되었습니다."
           onConfirm={() => {
             setIsDeleteCompleteModal(false);
-            navigate("/community");
+            navigate('/community');
           }}
         />
       )}
 
-      <div className={styles["post-card"]}>
-        <div className={styles["post-header"]}>
-          <h2 className={styles["post-title"]}>{post.title}</h2>
+      <div className={styles['post-card']}>
+        <div className={styles['post-header']}>
+          <h2 className={styles['post-title']}>{post.title}</h2>
 
           {isMyPost ? (
-            <div className={styles["post-btnGroup"]}>
+            <div className={styles['post-btnGroup']}>
               <button
-                className={styles["post-reportBtn"]}
+                className={styles['post-reportBtn']}
                 onClick={() => navigate(`/post/edit/${post.id}`)}
               >
                 수정하기
               </button>
               <button
-                className={styles["post-reportBtn"]}
+                className={styles['post-reportBtn']}
                 onClick={() => setIsDeleteModal(true)}
               >
                 삭제하기
@@ -144,7 +164,7 @@ function PostDetail({ postId }) {
             </div>
           ) : (
             <button
-              className={styles["post-reportBtn"]}
+              className={styles['post-reportBtn']}
               onClick={() => setIsReportModal(true)}
             >
               신고하기
@@ -152,33 +172,33 @@ function PostDetail({ postId }) {
           )}
         </div>
 
-        <div className={styles["post-infomation"]}>
+        <div className={styles['post-infomation']}>
           <span>
             <img src={icon1} alt="user" />
-            {post.authorName || "익명"}
+            {post.authorName || '익명'}
           </span>
           <span>•</span>
           <span>
             {post.createdAt?.toDate
               ? post.createdAt.toDate().toLocaleString()
-              : "방금 전"}
+              : '방금 전'}
           </span>
           <span>•</span>
-          <span>{post.branch || "전체 지점"}</span>
+          <span>{post.branch || '전체 지점'}</span>
         </div>
 
-        <div className={styles["post-click"]}>
+        <div className={styles['post-click']}>
           <span>
             <img src={icon2} alt="views" />
             조회 {post.viewer || 0}
           </span>
           <span>
             <img src={icon3} alt="comments" />
-            댓글 {post.commentCount || 0}
+            댓글 {commentCount || 0}
           </span>
         </div>
-        <div className={styles["post-line"]} />
-        <div className={styles["post-content"]}>{post.content}</div>
+        <div className={styles['post-line']} />
+        <div className={styles['post-content']}>{post.content}</div>
       </div>
     </div>
   );

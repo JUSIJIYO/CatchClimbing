@@ -20,6 +20,14 @@
   align-items: center;
 }
 
+.noMap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #9ca3af;
+}
+
 .infoList {
   display: flex;
   flex-direction: column;
@@ -34,6 +42,16 @@
   display: flex;
   gap: 24px;
   align-items: flex-start;
+}
+
+.insta {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.insta:hover {
+  text-decoration: underline;
 }
 
 .item img {
@@ -71,5 +89,9 @@
 }
 
 .time {
+  white-space: pre-line;
+}
+
+.branch-time {
   white-space: pre-line;
 }

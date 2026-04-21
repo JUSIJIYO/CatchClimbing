@@ -106,7 +106,7 @@ function AdminBranchDetailPage() {
     fetchData();
   }, [id]);
 
-  // 삭제하기, 비활성화 버튼 클릭시 발생하는 함수
+  // 삭제하기, 비활성화, 활성화 버튼 클릭시 발생하는 함수
   const handleConfirm = async () => {
     setModalLoading(true);
     try {
@@ -119,6 +119,11 @@ function AdminBranchDetailPage() {
         // 지점 상태값 비활성화(disabled)로 바꾸기
         await updateDoc(doc(db, "branches", id), { status: "disabled" });
         setBranch((item) => ({ ...item, status: "disabled" }));
+        // 활성화일 경우
+      } else if (modal === "activate") {
+        // 지점 상태값 활성화(approved)로 바꾸기
+        await updateDoc(doc(db, "branches", id), { status: "approved" });
+        setBranch((item) => ({ ...item, status: "approved" }));
       }
       const type = modal;
       setModal(null);
@@ -194,14 +199,23 @@ function AdminBranchDetailPage() {
           >
             수정하기
           </button>
-          <button
-            className={styles["adminBranchDetail-deactivate-button"]}
-            onClick={() => setModal("deactivate")}
-            disabled={branch.status === "disabled"}
-          >
-            <img src={adminDeactivate} />
-            <p>비활성화</p>
-          </button>
+          {branch.status === "disabled" ? (
+            <button
+              className={styles["adminBranchDetail-activate-button"]}
+              onClick={() => setModal("activate")}
+            >
+              <img src={adminDeactivate} />
+              <p>활성화</p>
+            </button>
+          ) : (
+            <button
+              className={styles["adminBranchDetail-deactivate-button"]}
+              onClick={() => setModal("deactivate")}
+            >
+              <img src={adminDeactivate} />
+              <p>비활성화</p>
+            </button>
+          )}
         </div>
       </div>
 
@@ -352,17 +366,30 @@ function AdminBranchDetailPage() {
         </div>
       </div>
 
-      {/* 삭제/비활성화 확인 모달 */}
       {modal && (
         <Modal
-          title={modal === "delete" ? "삭제 확인" : "비활성화 확인"}
+          title={
+            modal === "delete"
+              ? "삭제 확인"
+              : modal === "deactivate"
+                ? "비활성화 확인"
+                : "활성화 확인"
+          }
           message={
             modal === "delete"
               ? "지점을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
-              : "지점을 비활성화하시겠습니까?"
+              : modal === "deactivate"
+                ? "지점을 비활성화하시겠습니까?"
+                : "지점을 활성화하시겠습니까?"
           }
           cancelText="취소"
-          confirmText={modal === "delete" ? "삭제" : "비활성화"}
+          confirmText={
+            modal === "delete"
+              ? "삭제"
+              : modal === "deactivate"
+                ? "비활성화"
+                : "활성화"
+          }
           onCancel={() => setModal(null)}
           onConfirm={handleConfirm}
           loading={modalLoading}
@@ -375,7 +402,9 @@ function AdminBranchDetailPage() {
           message={
             doneModal === "delete"
               ? "삭제가 완료되었습니다."
-              : "비활성화되었습니다."
+              : doneModal === "deactivate"
+                ? "비활성화되었습니다."
+                : "활성화되었습니다."
           }
           onConfirm={handleDoneClose}
         />
