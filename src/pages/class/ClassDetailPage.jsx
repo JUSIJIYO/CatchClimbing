@@ -10,6 +10,7 @@ import deleteIcon from '../../assets/icon/delete.svg';
 import editIcon from '../../assets/icon/edit.svg';
 import Modal from '../../components/common/Modal';
 import ConfirmModal from '../../components/common/ConfirmModal';
+import { useAuth } from '../../context/AuthContext';
 
 function ClassDetailPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -17,6 +18,10 @@ function ClassDetailPage() {
   const [showDoneModal, setShowDoneModal] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  // 유저 정보
+  const { role } = useAuth();
+  // 관리자인지 확인
+  const isAdmin = role === 'totalAdmin' || role === 'branchAdmin';
 
   const [classData, setClassData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -93,8 +98,15 @@ function ClassDetailPage() {
           <img src={backbutton} alt="뒤로가기" />
           수업 목록으로 돌아가기
         </span>
-        {isMyClass && (
+        {(isMyClass || isAdmin) && (
           <div className={styles['action-buttons']}>
+            <button
+              className={styles["subBtn"]}
+              onClick={() => navigate(`/professor/class/${id}/students`)}
+            >
+              수강생 조회
+            </button>
+
             <button
               className={styles['editBtn']}
               onClick={() =>

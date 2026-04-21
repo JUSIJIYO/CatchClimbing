@@ -12,17 +12,24 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import headerStyles from '../../styles/css/common/PageHeader.module.css';
 import PrfClassCard from '../../components/professor/PrfClassCard';
 import styles from '../../styles/css/professor/ClassManagePage.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import backButton from '../../assets/icon/backButton.svg';
 
 function ClassManagePage() {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  
+  // 관리자가 선택한 강사의 Id를 받아올 수 있게 설정
+  const adminGetProfessorId = searchParams.get('professorId');
 
   const [isProfessor, setIsProfessor] = useState(false);
 
   useEffect(() => {
+    if (adminGetProfessorId) {
+      return;
+    }
     const auth = getAuth();
 
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -40,12 +47,14 @@ function ClassManagePage() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [adminGetProfessorId]);
+
   useEffect(() => {
     const auth = getAuth();
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
+      const targetId = adminGetProfessorId || user?.uid;
+      if (!targetId) {
         setLoading(false);
         return;
       }
@@ -53,7 +62,7 @@ function ClassManagePage() {
       try {
         const q = query(
           collection(db, 'classes'),
-          where('professorId', '==', user.uid)
+          where('professorId', '==', targetId)
         );
 
         const snapshot = await getDocs(q);
@@ -102,7 +111,7 @@ function ClassManagePage() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [adminGetProfessorId]);
 
   if (loading) return <p>불러오는 중...</p>;
 

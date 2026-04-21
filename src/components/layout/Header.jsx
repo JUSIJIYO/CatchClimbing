@@ -99,12 +99,16 @@ function Header() {
 
       {isAdmin && (
         <header className={styles["header-admin-ct"]}>
-          {role === "totalAdmin" && <p>통합관리자</p>}
-          {role === "branchAdmin" && (
-            <p>
-              지점관리자 <span>({branchName})</span>
-            </p>
-          )}
+          <div className={styles["header-admin-left"]}>
+            {role === "totalAdmin" && <p>통합관리자</p>}
+            {role === "branchAdmin" && (
+              <p>
+                지점관리자 <span>({branchName})</span>
+              </p>
+            )}
+          </div>
+
+          {!isAdminPath && <Nav />}
 
           <div className={styles["header-right-ct"]}>
             <p onClick={handleViewToggle}>

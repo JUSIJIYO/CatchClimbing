@@ -67,3 +67,13 @@
   border: 1px solid #ddd;
   cursor: pointer;
 }
+
+.subBtn {
+  background: white;
+  color: #2f3e4e;
+  border: 1px solid #2f3e4e;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}

@@ -7,6 +7,7 @@ import {
   where,
   getDocs,
   doc,
+  getDoc,
   updateDoc,
 } from 'firebase/firestore';
 import PrfClassStuList from '../../components/professor/PrfClassStuList';
@@ -52,16 +53,21 @@ function PrfClassStuListPage() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
+        // 강의 문서에서 professorId 조회할 수 있게 설정
+        const classSnap = await getDoc(doc(db, 'classes', id));
+        const professorId = classSnap.exists() ? classSnap.data().professorId : null;
+
         const q = query(
           collection(db, 'classStudents'),
           where('classId', '==', id),
+          ...(professorId ? [where('professorId', '==', professorId)] : []),
         );
 
         const snapshot = await getDocs(q);
 
-        const result = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
+        const result = snapshot.docs.map((data) => ({
+          id: data.id,
+          ...data.data(),
         }));
 
         setStudents(result);

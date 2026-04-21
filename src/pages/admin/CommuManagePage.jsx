@@ -7,6 +7,7 @@ import {
   deletePost,
   deleteReview,
 } from "../../services/adminService";
+import { useAuth } from "../../context/AuthContext";
 import DataTable from "../../components/admin/DataTable";
 import FileterBar from "../../components/admin/FileterBar";
 import useAdminData from "../../hooks/useAdminData";
@@ -42,6 +43,12 @@ const signDate = (time) => {
 function CommuManagePage() {
   const navigate = useNavigate();
 
+  // 유저 정보 받기
+  const { role, branchId: myBranchId } = useAuth();
+
+  // 지점관리자인지 확인
+  const isBranchAdmin = role === "branchAdmin";
+
   // 필터 상태 관리
   const [filters, setFilters] = useState(FILTERS);
 
@@ -63,10 +70,15 @@ function CommuManagePage() {
   // 지점 목록 조회 (최초 1회만)
   useEffect(() => {
     fetchBranchNames()
-      .then((map) => {
-        setBranchNames(map);
-        // entries 이용해서 id, name을 배열로 반환
-        setBranches(Object.entries(map).map(([id, name]) => ({ id, name })));
+      .then((item) => {
+        setBranchNames(item);
+        // entires 이용해서 id, name을 배열로 반환
+        setBranches(Object.entries(item).map(([id, name]) => ({ id, name })));
+        // 지점관리자는 자기 지점 이름으로 필터 고정 (posts.branchId는 지점 이름 저장)
+        if (isBranchAdmin && myBranchId) {
+          const myName = item[myBranchId] ?? "";
+          setFilters((item) => ({ ...item, branchId: myName }));
+        }
       })
       .catch(() => {});
   }, []);
@@ -135,7 +147,10 @@ function CommuManagePage() {
   const set = (key) => (val) => setFilters((prev) => ({ ...prev, [key]: val }));
   
   // 필터 초기화 관리 함수
-  const handleReset = () => setFilters(FILTERS);
+  const handleReset = () => {
+    const myName = isBranchAdmin ? (branchNames[myBranchId] ?? "") : "";
+    setFilters({ ...FILTERS, branchId: myName });
+  };
 
   // 게시글, 리뷰 상세보기 관리 함수
   const handleView = (id, type) => {
@@ -251,14 +266,18 @@ function CommuManagePage() {
           { value: "review", label: "리뷰" },
         ],
       },
-      {
-        value: filters.branchId,
-        onChange: set("branchId"),
-        options: [
-          { value: "", label: "전체 지점" },
-          ...branches.map((b) => ({ value: b.id, label: b.name })),
-        ],
-      },
+      ...(!isBranchAdmin
+        ? [
+            {
+              value: filters.branchId,
+              onChange: set("branchId"),
+              options: [
+                { value: "", label: "전체 지점" },
+                ...branches.map((branch) => ({ value: branch.name, label: branch.name })),
+              ],
+            },
+          ]
+        : []),
       {
         value: filters.sortOrder,
         onChange: set("sortOrder"),

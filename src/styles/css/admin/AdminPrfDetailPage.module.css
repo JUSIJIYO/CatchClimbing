@@ -350,6 +350,7 @@
   border: 1px solid #e5e7eb;
   background: #f9fafb;
   padding: 20px;
+  cursor: pointer;
 }
 
 .adminPrfDetailPage-class-info {

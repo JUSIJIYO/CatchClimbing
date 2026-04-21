@@ -188,13 +188,20 @@ function PrfManagePage() {
     const status = {
       key: "isApproved",
       label: "상태",
-      render: (val) => (
-        <span
-          className={`${styles["prfManagePage-status"]} ${val ? styles["prfManagePage-status-approve"] : styles["prfManagePage-status-pending"]}`}
-        >
-          {val ? "승인됨" : "대기중"}
-        </span>
-      ),
+      render: (val) => {
+        const cls =
+          val === true
+            ? styles["prfManagePage-status-approve"]
+            : val === "reject"
+              ? styles["prfManagePage-status-reject"]
+              : styles["prfManagePage-status-pending"];
+        const label = val === true ? "승인됨" : val === "reject" ? "거부됨" : "대기중";
+        return (
+          <span className={`${styles["prfManagePage-status"]} ${cls}`}>
+            {label}
+          </span>
+        );
+      },
     };
 
     // 조회하기 버튼
@@ -263,6 +270,12 @@ function PrfManagePage() {
           value: true,
           active: filters.approval === true,
           onClick: () => toggleApproval(true),
+        },
+        {
+          label: "거부됨",
+          value: "reject",
+          active: filters.approval === "reject",
+          onClick: () => toggleApproval("reject"),
         },
       ],
     }),
