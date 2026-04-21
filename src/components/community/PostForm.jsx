@@ -6,6 +6,9 @@ import { db } from "../../firebase/config";
 import {
   collection,
   addDoc,
+  getDocs,
+  query,
+  where,
   serverTimestamp,
   doc,
   getDoc,
@@ -26,6 +29,12 @@ export default function PostForm() {
 
   const [userName, setUserName] = useState("");
 
+  // 받아온 지점id 상태 관리
+  const [branchId, setBranchId] = useState("");
+  
+  // 지점 정보 상태 관리
+  const [branches, setBranches] = useState([]);
+
   const navigate = useNavigate();
 
   // 내 게시글이면 수정, 삭제가 나오게 하기 위한 비교
@@ -40,17 +49,25 @@ export default function PostForm() {
   useEffect(() => {
     const fetchUser = async () => {
       if (!currentUserId) return;
-
-      const userRef = doc(db, "users", currentUserId);
-      const userSnap = await getDoc(userRef);
-      
+      const userSnap = await getDoc(doc(db, "users", currentUserId));
       if (userSnap.exists()) {
         setUserName(userSnap.data().name);
       }
     };
-
     fetchUser();
   }, [currentUserId]);
+
+  // 승인된 지점 목록 가져오기
+  useEffect(() => {
+    const fetchBranches = async () => {
+      const snap = await getDocs(
+        query(collection(db, "branches"), 
+        where("status", "==", "approved"))
+      );
+      setBranches(snap.docs.map((branch) => ({ id: branch.id, name: branch.data().name })));
+    };
+    fetchBranches();
+  }, []);
 
   // 게시글 저장
   const submitPost = async () => {
@@ -71,6 +88,7 @@ export default function PostForm() {
           isAnonymous: anonymous,
           authorId: currentUserId,
           authorName: userName,
+          branchId: branchId || null,
           viewer: 0,
           commentCount: 0,
           createdAt: serverTimestamp(),
@@ -146,10 +164,22 @@ export default function PostForm() {
       <div className={styles["form-card"]}>
          <div className={styles["post-topbar"]} onClick={() => navigate(-1)}>
                 <img src={icon1} alt="back" /> 뒤로가기
-              </div>
+          </div>
         <h2 className={styles["form-title"]}>
-          {/* 수정모드일 때는 게시글 수정을 제목으로 아닐 때는 작성을 제목으로 */}
           {isEditMode ? "게시글 수정" : "게시글 작성"}
+          {!isEditMode && (
+            <select
+              value={branchId}
+              onChange={(e) => setBranchId(e.target.value)}
+            >
+              <option value="">지점 선택</option>
+              {branches.map((branch) => (
+                <option key={branch.id} value={branch.name}>
+                  {b.name}
+                </option>
+              ))}
+            </select>
+          )}
         </h2>
 
         <div className={styles["form-box"]}>

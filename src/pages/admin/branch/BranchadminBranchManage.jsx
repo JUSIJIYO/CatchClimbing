@@ -48,6 +48,7 @@ function BranchadminBranchManage() {
 
   //   승인 상태 확인
   const isApproved = branch?.status === "approved";
+  const isDisabled = branch?.status === "disabled";
 
   return (
     <div className={styles["b-branchManage-ct"]}>
@@ -73,20 +74,28 @@ function BranchadminBranchManage() {
       ) : (
         <div className={styles["b-branchManage-Eroll-ct"]}>
           <div className={styles["b-branchManage-Eroll-top-ct"]}>
-            <p>{isApproved ? "지점 운영중" : "지점 신청 완료"}</p>
+            <p>
+              {isApproved ? "지점 운영중" : isDisabled ? "지점 거절됨" : "지점 신청 완료"}
+            </p>
             <p
               className={
-                isApproved ? styles["b-branchManage-badge-approved"] : ""
+                isApproved
+                  ? styles["b-branchManage-badge-approved"]
+                  : isDisabled
+                    ? styles["b-branchManage-badge-disabled"]
+                    : ""
               }
             >
-              {isApproved ? "운영중" : "승인 대기"}
+              {isApproved ? "운영중" : isDisabled ? "거절됨" : "승인 대기"}
             </p>
           </div>
 
           <p>
             {isApproved
               ? "현재 지점이 정상적으로 운영되고 있습니다."
-              : "지점 신청이 완료되었습니다. 승인 대기중입니다"}
+              : isDisabled
+                ? "지점 신청이 거절되었습니다. 관리자에게 문의해주세요."
+                : "지점 신청이 완료되었습니다. 승인 대기중입니다"}
           </p>
 
           <hr />

@@ -85,6 +85,10 @@
   background: #fef9c3;
   color: #ca8a04;
 }
+.memberManagePage-status-reject {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
 .memberManagePage-deactivate-button {
   padding: 4px 12px;
