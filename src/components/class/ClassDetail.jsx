@@ -31,28 +31,28 @@ function ClassDetail({
             <div className={styles['class-datail-information']}>
               <div className={styles['icon-item']}>
                 <span className={styles['icon-box']}>
-                  <img src={icon1} />
+                  <img src={icon1} alt="강사" />
                 </span>
                 강사: {professorName}
               </div>
 
               <div className={styles['icon-item']}>
                 <span className={styles['icon-box']}>
-                  <img src={icon2} />
+                  <img src={icon2} alt="지점" />
                 </span>
                 지점: {branchName}
               </div>
 
               <div className={styles['icon-item']}>
                 <span className={styles['icon-box']}>
-                  <img src={icon3} />
+                  <img src={icon3} alt="달력"/>
                 </span>
                 일정: {createdAt}
               </div>
 
               <div className={styles['icon-item']}>
                 <span className={styles['icon-box']}>
-                  <img src={icon4} />
+                  <img src={icon4} alt="난이도" />
                 </span>
                 난이도: {level}
               </div>

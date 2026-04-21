@@ -130,16 +130,22 @@ export const buildClassesQuery = ({ branchId = null, orderDir = 'desc' } = {}) =
 export const buildPostsQuery = ({ branchId = null, orderDir = 'desc' } = {}) => {
   const ref = collection(db, 'posts')
   const constraints = []
-  if (branchId) constraints.push(where('branchId', '==', branchId))
-  constraints.push(orderBy('createdAt', orderDir))
+  if (branchId) {
+    constraints.push(where('branchId', '==', branchId))
+  } else {
+    constraints.push(orderBy('createdAt', orderDir))
+  }
   return query(ref, ...constraints)
 }
 
 export const buildReviewsQuery = ({ branchId = null, orderDir = 'desc' } = {}) => {
   const ref = collection(db, 'reviews')
   const constraints = []
-  if (branchId) constraints.push(where('branchId', '==', branchId))
-  constraints.push(orderBy('createdAt', orderDir))
+  if (branchId) {
+    constraints.push(where('branchId', '==', branchId))
+  } else {
+    constraints.push(orderBy('createdAt', orderDir))
+  }
   return query(ref, ...constraints)
 }
 

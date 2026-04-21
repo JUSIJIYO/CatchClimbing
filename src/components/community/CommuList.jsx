@@ -76,6 +76,7 @@ function CommuList({ branchId }) {
     return () => unsubscribe();
 
   }, [branchId]);
+  
   //지점별 필터
   const filteredPosts = posts.filter((post) => {
     if (selectedBranch === "all") return true;
@@ -94,7 +95,7 @@ function CommuList({ branchId }) {
   return (
     <div className={styles["commu-wrapper"]}>
       <div className={styles["post-topbar"]} onClick={() => navigate(-1)}>
-        <img src={icon1} alt="back" /> 뒤로가기
+        <img src={icon1} alt="뒤로가기" /> 뒤로가기
       </div>
       <div className={styles["commu-header"]}>
         <h2>전체 게시글</h2>
@@ -107,7 +108,7 @@ function CommuList({ branchId }) {
       </div>
 
       <div className={styles["commu-filter"]}>
-        <img src={filterIcon} alt="" />
+        <img src={filterIcon} alt="필터아이콘" />
 
         <span>정렬 :</span>
 

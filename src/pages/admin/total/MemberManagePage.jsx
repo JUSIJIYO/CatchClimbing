@@ -269,6 +269,12 @@ function MemberManagePage() {
               active: filters.approval === true,
               onClick: () => toggleApproval(true),
             },
+            {
+              label: "거부됨",
+              value: "reject",
+              active: filters.approval === "reject",
+              onClick: () => toggleApproval("reject"),
+            },
           ],
         };
       // 지점관리자일 떄
@@ -349,13 +355,20 @@ function MemberManagePage() {
     const status = {
       key: "isApproved",
       label: "상태",
-      render: (val) => (
-        <span
-          className={`${styles["memberManagePage-status"]} ${val ? styles["memberManagePage-status-approve"] : styles["memberManagePage-status-pending"]}`}
-        >
-          {val ? "승인됨" : "대기중"}
-        </span>
-      ),
+      render: (val) => {
+        const cls =
+          val === true
+            ? styles["memberManagePage-status-approve"]
+            : val === "reject"
+              ? styles["memberManagePage-status-reject"]
+              : styles["memberManagePage-status-pending"];
+        const label = val === true ? "승인됨" : val === "reject" ? "거부됨" : "대기중";
+        return (
+          <span className={`${styles["memberManagePage-status"]} ${cls}`}>
+            {label}
+          </span>
+        );
+      },
     };
 
     // 조회하기 버튼

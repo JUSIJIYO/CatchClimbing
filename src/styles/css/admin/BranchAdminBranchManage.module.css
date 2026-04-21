@@ -167,6 +167,11 @@
   background: #dcfce7 !important;
 }
 
+.b-branchManage-badge-disabled {
+  color: #dc2626 !important;
+  background: #fee2e2 !important;
+}
+
 .b-branchManage-branch-edit-button {
   color: #fff;
   text-align: center;

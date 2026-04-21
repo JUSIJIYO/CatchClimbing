@@ -9,6 +9,8 @@ import {
   where,
   getDocs,
   orderBy,
+  updateDoc,
+  increment,
   serverTimestamp,
 } from "firebase/firestore";
 import Modal from "../../components/common/Modal";
@@ -26,6 +28,7 @@ function CommentForm({ postId }) {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const { currentUser } = useAuth();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // 1. 댓글 데이터 불러오기 (Fetch)
   useEffect(() => {
     const fetchComments = async () => {
@@ -72,46 +75,53 @@ function CommentForm({ postId }) {
 
   // 2. 댓글 작성 함수 (Create)
   const handleSubmit = async () => {
-  if (!text.trim()) return;
+    if (!text.trim()) return;
+    if (isSubmitting) return;
 
-  try {
-    let name = "이름 없음";
+    setIsSubmitting(true);
+    try {
+      let name = "이름 없음";
 
-    if (!isAnonymous && currentUser?.uid) {
-      const q = query(
-        collection(db, "users"),
-        where("uid", "==", currentUser.uid)
-      );
+      if (!isAnonymous && currentUser?.uid) {
+        const q = query(
+          collection(db, "users"),
+          where("uid", "==", currentUser.uid),
+        );
 
-      const snapshot = await getDocs(q);
+        const snapshot = await getDocs(q);
 
-      if (!snapshot.empty) {
-        name = snapshot.docs[0].data().name;
+        if (!snapshot.empty) {
+          name = snapshot.docs[0].data().name;
+        }
       }
+
+      const newComment = {
+        postId,
+        authorId: currentUser?.uid,
+        authorName: isAnonymous ? "익명" : name,
+        isAnonymous,
+        content: text,
+        createdAt: new Date(),
+      };
+
+      const docRef = await addDoc(collection(db, "comments"), newComment);
+await updateDoc(doc(db, "posts", postId), {
+  commentCount: increment(1),
+});
+
+      setComments((prev) => [
+        ...prev,
+        { id: docRef.id, ...newComment, createdAt: "방금 전" },
+      ]);
+
+      setText("");
+      setIsConfirmModalOpen(true);
+    } catch (e) {
+      console.error("댓글 등록 실패:", e);
+    }finally {
+    setIsSubmitting(false); 
     }
-
-    const newComment = {
-      postId,
-      authorId: currentUser?.uid,
-      authorName: isAnonymous ? "익명" : name,
-      isAnonymous,
-      content: text,
-      createdAt: new Date(),
-    };
-
-    const docRef = await addDoc(collection(db, "comments"), newComment);
-
-    setComments((prev) => [
-      ...prev,
-      { id: docRef.id, ...newComment, createdAt: "방금 전" },
-    ]);
-
-    setText("");
-    setIsConfirmModalOpen(true);
-  } catch (e) {
-    console.error("댓글 등록 실패:", e);
-  }
-};
+  };
 
   // 댓글 등록 버튼 클릭 시 모달열기
   const handleOpenModal = () => {

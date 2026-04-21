@@ -72,14 +72,14 @@ function ReviewDetail() {
   return (
     <div className={styles["commu-wrapper"]}>
       <div className={styles["post-topbar"]} onClick={() => navigate(-1)}>
-        <img src={icon1} alt="back" /> 뒤로가기
+        <img src={icon1} alt="뒤로가기" /> 뒤로가기
       </div>
       <div className={styles["commu-header"]}>
         <h2>리뷰 전체보기</h2>
       </div>
       <div className={styles["commu-filter"]}>
         {/* 1. 정렬 버튼들을 왼쪽으로 (순서 변경) */}
-        <img src={filterIcon} alt="filter" /> 
+        <img src={filterIcon} alt="필터" /> 
         <span>정렬:</span>
         <div className={styles["sort-buttons"]}>
           <button 

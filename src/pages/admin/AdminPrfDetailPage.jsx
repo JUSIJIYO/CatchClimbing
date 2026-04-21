@@ -317,6 +317,7 @@ function AdminPrfDetailPage() {
                   <div
                     key={classes.id}
                     className={styles["adminPrfDetailPage-class-list"]}
+                    onClick={() => navigate(`/class/${classes.id}`)}
                   >
                     <div className={styles["adminPrfDetailPage-class-info"]}>
                       <p className={styles["adminPrfDetailPage-class-title"]}>

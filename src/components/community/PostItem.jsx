@@ -4,8 +4,9 @@ import personIcon from "../../assets/icon/commuPerson.svg";
 import eyeIcon from "../../assets/icon/commuEye.svg";
 import commentIcon from "../../assets/icon/commuComment.svg";
 import styles from "../../styles/css/branch/BranchCommuItem.module.css";
-import { doc, updateDoc, increment } from "firebase/firestore";
+import { doc, updateDoc, increment, onSnapshot, query, collection, where, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import { useState, useEffect } from "react";
 
 const branchNameMap = {
   theclimb_hongdae: "홍대점",
@@ -24,6 +25,24 @@ const branchNameMap = {
 };
 
 function PostItem({ post }) {
+  const navigate = useNavigate();
+  const [commentCount, setCommentCount] = useState(0);
+
+  //댓글 개수 가져오기
+  useEffect(() => {
+  const q = query(
+    collection(db, "comments"),
+    where("postId", "==", post.id)
+  );
+
+  const unsub = onSnapshot(q, (snap) => {
+    setCommentCount(snap.size);
+  });
+
+  return () => unsub();
+}, [post.id]);
+
+  //눌렀을 때 조회수 증가
   const handleClick = async () => {
     try {
       const postRef = doc(db, "posts", post.id);
@@ -37,7 +56,19 @@ function PostItem({ post }) {
       console.error("조회수 증가 실패:", e);
     }
   };
-  const navigate = useNavigate();
+
+  const [postData, setPostData] = useState(post);
+
+
+  useEffect(() => {
+    const ref = doc(db, "posts", post.id);
+
+    const unsub = onSnapshot(ref, (snap) => {
+      setPostData(snap.data());
+    });
+
+    return () => unsub();
+  }, [post.id]);
 
   const handleDetailNav = () => {
     navigate(`/post/${post.id}`);
@@ -53,29 +84,30 @@ function PostItem({ post }) {
       style={{ cursor: "pointer" }}
     >
       <div className={styles["top"]}>
-        <h3>{post.title}</h3>
+        <h3>{postData?.title}</h3>
         <span className={styles["branch"]}>{displayBranchName}</span>
       </div>
 
       <div className={styles["author"]}>
-        <img src={personIcon} alt="" />
-        <span>{post.authorName || "익명"}</span>
+        <img src={personIcon} alt="사람아이콘" />
+        <span>{postData?.authorName || "익명"}</span>
       </div>
 
       <div className={styles["meta"]}>
         <div>
-          <img src={eyeIcon} alt="" />
-          <span>{post.viewer || 0}</span>
+          <img src={eyeIcon} alt="조회수" />
+          <span>{postData.viewer || 0}</span>
         </div>
 
         <div>
-          <img src={commentIcon} alt="" />
-          <span>{post.commentCount || 0}</span>
+          <img src={commentIcon} alt="댓글" />
+          <span>{commentCount}</span>
         </div>
 
         <span>
-          {post.createdAt
-            ? new Date(post.createdAt.seconds * 1000).toLocaleDateString()
+          {" "}
+          {postData?.createdAt
+            ? new Date(postData.createdAt.seconds * 1000).toLocaleDateString()
             : ""}
         </span>
       </div>
