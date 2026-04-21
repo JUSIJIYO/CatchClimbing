@@ -2,11 +2,9 @@
   background: #f7f8fb;
   border-radius: 12px;
   padding: 14px 16px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -45,4 +43,9 @@
 
 .arrow {
   width: 8px;
+}
+.class-btn{
+    background-color: #2c3e50;
+    color:white;
+    border-radius: 24px;
 }

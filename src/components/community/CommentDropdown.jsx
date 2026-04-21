@@ -7,13 +7,13 @@ function CommentDropdown({ onEdit, onDelete }) {
   return (
     <div className={styles["comment-dropdown"]}>
       <button onClick={onEdit} className={styles["comment-item"]}>
-       <img src={icon1} /> 댓글 수정
+       <img src={icon1} alt="댓글수정"/> 댓글 수정
       </button>
 
       <div className={styles["commment-line"]}></div>
 
       <button onClick={onDelete} className={styles["comment-item"]}>
-         <img src={icon2} /> 댓글 삭제
+         <img src={icon2} alt="댓글삭제"/> 댓글 삭제
       </button>
     </div>
   );

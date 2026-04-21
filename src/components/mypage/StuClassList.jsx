@@ -5,9 +5,35 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import StuClassItem from "./StuClassItem";
+import { deleteDoc, doc, updateDoc, increment } from "firebase/firestore";
 
 function StuClassList() {
+  const handleCancel = async (item) => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) return;
+
+      // 1. enrollments 문서 삭제
+      await deleteDoc(doc(db, "enrollments", item.id));
+
+      // 2. 수강 인원 감소
+      await updateDoc(doc(db, "classes", item.classId), {
+        currentCap: increment(-1),
+      });
+
+      // 3. UI 업데이트
+      setClassList((prev) => prev.filter((c) => c.id !== item.id));
+
+      alert("수강이 취소되었습니다.");
+    } catch (e) {
+      console.error("취소 실패:", e);
+    }
+  };
+
   const [classList, setClassList] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,8 +80,6 @@ function StuClassList() {
       <div className={styles.card}>
         <div className={styles.header}>
           <h3 className={styles.title}>수강신청 강의</h3>
-
-
         </div>
 
         <div className={styles.list}>
@@ -67,6 +91,8 @@ function StuClassList() {
                 key={item.id}
                 item={item}
                 onClick={() => navigate(`/class/${item.classId}`)}
+                onCancel={() => handleCancel(item)}
+                showCancel={true} 
               />
             ))
           )}

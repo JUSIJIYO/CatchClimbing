@@ -89,18 +89,18 @@ function PostItem({ post }) {
       </div>
 
       <div className={styles["author"]}>
-        <img src={personIcon} alt="" />
+        <img src={personIcon} alt="사람아이콘" />
         <span>{postData?.authorName || "익명"}</span>
       </div>
 
       <div className={styles["meta"]}>
         <div>
-          <img src={eyeIcon} alt="" />
+          <img src={eyeIcon} alt="조회수" />
           <span>{postData.viewer || 0}</span>
         </div>
 
         <div>
-          <img src={commentIcon} alt="" />
+          <img src={commentIcon} alt="댓글" />
           <span>{commentCount}</span>
         </div>
 
