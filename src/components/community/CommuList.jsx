@@ -76,6 +76,7 @@ function CommuList({ branchId }) {
     return () => unsubscribe();
 
   }, [branchId]);
+  
   //지점별 필터
   const filteredPosts = posts.filter((post) => {
     if (selectedBranch === "all") return true;

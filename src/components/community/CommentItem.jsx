@@ -89,8 +89,8 @@ function CommentItem({
       const commentDelete = doc(db, "comments", id);
 
       await deleteDoc(commentDelete);
-
-      await updateDoc(doc(db, "posts", postId), {
+      const postRef = doc(db, "posts", postId);
+      await updateDoc(postRef, {
         commentCount: increment(-1),
       });
 
