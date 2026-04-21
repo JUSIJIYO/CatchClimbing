@@ -74,3 +74,26 @@
   color: #94a3b8;
   padding: 20px 0;
 }
+
+.branch-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 12px;
+  border-right: 1px solid #eee;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.branch-select {
+  padding: 6px 28px 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background-color: #F8F9FA;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 10px;
+}

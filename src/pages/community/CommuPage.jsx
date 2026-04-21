@@ -35,7 +35,7 @@ function CommuPage() {
 
         const querySnapshot = await getDocs(q);
         const fetchedPosts = querySnapshot.docs.map((doc) => ({
-          id: doc.id, // 파이어베이스의 무작위 ID (2JHFTQ...)
+          id: doc.id,
           ...doc.data(),
         }));
 

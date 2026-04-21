@@ -9,7 +9,7 @@ function PostFormPage() {
   return (
     <div>
       <div className={headerStyles.header}>
-        <p onClick={() => navigate(-1)}>← 뒤로가기</p>
+        
         <h1>커뮤니티</h1>
         <p>클라이머들과 소통해 보세요</p>
       </div>

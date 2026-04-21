@@ -16,6 +16,19 @@
   height: 678px;
 }
 
+
+.post-topbar {
+  max-width: 895px;
+  
+  color: #67798D;
+
+  display: flex;        
+  align-items: center;  
+  gap: 6px;            
+  cursor: pointer;
+
+  font-size: 18px;   
+}
 .form-title {
   font-size: 18px;
   font-weight: 600;
@@ -59,6 +72,7 @@
   align-items: center;
   gap: 8px;
   margin-top: 10px;
+  
 }
 
 .form-btn-group {
@@ -66,6 +80,7 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
+  
 }
 
 .form-cancel {
@@ -74,6 +89,7 @@
   border: 0.752756px solid rgba(44, 62, 80, 0.1);
   background: white;
   width: 100px;
+  cursor: pointer;
 }
 
 .form-submit {
@@ -81,6 +97,8 @@
   border-radius: 14px;
   background: #2C3E50;
   color: white;
-   width: 100px;
+  width: 100px;
+  border: none;
+  cursor: pointer;
 }
 
