@@ -104,6 +104,22 @@
   cursor: pointer;
 }
 
+.adminBranchDetail-activate-button {
+  display: flex;
+  gap: 12px;
+  border-radius: 10px;
+  border: 1px solid #16a34a;
+  background: #16a34a;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  padding: 8px 24px;
+}
+
 .adminBranchDetail-middle-ct {
   display: grid;
   grid-template-columns: 1.4fr 1fr;

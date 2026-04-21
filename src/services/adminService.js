@@ -1,5 +1,5 @@
 import { db } from '../firebase/config';
-import { collection, getDocs, query, where, orderBy, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, onSnapshot, query, where, orderBy, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 // 파이어베이스 연동관련코드는 AI를 이용하여 작성했습니다
 export const buildUsersQuery = (role = null, { orderDir = 'desc', isApproved = null, branchId = null } = {}) => {
@@ -41,9 +41,14 @@ export const getTotalUserCount = async () => {
 };
 
 export const getTotalBranchCount = async () => {
-  const snap = await getDocs(collection(db, 'classes'));
-  const branchIds = new Set(snap.docs.map((d) => d.data().branchId).filter(Boolean));
-  return branchIds.size;
+  const snap = await getDocs(query(collection(db, 'branches'), where('status', '==', 'approved')));
+  return snap.size;
+};
+
+// approved 상태 지점 수를 실시간으로 구독, 변경시 onCount(count) 콜백 호출
+export const subscribeBranchCount = (onCount) => {
+  const q = query(collection(db, 'branches'), where('status', '==', 'approved'));
+  return onSnapshot(q, (snap) => onCount(snap.size));
 };
 
 export const getTotalReservationCount = async (branchId = null) => {

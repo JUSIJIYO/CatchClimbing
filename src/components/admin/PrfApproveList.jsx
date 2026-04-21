@@ -18,10 +18,10 @@ function PrfApproveList({ branchId }) {
       try {
         // 데이터 조회 조건
         const condition = [
-          // firebase에서 제공하는 조건 필터
-          // 강사 & 승인되지 않은 강사 조건으로 설정
+          // 역할이 강사인 유저만
           where("role", "==", "professor"),
-          where("isApproved", "==", false),
+          // 승인상태가 false 또는 거부된 사람만
+          where("isApproved", "in", [false, "reject"]),
         ];
 
         // 지점 관리자 지점ID에 해당하는 지점만 필터
@@ -52,7 +52,7 @@ function PrfApproveList({ branchId }) {
     return <p>로딩 중...</p>;
   }
   if (professors.length === 0) {
-    return <p>승인 대기 중인 강사가 없습니다.</p>;
+    return <p>승인 대기 또는 거절된 강사가 없습니다.</p>;
   }
 
   return (
