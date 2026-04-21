@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useParams } from "react-router-dom";
+import icon1 from "../../assets/icon/backIcon.svg";
 
 export default function PostForm() {
   const [title, setTitle] = useState(""); // 게시글 제목
@@ -109,6 +110,7 @@ export default function PostForm() {
 
   return (
     <div className={styles["form-container"]}>
+      
       {/* 등록 확인/수정 모달 */}
       {isModalOpen && (
         <Modal
@@ -142,6 +144,9 @@ export default function PostForm() {
       )}
 
       <div className={styles["form-card"]}>
+         <div className={styles["post-topbar"]} onClick={() => navigate(-1)}>
+                <img src={icon1} alt="back" /> 뒤로가기
+              </div>
         <h2 className={styles["form-title"]}>
           {/* 수정모드일 때는 게시글 수정을 제목으로 아닐 때는 작성을 제목으로 */}
           {isEditMode ? "게시글 수정" : "게시글 작성"}

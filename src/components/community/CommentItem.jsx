@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "../../styles/css/community/CommentItem.module.css";
 import CommentDropdown from "./CommentDropdown";
 import CommentReportDropdown from "../../components/community/CommentReportDropdown";
-import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc, increment } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import ComfirmModal from "../../components/common/ConfirmModal";
 import Modal from "../../components/common/Modal";
@@ -16,6 +16,7 @@ function CommentItem({
   createdAt,
   content,
   isAnonymous,
+  postId,
 }) {
   const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -79,21 +80,20 @@ function CommentItem({
 
   //댓글 삭제 함수
   const submitDelete = async () => {
-    if (!id) {
-      console.error("id 없음");
-      return;
-    }
+  if (!id || !postId) return;
 
-    try {
-      const commentDelete = doc(db, "comments", id);
+  try {
+    await deleteDoc(doc(db, "comments", id));
 
-      await deleteDoc(commentDelete);
+    await updateDoc(doc(db, "posts", postId), {
+      commentCount: increment(-1),
+    });
 
-      setIsDeleteCompleteModalOpen(true); // 완료 모달 열기
-    } catch (e) {
-      console.error("삭제 실패:", e);
-    }
-  };
+    setIsDeleteCompleteModalOpen(true);
+  } catch (e) {
+    console.error("삭제 실패:", e);
+  }
+};
 
   // 댓글 신고 함수
   const submitReport = async () => {
@@ -107,8 +107,7 @@ function CommentItem({
   const [isModalOpen, setIsModalOpen] = useState(false); // 수정 확인 모달
   const [isComfirmModelOpen, setIsComfirmModelOpen] = useState(false); // 수정 완료 모달
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // 삭제 확인
-  const [isDeleteCompleteModalOpen, setIsDeleteCompleteModalOpen] =
-    useState(false); // 삭제 완료
+  const [isDeleteCompleteModalOpen, setIsDeleteCompleteModalOpen] =useState(false); // 삭제 완료
   const [isReportModalOpen, setIsReportModalOpen] = useState(false); // 신고 확인
   const [isReportCompleteOpen, setIsReportCompleteOpen] = useState(false); // 신고 완료
 
@@ -235,9 +234,19 @@ function CommentItem({
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
             />
-            <div>
-              <button onClick={() => setIsModalOpen(true)}>저장</button>
-              <button onClick={() => setIsEditing(false)}>취소</button>
+            <div className={styles["comment-edit-actions"]}>
+              <button
+                className={styles["comment-save-btn"]}
+                onClick={() => setIsModalOpen(true)}
+              >
+                저장
+              </button>
+              <button
+                className={styles["comment-cancel-btn"]}
+                onClick={() => setIsEditing(false)}
+              >
+                취소
+              </button>
             </div>
           </>
         ) : (

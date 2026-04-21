@@ -5,9 +5,12 @@ import styles from "../../styles/css/community/CommuList.module.css";
 import filterIcon from "../../assets/icon/commuFilter.svg";
 import PostItem from "./PostItem";
 import { useNavigate } from "react-router-dom";
-import icon1 from "../../assets/icon/backIcon.svg"
+import icon1 from "../../assets/icon/backIcon.svg";
+import { doc, updateDoc, increment,  } from "firebase/firestore";
+
 function CommuList({ branchId }) {
-  const branchNameMap = {
+  const branchMap = {
+    all: "전체 지점",
     theclimb_hongdae: "홍대점",
     theclimb_gangnam: "강남점",
     theclimb_ilsan: "일산점",
@@ -27,6 +30,7 @@ function CommuList({ branchId }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const [selectedBranch, setSelectedBranch] = useState("all");
   const formatTime = (timestamp) => {
     if (!timestamp) return "";
 
@@ -70,15 +74,23 @@ function CommuList({ branchId }) {
     });
 
     return () => unsubscribe();
-  }, [branchId]);
 
-  const sortedPosts = [...posts].sort((a, b) => {
-    if (sort === "latest") return b.createdAt - a.createdAt;
-    if (sort === "views") return b.views - a.views;
-    if (sort === "comments") return b.comments - a.comments;
-    return 0;
+  }, [branchId]);
+  //지점별 필터
+  const filteredPosts = posts.filter((post) => {
+    if (selectedBranch === "all") return true;
+    return post.branchId === selectedBranch;
   });
 
+
+  const sortedPosts = [...filteredPosts].sort((a, b) => {
+    if (sort === "latest") return b.createdAt - a.createdAt;
+    if (sort === "views") return (b.viewer || 0) - (a.viewer || 0);
+    if (sort === "comments")
+  return (b.commentCount || 0) - (a.commentCount || 0);
+    return 0;
+  });
+  
   return (
     <div className={styles["commu-wrapper"]}>
       <div className={styles["post-topbar"]} onClick={() => navigate(-1)}>
@@ -119,6 +131,20 @@ function CommuList({ branchId }) {
         >
           댓글순
         </button>
+
+        <div className={styles["branch-filter-container"]}>
+          <select
+            value={selectedBranch}
+            onChange={(e) => setSelectedBranch(e.target.value)}
+            className={styles["branch-select"]}
+          >
+            {Object.entries(branchMap).map(([id, name]) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className={styles["commu-list"]}>

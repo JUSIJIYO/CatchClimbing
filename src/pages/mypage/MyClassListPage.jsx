@@ -58,8 +58,8 @@ function MyClassListPage() {
                         state: {
                           classId: item.classId,
                           title: item.title,
-                          branchId: item.branchId,     
-    branchName: item.branchName
+                          branchId: item.branchId,
+                          branchName: item.branchName,
                         },
                       })
                     }

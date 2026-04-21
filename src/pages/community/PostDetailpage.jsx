@@ -3,24 +3,26 @@ import { useNavigate, useParams } from "react-router-dom"; // useParams 임포�
 import styles from "../../styles/css/community/PostDetailpage.module.css";
 import PostDetail from "../../components/community/PostDetail";
 import CommentForm from "../../components/community/CommentForm";
+import icon1 from "../../assets/icon/backIcon.svg";
 
 function PostDetailpage() {
   const navigate = useNavigate();
-  
-  const { id } = useParams(); 
+
+  const { id } = useParams();
 
   console.log("현재 페이지의 ID:", id);
 
   return (
     <div className={styles["post-bigcontainer"]}>
       <div className={styles["post-topbar"]} onClick={() => navigate(-1)}>
-        ← 목록으로
+        <img src={icon1} alt="backIcon" />
+        <span className={styles["post-text"]}>목록으로</span>
       </div>
-      
-      <PostDetail postId={id} /> 
+
+      <PostDetail postId={id} />
       <CommentForm postId={id} />
     </div>
   );
 }
 
-export default PostDetailpage;  
+export default PostDetailpage;

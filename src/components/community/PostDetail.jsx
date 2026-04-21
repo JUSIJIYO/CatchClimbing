@@ -23,6 +23,7 @@ function PostDetail({ postId }) {
   const auth = getAuth(); // Firebase 인증 객체 가져오기
   const currentUserId = auth.currentUser?.uid; // 현재 로그인한 사용자의 uid (로그인 안 했으면 undefined)
 
+  
   useEffect(() => {
     // 게시글 데이터를 가져오는 함수
     const fetchPost = async () => {

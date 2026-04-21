@@ -13,9 +13,11 @@ import {
 } from "firebase/firestore";
 import Modal from "../../components/common/Modal";
 import CheckModal from "../common/ChkModal";
+import { useAuth } from "../../context/AuthContext";
 
-// 부모 컴포넌트로부터 postId를 넘겨받는다고 가정합니다.
+// 부모 컴포넌트로부터 postId를 넘겨받는다고 가정
 function CommentForm({ postId }) {
+  const { currentUser } = useAuth();
   const [comments, setComments] = useState([]);
   const [text, setText] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -23,6 +25,8 @@ function CommentForm({ postId }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. 댓글 데이터 불러오기 (Fetch)
   useEffect(() => {
@@ -69,35 +73,45 @@ function CommentForm({ postId }) {
   }, [postId]);
 
   // 2. 댓글 작성 함수 (Create)
-  const handleSubmit = async () => {
-    if (!text.trim()) return;
+const handleSubmit = async () => {
+  console.log("현재 로그인 정보:", currentUser);
+  if (!text.trim() || isSubmitting) return;
 
-    try {
-      const newComment = {
-        postId: postId,
-        authorId: "current_user_id",
-        authorName: isAnonymous ? "익명" : "홍길동",
-        isAnonymous: isAnonymous,
-        isProfessor: false,
-        content: text,
-        createdAt: new Date(),
-      };
-      // 파이어베이스 데이터 가져오기
-      const docRef = await addDoc(collection(db, "comments"), newComment);
+  try {
+    setIsSubmitting(true); 
+    const currentUserName = currentUser?.displayName || currentUser?.name || "사용자";
 
-      setComments((prev) => [
-        ...prev,
-        { id: docRef.id, ...newComment, createdAt: "방금 전" },
-      ]);
+    const newComment = {
+      postId: postId,
+      authorId: currentUser?.uid || "unknown",
+      authorName: isAnonymous ? "익명" : currentUserName, // 익명 체크 시 바로 처리 가능
+      isAnonymous: isAnonymous,
+      isProfessor: false,
+      content: text,
+      createdAt: serverTimestamp(),
+    };
 
-      setText("");
+    const docRef = await addDoc(collection(db, "comments"), newComment);
 
-      // 완료 모달 열기
-      setIsConfirmModalOpen(true);
-    } catch (e) {
-      console.error("댓글 등록 실패:", e);
-    }
-  };
+    // 상태 업데이트 (화면에 즉시 반영용)
+    setComments((prev) => [
+      ...prev,
+      { 
+        id: docRef.id, 
+        ...newComment, 
+        createdAt: "방금 전" 
+      },
+    ]);
+
+    setText("");
+    setIsConfirmModalOpen(true);
+
+  } catch (e) {
+    console.error("댓글 등록 실패:", e);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // 댓글 등록 버튼 클릭 시 모달열기
   const handleOpenModal = () => {
@@ -141,6 +155,7 @@ function CommentForm({ postId }) {
               authorName={comment.authorName}
               authorId={comment.authorId}
               createdAt={comment.createdAt}
+              postId={postId} 
               content={comment.content}
               isAnonymous={comment.isAnonymous}
             />
