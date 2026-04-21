@@ -39,6 +39,16 @@
   justify-content: center;
 }
 
+.prfApproveItem-prf-reject-status {
+  color: #e7000b;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; 
+  border-radius: 9999px;
+  background: rgba(231, 0, 11, 0.5);
+}
+
 .prfApproveItem-prf-date-title,
 .prfApproveItem-prf-number-title,
 .prfApproveItem-prf-email-title,
@@ -64,11 +74,13 @@
 .prfApproveItem-approve-button-ct {
   display: flex;
   gap: 12px;
+  cursor: pointer;
 }
 
 .prfApproveItem-approve-button,
 .prfApproveItem-reject-button {
   flex: 1;
+  cursor: pointer;
 }
 
 .prfApproveItem-approve-button {
@@ -85,6 +97,7 @@
   font-weight: 500;
   line-height: 20px;
   border: 0px;
+  cursor: pointer;
 }
 
 .prfApproveItem-reject-button {
@@ -92,7 +105,7 @@
   gap: 18px;
   align-items: center;
   justify-content: center;
-  padding : 8px 0px;
+  padding: 8px 0px;
   border-radius: 10px;
   border: 0.8px solid #ffc9c9;
   background: #fff;
@@ -102,4 +115,5 @@
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
+  cursor: pointer;
 }

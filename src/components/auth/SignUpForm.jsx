@@ -8,7 +8,7 @@ import calender from '../../assets/icon/calender.png';
 import styles from '../../styles/css/auth/SignUpForm.module.css';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../services/authService';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/config';
 import CheckModal from '../common/ChkModal';
 
@@ -91,6 +91,36 @@ function SignUpForm() {
     setModalInfo({ ...modalInfo, show: false });
   };
 
+  // 아이디 중복확인 함수
+  const handleIdDuplicationCheck = async () => {
+    if (!formData.userId || formData.userId.length < 4) {
+      setIdStatus({
+        message: '영문 숫자를 포함하여 4자 이상 입력해주세요',
+        inputclass: 'signup-error',
+        pharse: 'signup-pharse',
+        state: false,
+      });
+      return;
+    }
+    const q = query(collection(db, 'users'), where('userId', '==', formData.userId));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      setIdStatus({
+        message: '이미 존재하는 아이디입니다',
+        inputclass: 'signup-error',
+        pharse: 'signup-pharse',
+        state: false,
+      });
+    } else {
+      setIdStatus({
+        message: '사용가능한 아이디입니다',
+        inputclass: 'signup-complete',
+        pharse: 'signup-pharse-complete',
+        state: true,
+      });
+    }
+  };
+
   // 아이디 상태 관리 함수
   const handleIdStatus = (e) => {
     if (e.target.value.length === 0) {
@@ -112,7 +142,7 @@ function SignUpForm() {
         ...idStatus,
         inputclass: '',
         pharse: '',
-        state: true,
+        state: false,
       });
     }
     setFormData({
@@ -314,6 +344,16 @@ function SignUpForm() {
       phone.state &&
       emailStatus.state;
 
+    // 중복확인 미진행 시
+    if (formData.userId.length >= 4 && !idStatus.state && idStatus.pharse === '') {
+      setModalInfo({
+        show: true,
+        title: '회원가입 오류',
+        message: '아이디 중복확인을 먼저 진행해주세요',
+      });
+      return;
+    }
+
     // 오류가 하나라도 있으면 모달 창 출력
     if (!allValid) {
       setModalInfo({
@@ -358,7 +398,7 @@ function SignUpForm() {
               onChange={handleIdStatus}
               className={styles[idStatus.inputclass]}
             />
-            <button> 중복확인 </button>
+            <button type="button" onClick={handleIdDuplicationCheck}> 중복확인 </button>
           </div>
           <p className={styles[idStatus.pharse]}>
             {idStatus.message || '영문 숫자를 포함하여 4자 이상 입력해주세요'}

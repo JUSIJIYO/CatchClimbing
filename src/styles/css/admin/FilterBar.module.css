@@ -6,9 +6,7 @@
   border-radius: 14px;
   border: 0.8px solid #e5e7eb;
   background: #fff;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
 /* 검색 행 */
@@ -35,17 +33,18 @@
   background: #00a63e;
   color: #fff;
   text-align: center;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 21px;
   border: 0px;
+  cursor: pointer;
 }
 
 .fileterbar-input {
   flex: 1;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -96,18 +95,18 @@
   background: #fff;
   color: #2c3e50;
   text-align: center;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 21px; 
+  line-height: 21px;
 }
 
 .statusBtn:hover {
   border-color: #9ca3af;
 }
 
-.fileter-statusBtn-active{
+.fileter-statusBtn-active {
   background: #1f2937;
   color: #ffffff;
   border-color: #1f2937;
@@ -120,13 +119,14 @@
   background: #2c3e50;
   color: #fff;
   text-align: center;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 21px;
   border: 0px;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .fileterbar-register-button:hover {
@@ -141,7 +141,7 @@
   background: #2c3e50;
   color: #fff;
   text-align: center;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 14px;
   font-style: normal;
   font-weight: 500;

@@ -87,6 +87,8 @@
 .class-description {
   margin-top: 20px;
   line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .class-description h3 {
@@ -96,6 +98,7 @@
 }
 
 .class-description p {
+  word-break: break-all;
   margin-bottom: 8px;
   color: #444;
 }
