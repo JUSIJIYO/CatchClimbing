@@ -31,7 +31,7 @@ function StuClassItem({ item, onClick, onCancel, showCancel = false }) {
           <p className={styles['title']}>{item?.title || '제목 없음'}</p>
 
           <p className={styles['meta']}>
-            {item?.professorName} · {item?.branchName}
+            {item.professorName} · {item.branchName}
           </p>
 
           <p className={styles['meta']}>

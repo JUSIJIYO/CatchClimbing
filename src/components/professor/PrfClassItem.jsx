@@ -34,7 +34,6 @@ function PrfClassItem({ data, onEditClick, isProfessor }) {
       color: '#ffffff',
     };
   };
-  console.log('class data:', data);
 
   const levelStyle = getLevelStyle(data.level);
   return (

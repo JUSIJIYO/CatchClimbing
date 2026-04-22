@@ -28,7 +28,7 @@ function StuRecommendList() {
       const userLevel = parseInt(userData.level.replace('V', ''));
 
       const enrollSnap = await getDocs(
-        query(collection(db, 'enrollments'), where('userId', '==', user.uid))
+        query(collection(db, 'classStudents'), where('userId', '==', user.uid))
       );
 
       const enrolledIds = enrollSnap.docs.map((d) => d.data().classId);
