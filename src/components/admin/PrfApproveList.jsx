@@ -21,7 +21,7 @@ function PrfApproveList({ branchId }) {
           // 역할이 강사인 유저만
           where("role", "==", "professor"),
           // 승인상태가 false 또는 거부된 사람만
-          where("isApproved", "in", [false, "reject"]),
+          where("isApproved", "in", ["pending", "reject"]),
         ];
 
         // 지점 관리자 지점ID에 해당하는 지점만 필터

@@ -16,6 +16,7 @@ function CommentItem({
   authorName,
   createdAt,
   content,
+  authorRole,
   isAnonymous,
 }) {
   const [open, setOpen] = useState(false);
@@ -117,6 +118,8 @@ function CommentItem({
   const [isReportModalOpen, setIsReportModalOpen] = useState(false); // 신고 확인
   const [isReportCompleteOpen, setIsReportCompleteOpen] = useState(false); // 신고 완료
 
+  const isInstructor = authorRole === "professor";
+
   if (isDeleted) return null;
   return (
     <div className={styles["comment-item"]}>
@@ -196,9 +199,7 @@ function CommentItem({
         <div className={styles["comment-userinfo"]}>
           <span className={styles["comment-author"]}>
             {isAnonymous ? "익명" : authorName || "이름 없음"}
-          </span>
-          <span className={styles["comment-time"]}>
-            {typeof createdAt === "string" ? createdAt : "방금 전"}
+            {isInstructor && !isAnonymous && <span> (강사)</span>}
           </span>
         </div>
 

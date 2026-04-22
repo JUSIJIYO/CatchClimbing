@@ -64,12 +64,14 @@ function BranchDetailPage() {
   }, []);
 
   useEffect(() => {
+    if (!branch) return;
+
     const fetchProfessors = async () => {
       try {
         const q = query(
           collection(db, 'users'),
           where('role', '==', 'professor'),
-          where('branchId', '==', id),
+          where('branchId', '==', branch.name),
         );
 
         const querySnapshot = await getDocs(q);
@@ -93,7 +95,7 @@ function BranchDetailPage() {
     };
 
     fetchProfessors();
-  }, [id]);
+  }, [branch]);
 
   useEffect(() => {
     const fetchBranch = async () => {

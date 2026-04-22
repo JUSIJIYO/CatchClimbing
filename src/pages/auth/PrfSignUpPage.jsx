@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import imageCompression from 'browser-image-compression';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, collection, getDocs } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../firebase/config';
 import { signUp } from '../../services/authService';
@@ -43,6 +44,15 @@ function PrfSignUpPage() {
 
   // 지점선택 상태 관리
   const [branchId, setBranchId] = useState('');
+  const [branches, setBranches] = useState([]);
+
+  useEffect(() => {
+    const fetchBranches = async () => {
+      const snapshot = await getDocs(collection(db, 'branches'));
+      setBranches(snapshot.docs.map((doc) => ({ branchId: doc.id, name: doc.data().name })));
+    };
+    fetchBranches();
+  }, []);
 
   // 레벨선택 상태 관리
   const [selectedLevel, setSelectedLevel] = useState('');
@@ -74,23 +84,32 @@ function PrfSignUpPage() {
   // 확인 모달 상태관리
   const [confirmModalInfo, setConfirmModalInfo] = useState({ show: false });
 
-  // 프로필 업로드 관리 함수
-  const handleProfileUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) {
-      return;
-    }
-    const reader = new FileReader(); // 파일 읽어서 다양한 형태로 변환해주는 내장 API
-    reader.onloadend = () => setProfileImg(reader.result); // 읽기 완료되면 프로필 상태 변환
-    reader.readAsDataURL(file); // 파일 읽어서 사용자가 바로 볼 수 있ㄱ ㅔ하기
+  const COMPRESSION_OPTIONS = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1280,
+    useWebWorker: true,
+    fileType: 'image/webp',
   };
 
-  const handleQualificationUpload = (e) => {
+  // 프로필 업로드 관리 함수
+  const handleProfileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const compressed = await imageCompression(file, COMPRESSION_OPTIONS);
+    const reader = new FileReader();
+    reader.onloadend = () => setProfileImg(reader.result);
+    reader.readAsDataURL(compressed);
+  };
+
+  const handleQualificationUpload = async (e) => {
     const file = e.target.files[0];
     if (!file || qualifications.length >= 2) return;
     const now = new Date();
     const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
-    setQualifications([...qualifications, { name: file.name, date: dateStr, file }]);
+    const processedFile = file.type.startsWith('image/')
+      ? await imageCompression(file, COMPRESSION_OPTIONS)
+      : file;
+    setQualifications([...qualifications, { name: file.name, date: dateStr, file: processedFile }]);
     e.target.value = '';
   };
 
@@ -199,7 +218,7 @@ function PrfSignUpPage() {
           branchId,
           career: [],
           qualifications: uploadedQualifications,
-          isApproved: false,
+          isApproved: "pending",
           profileImg,
           autoLogin: false,
           createdAt: serverTimestamp(),
@@ -238,19 +257,11 @@ function PrfSignUpPage() {
               onChange={(e) => setBranchId(e.target.value)}
             >
               <option value="">지점선택</option>
-              <option value="theclimb_yangjae">양재점</option>
-              <option value="theclimb_hongdae">홍대점</option>
-              <option value="theclimb_ilsan">일산점</option>
-              <option value="theclimb_sinsa">신사점</option>
-              <option value="theclimb_magok">마곡점</option>
-              <option value="theclimb_yeonnam">연남점</option>
-              <option value="theclimb_mullae">문래점</option>
-              <option value="theclimb_seongsu">성수점</option>
-              <option value="theclimb_isu">이수점</option>
-              <option value="theclimb_sillim">신림점</option>
-              <option value="theclimb_gangnam">강남점</option>
-              <option value="theclimb_sadang">사당점</option>
-              <option value="theclimb_nonhyeon">논현점</option>
+              {branches.map((branch) => (
+                <option key={branch.branchId} value={branch.name}>
+                  {branch.name}
+                </option>
+              ))}
             </select>
           </div>
         </article>

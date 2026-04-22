@@ -67,6 +67,9 @@ function CommuManagePage() {
   // 삭제할 게시글 or 댓글 모달 유지되는 동안 임시 저장할 수 있게 상태관리
   const [pendingDelete, setPendingDelete] = useState(null);
 
+  // 삭제된 항목 ID 로컬 추적 (재조회 없이 즉시 반영)
+  const [deletedIds, setDeletedIds] = useState(new Set());
+
   // 지점 목록 조회 (최초 1회만)
   useEffect(() => {
     fetchBranchNames()
@@ -119,8 +122,8 @@ function CommuManagePage() {
     // 리뷰 데이터
     const reviews = reviewsData.map((r) => ({ ...r, _type: "review" }));
     
-    // 두 개 데이터 합치기
-    let combined = [...posts, ...reviews];
+    // 두 개 데이터 합치기 (삭제된 항목 제외)
+    let combined = [...posts, ...reviews].filter((item) => !deletedIds.has(item.id));
 
     // 정렬조건 설정
     combined.sort((a, b) => {
@@ -140,7 +143,7 @@ function CommuManagePage() {
     }
 
     return combined.map((row, idx) => ({ ...row, index: idx }));
-  }, [postsData, reviewsData, filters.search, filters.sortOrder]);
+  }, [postsData, reviewsData, filters.search, filters.sortOrder, deletedIds]);
 
   const loading = postsLoading || reviewsLoading;
 
@@ -177,6 +180,7 @@ function CommuManagePage() {
       } else {
         await deleteReview(pendingDelete.id);
       }
+      setDeletedIds((prev) => new Set([...prev, pendingDelete.id]));
       setDoneModal(true);
     } catch (err) {
       console.error(err);
