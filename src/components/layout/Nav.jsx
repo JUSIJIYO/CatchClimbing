@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import icon1 from '../../assets/icon/navIcon1.svg';
 import icon2 from '../../assets/icon/navIcon2.svg';
 import icon3 from '../../assets/icon/navIcon3.svg';
@@ -11,18 +11,18 @@ import { useAuth } from '../../context/AuthContext';
 import Modal from '../common/Modal';
 
 function Nav() {
-  // 현재 유저 정보
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // 로그인하지 않고 로그인시 뜨는 모달 상태 관리
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const navSelect = ({ isActive }) => {
-    return isActive ? styles['active'] : "";
-  }
+  const isPathActive = (paths) =>
+    paths.some((p) => location.pathname === p || location.pathname.startsWith(p + '/'));
 
-  // 로그인 하지 않은 유저 관리 함수
+  const navClass = (paths) => ({ isActive }) =>
+    isActive || isPathActive(paths) ? styles['active'] : '';
+
   const handleUnLoginUser = (e, path) => {
     if (!currentUser) {
       e.preventDefault();
@@ -33,12 +33,12 @@ function Nav() {
   return (
     <nav className={styles['nav']}>
       <div className={styles['navList']}>
-        <NavLink to="/" className={navSelect}><img src={icon1} />센터찾기</NavLink>
-        <NavLink to="/class" className={navSelect}><img src={icon2} />수업</NavLink>
-        <NavLink to="/commu" className={navSelect}><img src={icon3} />커뮤니티</NavLink>
-        <NavLink to="/calendar" className={navSelect} onClick={(e) => handleUnLoginUser(e, '/calendar')}><img src={icon4} />캘린더</NavLink>
-        <NavLink to="/record" className={navSelect} onClick={(e) => handleUnLoginUser(e, '/record')}><img src={icon5} />개인기록</NavLink>
-        <NavLink to="/mypage" className={navSelect} onClick={(e) => handleUnLoginUser(e, '/mypage')}><img src={icon6} />마이페이지</NavLink>
+        <NavLink to="/" className={navClass(['/branch'])} end><img src={icon1} />센터찾기</NavLink>
+        <NavLink to="/class" className={navClass(['/class', '/professor'])} onClick={(e) => handleUnLoginUser(e, '/class')}><img src={icon2} />수업</NavLink>
+        <NavLink to="/commu" className={navClass(['/commu', '/community', '/review', '/post', '/postform', '/reviewdetail', '/reviewform'])} onClick={(e) => handleUnLoginUser(e, '/commu')}><img src={icon3} />커뮤니티</NavLink>
+        <NavLink to="/calendar" className={navClass(['/calendar', '/schedule'])} onClick={(e) => handleUnLoginUser(e, '/calendar')}><img src={icon4} />캘린더</NavLink>
+        <NavLink to="/record" className={navClass(['/record'])} onClick={(e) => handleUnLoginUser(e, '/record')}><img src={icon5} />개인기록</NavLink>
+        <NavLink to="/mypage" className={navClass(['/mypage', '/edit-profile', '/profile', '/level'])} onClick={(e) => handleUnLoginUser(e, '/mypage')}><img src={icon6} />마이페이지</NavLink>
       </div>
 
       {showLoginModal && (

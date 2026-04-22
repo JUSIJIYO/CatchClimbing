@@ -190,12 +190,12 @@ function PrfManagePage() {
       label: "상태",
       render: (val) => {
         const cls =
-          val === true
+          val === "approve"
             ? styles["prfManagePage-status-approve"]
             : val === "reject"
               ? styles["prfManagePage-status-reject"]
               : styles["prfManagePage-status-pending"];
-        const label = val === true ? "승인됨" : val === "reject" ? "거부됨" : "대기중";
+        const label = val === "approve" ? "승인됨" : val === "reject" ? "거부됨" : "대기중";
         return (
           <span className={`${styles["prfManagePage-status"]} ${cls}`}>
             {label}
@@ -261,15 +261,15 @@ function PrfManagePage() {
       statusFilters: [
         {
           label: "대기중",
-          value: false,
-          active: filters.approval === false,
-          onClick: () => toggleApproval(false),
+          value: "pending",
+          active: filters.approval === "pending",
+          onClick: () => toggleApproval("pending"),
         },
         {
           label: "승인됨",
-          value: true,
-          active: filters.approval === true,
-          onClick: () => toggleApproval(true),
+          value: "approve",
+          active: filters.approval === "approve",
+          onClick: () => toggleApproval("approve"),
         },
         {
           label: "거부됨",
