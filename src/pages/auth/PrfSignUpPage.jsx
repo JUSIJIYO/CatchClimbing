@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import imageCompression from 'browser-image-compression';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, collection, getDocs } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../firebase/config';
 import { signUp } from '../../services/authService';
@@ -44,6 +44,15 @@ function PrfSignUpPage() {
 
   // 지점선택 상태 관리
   const [branchId, setBranchId] = useState('');
+  const [branches, setBranches] = useState([]);
+
+  useEffect(() => {
+    const fetchBranches = async () => {
+      const snapshot = await getDocs(collection(db, 'branches'));
+      setBranches(snapshot.docs.map((doc) => ({ branchId: doc.id, name: doc.data().name })));
+    };
+    fetchBranches();
+  }, []);
 
   // 레벨선택 상태 관리
   const [selectedLevel, setSelectedLevel] = useState('');
@@ -248,19 +257,11 @@ function PrfSignUpPage() {
               onChange={(e) => setBranchId(e.target.value)}
             >
               <option value="">지점선택</option>
-              <option value="theclimb_yangjae">양재점</option>
-              <option value="theclimb_hongdae">홍대점</option>
-              <option value="theclimb_ilsan">일산점</option>
-              <option value="theclimb_sinsa">신사점</option>
-              <option value="theclimb_magok">마곡점</option>
-              <option value="theclimb_yeonnam">연남점</option>
-              <option value="theclimb_mullae">문래점</option>
-              <option value="theclimb_seongsu">성수점</option>
-              <option value="theclimb_isu">이수점</option>
-              <option value="theclimb_sillim">신림점</option>
-              <option value="theclimb_gangnam">강남점</option>
-              <option value="theclimb_sadang">사당점</option>
-              <option value="theclimb_nonhyeon">논현점</option>
+              {branches.map((branch) => (
+                <option key={branch.branchId} value={branch.name}>
+                  {branch.name}
+                </option>
+              ))}
             </select>
           </div>
         </article>
