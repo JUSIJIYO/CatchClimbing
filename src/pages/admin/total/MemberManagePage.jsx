@@ -184,7 +184,7 @@ function MemberManagePage() {
   };
 
   // 유저 상세조회 (보기버튼 클릭) 관리 함수
-  const handleView = (userId) => navigate(`/admin/professor/${userId}`);
+  const handleView = (userId) => navigate(`/admin/usermanage/professor/${userId}`);
 
   // 승인대기목록 관리 함수
   const handlePendingList = () => navigate("/admin/usermanage/prfapporve");
@@ -259,15 +259,15 @@ function MemberManagePage() {
           statusFilters: [
             {
               label: "대기중",
-              value: false,
-              active: filters.approval === false,
-              onClick: () => toggleApproval(false),
+              value: "pending",
+              active: filters.approval === "pending",
+              onClick: () => toggleApproval("pending"),
             },
             {
               label: "승인됨",
-              value: true,
-              active: filters.approval === true,
-              onClick: () => toggleApproval(true),
+              value: "approve",
+              active: filters.approval === "approve",
+              onClick: () => toggleApproval("approve"),
             },
             {
               label: "거부됨",
@@ -356,13 +356,14 @@ function MemberManagePage() {
       key: "isApproved",
       label: "상태",
       render: (val) => {
+        const normalized = val === true ? "approve" : val === false ? "pending" : val;
         const cls =
-          val === true
+          normalized === "approve"
             ? styles["memberManagePage-status-approve"]
-            : val === "reject"
+            : normalized === "reject"
               ? styles["memberManagePage-status-reject"]
               : styles["memberManagePage-status-pending"];
-        const label = val === true ? "승인됨" : val === "reject" ? "거부됨" : "대기중";
+        const label = normalized === "approve" ? "승인됨" : normalized === "reject" ? "거부됨" : "대기중";
         return (
           <span className={`${styles["memberManagePage-status"]} ${cls}`}>
             {label}
