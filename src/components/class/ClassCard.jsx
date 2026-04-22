@@ -50,15 +50,15 @@ function ClassCard({
 
         <div>
           <p className={styles["classcard-openDate"]}>
-            <img src={icon1} alt="" /> {openDate}
+            <img src={icon1} alt="달력" /> {openDate}
           </p>
 
           <span>
-            <img src={icon2} alt="" /> {currentCap}/{capacity}
+            <img src={icon2} alt="정원" /> {currentCap}/{capacity}
           </span>
 
           <span className={styles["classcard-branchName"]}>
-            <img src={icon3} alt="" /> {branchName}
+            <img src={icon3} alt="지점" /> {branchName}
           </span>
         </div>
       </div>
@@ -68,7 +68,7 @@ function ClassCard({
           onClick={handleDetailClick}
           className={styles["classcard-detail-button"]}
         >
-          <img src={icon4} alt="" /> 상세보기
+          <img src={icon4} alt="상세보기" /> 상세보기
         </button>
 
         {!isProfessor && (
@@ -84,4 +84,4 @@ function ClassCard({
   );
 }
 
-export default ClassCard;
+export default ClassCard; 

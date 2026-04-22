@@ -6,7 +6,9 @@ export const buildUsersQuery = (role = null, { orderDir = 'desc', isApproved = n
   const ref = collection(db, 'users')
   const constraints = []
   if (role)                  constraints.push(where('role', '==', role))
-  if (isApproved !== null)   constraints.push(where('isApproved', '==', isApproved))
+  if (isApproved === 'approve')       constraints.push(where('isApproved', 'in', ['approve', true]))
+  else if (isApproved === 'pending')  constraints.push(where('isApproved', 'in', ['pending', false]))
+  else if (isApproved !== null)       constraints.push(where('isApproved', '==', isApproved))
   if (branchId)              constraints.push(where('branchId', '==', branchId))
   // role 필터 + orderBy 조합은 복합 인덱스 필요 → role 없는 경우만 서버 정렬, 나머지는 클라이언트 정렬
   if (!role) constraints.push(orderBy('createdAt', orderDir))
@@ -170,7 +172,7 @@ export const getPendingProfessors = async () => {
   const q = query(
     collection(db, 'users'),
     where('role', '==', 'professor'),
-    where('isApproved', '==', false)
+    where('isApproved', 'in', ['pending', false])
   );
   const snap = await getDocs(q);
   return snap.docs

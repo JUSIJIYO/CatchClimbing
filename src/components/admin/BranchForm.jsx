@@ -308,10 +308,10 @@ function BranchForm() {
             className={styles["branchForm-form-image-ct"]}
           >
             {imagePreview ? (
-              <img src={imagePreview} alt="preview" />
+              <img src={imagePreview} alt="이미지 미리보기" />
             ) : (
               <>
-                <img src={adminBranchSign} />
+                <img src={adminBranchSign} alt="업로드 이미지"/>
                 <p>클릭하여 이미지를 업로드하세요</p>
                 <span>PNG, JPG, WEBP (최대 10MB)</span>
               </>
