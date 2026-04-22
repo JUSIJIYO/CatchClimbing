@@ -25,7 +25,7 @@ function StuClassList() {
       const user = auth.currentUser;
       if (!user) return;
 
-      await deleteDoc(doc(db, 'enrollments', item.id));
+      await deleteDoc(doc(db, 'classStudents', item.id));
 
       await updateDoc(doc(db, 'classes', item.classId), {
         currentCap: increment(-1),
@@ -47,8 +47,9 @@ function StuClassList() {
 
       try {
         const q = query(
-          collection(db, 'enrollments'),
-          where('userId', '==', user.uid)
+          collection(db, 'classStudents'),
+          where('userId', '==', user.uid),
+          where('status', '==', 'pending')
         );
 
         const snapshot = await getDocs(q);
