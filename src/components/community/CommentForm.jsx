@@ -26,7 +26,7 @@ function CommentForm({ postId }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const { currentUser } = useAuth();
+  const { currentUser, role } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   // 1. 댓글 데이터 불러오기 (Fetch)
@@ -99,6 +99,7 @@ function CommentForm({ postId }) {
         postId,
         authorId: currentUser?.uid,
         authorName: isAnonymous ? "익명" : name,
+        authorRole: role,
         isAnonymous,
         content: text,
         createdAt: new Date(),
@@ -168,6 +169,7 @@ await updateDoc(doc(db, "posts", postId), {
               createdAt={comment.createdAt}
               content={comment.content}
               isAnonymous={comment.isAnonymous}
+              authorRole={comment.authorRole}
             />
           ))
         )}
