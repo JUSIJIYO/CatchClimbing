@@ -1,40 +1,43 @@
-import React, { useEffect, useState } from "react";
-import styles from "../../styles/css/mypage/ProMyClassList.module.css";
-import { db } from "../../firebase/config";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import StuClassItem from "./StuClassItem";
-import { deleteDoc, doc, updateDoc, increment } from "firebase/firestore";
+import React, { useEffect, useState } from 'react';
+import styles from '../../styles/css/mypage/ProMyClassList.module.css';
+import { db } from '../../firebase/config';
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  getDoc,
+  deleteDoc,
+  updateDoc,
+  increment,
+} from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import StuClassItem from './StuClassItem';
 
 function StuClassList() {
+  const [classList, setClassList] = useState([]);
+  const navigate = useNavigate();
   const handleCancel = async (item) => {
     try {
       const auth = getAuth();
       const user = auth.currentUser;
-
       if (!user) return;
 
-      // 1. enrollments 문서 삭제
-      await deleteDoc(doc(db, "enrollments", item.id));
+      await deleteDoc(doc(db, 'enrollments', item.id));
 
-      // 2. 수강 인원 감소
-      await updateDoc(doc(db, "classes", item.classId), {
+      await updateDoc(doc(db, 'classes', item.classId), {
         currentCap: increment(-1),
       });
 
-      // 3. UI 업데이트
       setClassList((prev) => prev.filter((c) => c.id !== item.id));
 
-      alert("수강이 취소되었습니다.");
+      alert('수강이 취소되었습니다.');
     } catch (e) {
-      console.error("취소 실패:", e);
+      console.error('취소 실패:', e);
     }
   };
-
-  const [classList, setClassList] = useState([]);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const auth = getAuth();
@@ -44,31 +47,41 @@ function StuClassList() {
 
       try {
         const q = query(
-          collection(db, "enrollments"),
-          where("userId", "==", user.uid),
+          collection(db, 'enrollments'),
+          where('userId', '==', user.uid)
         );
 
         const snapshot = await getDocs(q);
 
-        const data = snapshot.docs.map((doc) => {
-          const d = doc.data();
+        const data = await Promise.all(
+          snapshot.docs.map(async (docItem) => {
+            const d = docItem.data();
 
-          // console.log("신청 내역 데이터:", d);
+            const classRef = doc(db, 'classes', d.classId);
+            const classSnap = await getDoc(classRef);
 
-          return {
-            id: doc.id,
-            classId: d.classId,
-            title: d.title,
-            openDate: d.openDate,
-            startTime: d.startTime,
-            endTime: d.endTime,
-            level: d.level || "정보 없음",
-          };
-        });
+            if (!classSnap.exists()) return null;
 
-        setClassList(data);
+            const classData = classSnap.data();
+            // console.log(classData);
+            return {
+              id: docItem.id,
+              classId: d.classId,
+              title: classData.title,
+              openDate: classData.time
+                ? `${classData.openDate} ${classData.time}`
+                : classData.openDate,
+
+              professorName: classData.professorName,
+              branchName: classData.branchName,
+              level: classData.level || '정보 없음',
+            };
+          })
+        );
+
+        setClassList(data.filter(Boolean));
       } catch (e) {
-        console.error("수강 목록 불러오기 실패:", e);
+        console.error('수강 목록 불러오기 실패:', e);
       }
     });
 
@@ -92,7 +105,7 @@ function StuClassList() {
                 item={item}
                 onClick={() => navigate(`/class/${item.classId}`)}
                 onCancel={() => handleCancel(item)}
-                showCancel={true} 
+                showCancel={true}
               />
             ))
           )}
