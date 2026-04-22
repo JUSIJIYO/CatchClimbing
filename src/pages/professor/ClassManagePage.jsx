@@ -146,7 +146,7 @@ function ClassManagePage() {
         <div className={styles.bottomBar}>
           <button
             className={styles.addBtn}
-            onClick={() => navigate('/professor/new-class')}
+            onClick={() => navigate('/professor/newclass')}
           >
             강의 등록
           </button>

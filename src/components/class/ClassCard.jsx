@@ -17,6 +17,7 @@ function ClassCard({
   imageUrl,
   onRegisterClick,
   isProfessor,
+  studentCount,
 }) {
   const navigate = useNavigate();
 
@@ -54,7 +55,7 @@ function ClassCard({
           </p>
 
           <span>
-            <img src={icon2} alt="정원" /> {currentCap}/{capacity}
+            <img src={icon2} alt="정원" /> {studentCount ?? currentCap}/{capacity}
           </span>
 
           <span className={styles["classcard-branchName"]}>
@@ -84,4 +85,4 @@ function ClassCard({
   );
 }
 
-export default ClassCard; 
+export default ClassCard;
