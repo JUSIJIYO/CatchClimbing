@@ -23,6 +23,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
   const [form, setForm] = useState({
     title: '',
     description: '',
+    branchId: '',
     branchName: '',
     level: '',
     capacity: '',
@@ -32,6 +33,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
     endTime: '',
     date: '',
   });
+  const [branches, setBranches] = useState([]);
 
   const location = useLocation();
   const editData = location.state?.editData;
@@ -45,21 +47,14 @@ function PrfClassForm({ onSuccess, onCancle }) {
 
   const navigate = useNavigate();
 
-  const branchMap = {
-    theclimb_hongdae: '홍대점',
-    theclimb_gangnam: '강남점',
-    theclimb_ilsan: '일산점',
-    theclimb_isu: '이수점',
-    theclimb_magok: '마곡점',
-    theclimb_mullae: '문래점',
-    theclimb_nonhyeon: '논현점',
-    theclimb_sadang: '사당점',
-    theclimb_seongsu: '성수점',
-    theclimb_sillim: '신림점',
-    theclimb_sinsa: '신사점',
-    theclimb_yangjae: '양재점',
-    theclimb_yeonnam: '연남점',
-  };
+  useEffect(() => {
+    const fetchBranches = async () => {
+      const q = query(collection(db, 'branches'), where('status', '==', 'approved'));
+      const snap = await getDocs(q);
+      setBranches(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+    };
+    fetchBranches();
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -70,14 +65,8 @@ function PrfClassForm({ onSuccess, onCancle }) {
 
       if (snap.exists()) {
         const data = snap.data();
-
-        const branch = branchMap[data.branchId];
-
-        if (branch) {
-          setForm((prev) => ({
-            ...prev,
-            branchName: branch,
-          }));
+        if (data.branchId) {
+          setForm((prev) => ({ ...prev, branchId: data.branchId }));
         }
       }
     };
@@ -117,7 +106,8 @@ function PrfClassForm({ onSuccess, onCancle }) {
         title: editData.title,
         date: editData.date || '',
         description: editData.description,
-        branchName: editData.branchName,
+        branchId: editData.branchId || '',
+        branchName: editData.branchName || '',
         level: editData.level,
         capacity: editData.capacity,
         classMoney: editData.classMoney,
@@ -136,11 +126,10 @@ function PrfClassForm({ onSuccess, onCancle }) {
 
     const openDate = `${form.day} ${form.startTime} ~ ${form.endTime}`;
 
-    const reverseBranchMap = Object.fromEntries(
-      Object.entries(branchMap).map(([k, v]) => [v, k])
-    );
-
-    const branchId = reverseBranchMap[form.branchName];
+    const selectedBranch = branches.find((b) => b.id === form.branchId);
+    const branchId = form.branchId;
+    const rawName = selectedBranch?.name || form.branchName;
+    const branchName = rawName.replace(/^더클라임\s*/, '');
 
     try {
       const userSnap = await getDoc(doc(db, 'users', user.uid));
@@ -151,7 +140,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
           title: form.title,
           openDate,
           date: form.date,
-          branchName: form.branchName,
+          branchName,
           branchId,
           level: form.level,
           classMoney: Number(form.classMoney),
@@ -166,7 +155,7 @@ function PrfClassForm({ onSuccess, onCancle }) {
           professorName: userData.name,
           openDate,
           date: form.date,
-          branchName: form.branchName,
+          branchName,
           branchId,
           level: form.level,
           classMoney: Number(form.classMoney),
@@ -237,8 +226,8 @@ function PrfClassForm({ onSuccess, onCancle }) {
     if (!form.classMoney) newError.classMoney = '수강료를 입력해주세요';
     // if (!form.day) newError.day = '요일을 선택해주세요';
     if (!form.date) newError.date = '날짜를 선택해주세요';
-    if (!form.branchName) {
-      newError.branchName = '지점 정보를 불러오는 중입니다';
+    if (!form.branchId) {
+      newError.branchName = '지점을 선택해주세요';
     }
 
     if (!sh || !sm || !eh || !em) {
@@ -315,13 +304,14 @@ function PrfClassForm({ onSuccess, onCancle }) {
             <label className={styles.label}>지점 *</label>
 
             <select
-              name="branchName"
-              value={form.branchName || ''}
+              name="branchId"
+              value={form.branchId || ''}
               onChange={handleChange}
             >
-              {Object.values(branchMap).map((branch) => (
-                <option key={branch} value={branch}>
-                  {branch}
+              <option value="">지점 선택</option>
+              {branches.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.name}
                 </option>
               ))}
             </select>

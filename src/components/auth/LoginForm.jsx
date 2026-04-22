@@ -169,7 +169,7 @@ function LoginForm() {
       {modal && (
         <CheckModal
           title="로그인 성공"
-          message="로그인에 성공하셨습니다.."
+          message="로그인에 성공하셨습니다."
           onConfirm={handleModalConfirm}
         />
       )}
