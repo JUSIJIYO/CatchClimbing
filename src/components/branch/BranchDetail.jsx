@@ -43,12 +43,16 @@ function BranchDetail({ branch }) {
     if (branch?.id) fetchBranchDetail();
   }, [branch]);
 
-  const lat = branchData.latitude ?? branchData.latitud;
-  const lng =
-    branchData.longitude ?? branchData.longtitude ?? branchData.logitude;
+  const lat = Number(branchData.latitude ?? branchData.latitud);
 
-  const coords = lat && lng ? { lat, lng } : null;
+  const lng = Number(
+    branchData.longitude ?? branchData.longtitude ?? branchData.logitude
+  );
 
+  console.log('lat:', lat, typeof lat);
+  console.log('lng:', lng, typeof lng);
+
+  const coords = !isNaN(lat) && !isNaN(lng) ? { lat, lng } : null;
   const [rating, setRating] = useState(0);
   useEffect(() => {
     // console.log('branch 전체:', branch);

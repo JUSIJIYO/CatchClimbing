@@ -1,0 +1,17 @@
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 16px 0 0 24px;
+
+  font-size: 15px;
+  color: #67798d;
+
+  cursor: pointer;
+}
+
+.backBtn img {
+  width: 18px;
+  height: 18px;
+}

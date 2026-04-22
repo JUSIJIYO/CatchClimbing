@@ -47,8 +47,10 @@ function StuCompleteList() {
               id: docItem.id,
               classId: d.classId,
               title: classData.title,
-              level: classData.level,
+              professorName: classData.professorName,
               branchName: classData.branchName,
+              openDate: classData.openDate,
+              level: classData.level,
             };
           })
         );

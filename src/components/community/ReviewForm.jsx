@@ -1,17 +1,17 @@
-import { useState } from "react";
-import styles from "../../styles/css/community/ReviewForm.module.css";
-import { useNavigate } from "react-router-dom";
-import Modal from "../../components/common/Modal";
-import ComfirmModal from "../../components/common/ConfirmModal";
-import { db } from "../../firebase/config";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { useLocation } from "react-router-dom";
-
+import { useState } from 'react';
+import styles from '../../styles/css/community/ReviewForm.module.css';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../../components/common/Modal';
+import ComfirmModal from '../../components/common/ConfirmModal';
+import { db } from '../../firebase/config';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useLocation } from 'react-router-dom';
 
 export default function ReviewForm() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [rating, setRating] = useState(5);
+  const [hoverRating, setHoverRating] = useState(0);
   const [anonymous, setAnonymous] = useState(false);
 
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function ReviewForm() {
 
   const submitReview = async () => {
     try {
-      await addDoc(collection(db, "reviews"), {
+      await addDoc(collection(db, 'reviews'), {
         title,
         content,
         rating,
@@ -41,15 +41,20 @@ export default function ReviewForm() {
 
       setIsCompleteModalOpen(true);
     } catch (e) {
-      console.error("리뷰 저장 실패:", e);
+      console.error('리뷰 저장 실패:', e);
     }
   };
 
   const location = useLocation();
-  const { classId, title: classTitle, branchId, branchName } = location.state || {};
+  const {
+    classId,
+    title: classTitle,
+    branchId,
+    branchName,
+  } = location.state || {};
 
   return (
-    <div className={styles["form-container"]}>
+    <div className={styles['form-container']}>
       {isModalOpen && (
         <Modal
           title="리뷰 등록"
@@ -73,28 +78,53 @@ export default function ReviewForm() {
           }}
         />
       )}
-      <div className={styles["form-card"]}>
-        <h2 className={styles["form-title"]}>리뷰 작성</h2>
+      <div className={styles['form-card']}>
+        <h2 className={styles['form-title']}>리뷰 작성</h2>
 
         {/* 별점 */}
-        <div className={styles["form-box"]}>
+        <div className={styles['form-box']}>
           <label>평점</label>
-          <div className={styles["star-box"]}>
-            {[1, 2, 3, 4, 5].map((num) => (
-              <span
-                key={num}
-                className={num <= rating ? styles.starOn : styles.starOff}
-                onClick={() => setRating(num)}
-              >
-                ★
-              </span>
-            ))}
-            <span className={styles.ratingText}>{rating}.0</span>
+          <div
+            className={styles['star-box']}
+            onMouseMove={(e) => {
+              const { left, width } = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - left;
+
+              const percent = x / width;
+              const newRating = Math.ceil(percent * 10) / 2;
+
+              setHoverRating(Math.min(5, Math.max(0.5, newRating)));
+            }}
+            onMouseLeave={() => setHoverRating(0)} // ⭐ 마우스 나가면 초기화
+            onClick={() => setRating(hoverRating || rating)} // ⭐ 클릭하면 확정
+          >
+            {[1, 2, 3, 4, 5].map((num) => {
+              const display = hoverRating || rating; // ⭐ 핵심
+
+              return (
+                <span
+                  key={num}
+                  className={
+                    display >= num
+                      ? styles.starOn
+                      : display >= num - 0.5
+                      ? styles.starHalf
+                      : styles.starOff
+                  }
+                >
+                  ★
+                </span>
+              );
+            })}
+
+            <span className={styles.ratingText}>
+              {(hoverRating || rating).toFixed(1)}
+            </span>
           </div>
         </div>
 
         {/* 제목 */}
-        <div className={styles["form-box"]}>
+        <div className={styles['form-box']}>
           <label>제목</label>
           <input
             type="text"
@@ -105,7 +135,7 @@ export default function ReviewForm() {
         </div>
 
         {/* 내용 */}
-        <div className={styles["form-box"]}>
+        <div className={styles['form-box']}>
           <label>내용</label>
           <textarea
             placeholder="리뷰 내용을 입력하세요..."
@@ -115,7 +145,7 @@ export default function ReviewForm() {
         </div>
 
         {/* 익명 */}
-        <div className={styles["form-chkbox"]}>
+        <div className={styles['form-chkbox']}>
           <input
             type="checkbox"
             checked={anonymous}
@@ -125,15 +155,15 @@ export default function ReviewForm() {
         </div>
 
         {/* 버튼 */}
-        <div className={styles["form-btn-group"]}>
+        <div className={styles['form-btn-group']}>
           <button
-            className={styles["form-cancel"]}
+            className={styles['form-cancel']}
             onClick={() => navigate(-1)}
           >
             취소
           </button>
 
-          <button className={styles["form-submit"]} onClick={handleSubmit}>
+          <button className={styles['form-submit']} onClick={handleSubmit}>
             등록
           </button>
         </div>
