@@ -9,6 +9,7 @@ import {
   doc,
   getDoc,
   updateDoc,
+  onSnapshot,
 } from 'firebase/firestore';
 import PrfClassStuList from '../../components/professor/PrfClassStuList';
 import styles from '../../styles/css/professor/PrfClassStuListPage.module.css';
@@ -34,14 +35,14 @@ function PrfClassStuListPage() {
 
       // UI 반영
       const updated = students.map((stu) =>
-        stu.id === studentId ? { ...stu, status: newStatus } : stu,
+        stu.id === studentId ? { ...stu, status: newStatus } : stu
       );
 
       setStudents(updated);
 
       // 현재 검색어 기준으로 다시 필터
       const filteredData = updated.filter((stu) =>
-        stu.name?.toLowerCase().includes(search.toLowerCase()),
+        stu.name?.toLowerCase().includes(search.toLowerCase())
       );
 
       setFiltered(filteredData);
@@ -51,40 +52,29 @@ function PrfClassStuListPage() {
   };
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        // 강의 문서에서 professorId 조회할 수 있게 설정
-        const classSnap = await getDoc(doc(db, 'classes', id));
-        const professorId = classSnap.exists() ? classSnap.data().professorId : null;
+    const q = query(
+      collection(db, 'classStudents'),
+      where('classId', '==', id)
+    );
 
-        const q = query(
-          collection(db, 'classStudents'),
-          where('classId', '==', id),
-          ...(professorId ? [where('professorId', '==', professorId)] : []),
-        );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-        const snapshot = await getDocs(q);
+      setStudents(data);
+      setFiltered(data);
+      setLoading(false);
+    });
 
-        const result = snapshot.docs.map((data) => ({
-          id: data.id,
-          ...data.data(),
-        }));
-
-        setStudents(result);
-        setFiltered(result);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStudents();
+    return () => unsubscribe();
   }, [id]);
+
   //  검색
   useEffect(() => {
     const filteredData = students.filter((stu) =>
-      stu.name?.toLowerCase().includes(search.toLowerCase()),
+      stu.name?.toLowerCase().includes(search.toLowerCase())
     );
     setFiltered(filteredData);
   }, [search, students]);

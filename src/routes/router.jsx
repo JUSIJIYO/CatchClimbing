@@ -102,7 +102,7 @@ export const router = createBrowserRouter([
       { path: '/calendar', element: sus(CalendarPage) },
       { path: '/schedule/:date', element: sus(ScheduleDetailPage) },
       { path: 'profile', element: sus(ProfilePage) },
-      { path: 'professor/new-class', element: sus(PrfFormPage) },
+      { path: 'professor/newclass', element: sus(PrfFormPage) },
       { path: 'professor/edit/:id', element: sus(PrfFormPage) },
       { path: 'professor/manage', element: sus(PrfClassManagePage) },
       { path: 'professor/class/:id/students', element: sus(PrfClassStuList) },

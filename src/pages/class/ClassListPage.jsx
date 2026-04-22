@@ -21,6 +21,12 @@ import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import icon5 from "../../assets/icon/profile.svg";
 
+const normalizeBranchName = (name) =>
+  name?.replace(/^더클라임\s+/, "") || name;
+
+const branchKey = (name) =>
+  name?.replace(/^더클라임\s+/, "").replace(/점$/, "") || name;
+
 function ClassListPage() {
   const [data, setData] = useState([]);
   const [allData, setAllData] = useState([]); // 지점 전체 데이터
@@ -50,22 +56,37 @@ function ClassListPage() {
 
         const classSnap = await getDocs(collection(db, "classes"));
 
-        const result = classSnap.docs.map((doc) => {
-          const data = doc.data();
+        const result = await Promise.all(
+          classSnap.docs.map(async (doc) => {
+            const data = doc.data();
+            const classId = doc.id;
 
-          return {
-            id: doc.id,
-            ...data,
-            imageUrl: userMap[data.professorId] || icon5, // fallback 필수
-          };
-        });
+            const studentQuery = query(
+              collection(db, "classStudents"),
+              where("classId", "==", classId),
+            );
+            const studentSnap = await getDocs(studentQuery);
 
-        setAllData(result);
-        setData(result);
-        const branches = result.map((item) => item.branchName);
-        const uniqueBranches = [...new Set(branches)];
+            return {
+              id: classId,
+              ...data,
+              imageUrl: userMap[data.professorId] || icon5, // fallback 필수
+              studentCount: studentSnap.size,
+            };
+          }),
+        );
 
-        setBranchList(["전체", ...uniqueBranches]);
+        const validResult = result.filter((item) => item.title);
+
+        setAllData(validResult);
+        setData(validResult);
+
+        const branchSnap = await getDocs(collection(db, "branches"));
+        const branchNames = branchSnap.docs
+          .map((doc) => normalizeBranchName(doc.data().name))
+          .filter(Boolean);
+
+        setBranchList(["전체", ...branchNames]);
       } catch (e) {
         console.error(e);
       }
@@ -80,7 +101,7 @@ function ClassListPage() {
       setData(allData);
     } else {
       const filtered = allData.filter(
-        (item) => item.branchName === selectedBranch,
+        (item) => branchKey(item.branchName) === branchKey(selectedBranch),
       );
       setData(filtered);
     }
@@ -102,9 +123,9 @@ function ClassListPage() {
 
         if (data.role === "professor") {
           setIsProfessor(true);
-        }else {
-        setIsProfessor(false);
-      }
+        } else {
+          setIsProfessor(false);
+        }
       }
     });
 
@@ -129,7 +150,7 @@ function ClassListPage() {
       <div className={styles["filter"]}>
         <img src={icon1} className={styles["class-filter-icon"]} />
         <div className={styles["container"]}>
-          지점:
+          <div>지점:</div>
           {branchList.map((branch) => (
             <ClassFilterButton
               key={branch}
@@ -182,6 +203,9 @@ function ClassListPage() {
                 return;
               }
 
+              const userSnap = await getDoc(doc(db, "users", user.uid));
+              const userData = userSnap.data();
+
               // ✅ 1. 정원 초과 먼저
               if (selectedClass.currentCap >= selectedClass.capacity) {
                 setIsOverModalOpen(true);
@@ -190,7 +214,7 @@ function ClassListPage() {
 
               // ✅ 2. 중복 체크
               const q = query(
-                collection(db, "enrollments"),
+                collection(db, "classStudents"),
                 where("userId", "==", user.uid),
                 where("classId", "==", selectedClass.id),
               );
@@ -203,14 +227,18 @@ function ClassListPage() {
               }
 
               // ✅ 3. 정상 신청
-              await addDoc(collection(db, "enrollments"), {
+              await addDoc(collection(db, "classStudents"), {
                 userId: user.uid,
                 classId: selectedClass.id,
-                professorId: user.uid,
-                title: selectedClass.title,
-                date: selectedClass.openDate,
-                time: "",
-                level: selectedClass.level,
+                professorId: selectedClass.professorId,
+
+                name: userData?.name || "이름없음",
+                level: userData?.level || "VB",
+                phone: userData?.phone || "",
+                email: userData?.email || user.email,
+
+                status: "pending",
+                createdAt: new Date(),
               });
 
               await updateDoc(doc(db, "classes", selectedClass.id), {
@@ -260,7 +288,7 @@ function ClassListPage() {
 
           <button
             className={styles.mainBtn}
-            onClick={() => navigate("/professor/new-class")}
+            onClick={() => navigate("/professor/newclass")}
           >
             강의 등록
           </button>

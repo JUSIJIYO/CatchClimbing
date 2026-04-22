@@ -1,19 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   buildUsersQuery,
   fetchBranchNames,
   updateUserDoc,
-} from "../../../services/adminService";
-import { useAuth } from "../../../context/AuthContext";
-import DataTable from "../../../components/admin/DataTable";
-import FileterBar from "../../../components/admin/FileterBar";
-import useAdminData from "../../../hooks/useAdminData";
-import Modal from "../../../components/common/Modal";
-import ConfirmModal from "../../../components/common/ConfirmModal";
-import styles from "../../../styles/css/admin/PrfManagePage.module.css";
-import adminBranchEye from "../../../assets/icon/adminBrancheye.svg";
-
+} from '../../../services/adminService';
+import { useAuth } from '../../../context/AuthContext';
+import DataTable from '../../../components/admin/DataTable';
+import FileterBar from '../../../components/admin/FileterBar';
+import useAdminData from '../../../hooks/useAdminData';
+import Modal from '../../../components/common/Modal';
+import ConfirmModal from '../../../components/common/ConfirmModal';
+import styles from '../../../styles/css/admin/PrfManagePage.module.css';
+import adminBranchEye from '../../../assets/icon/adminBrancheye.svg';
 
 // 한 페이지에 보이는 No. 갯수
 const PAGE_SIZE = 5;
@@ -21,19 +20,19 @@ const PAGE_SIZE = 5;
 // 받아온 가입일 xxxx-xx-xx 형식으로 바꾸기
 const signDate = (time) => {
   if (!time) {
-    return "-";
+    return '-';
   }
   const date = time.toDate ? time.toDate() : new Date(time);
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
 
 // 필터 초기값 (검색, 최신순, 승인)
 const FILTERS = {
-  search: "",
-  sortOrder: "desc",
+  search: '',
+  sortOrder: 'desc',
   approval: null,
 };
 
@@ -72,7 +71,7 @@ function PrfManagePage() {
     }
 
     // 조건 넘겨서 해당하는 데이터 가져오기
-    return buildUsersQuery("professor", {
+    return buildUsersQuery('professor', {
       // 정렬 조건
       orderDir: filters.sortOrder,
 
@@ -92,7 +91,7 @@ function PrfManagePage() {
     let users = [...data].sort((a, b) => {
       const userTime = a.createdAt?.seconds ?? 0;
       const user2Time = b.createdAt?.seconds ?? 0;
-      return filters.sortOrder === "desc"
+      return filters.sortOrder === 'desc'
         ? user2Time - userTime
         : userTime - user2Time;
     });
@@ -103,7 +102,7 @@ function PrfManagePage() {
       users = users.filter(
         (row) =>
           row.name?.toLowerCase().includes(q) ||
-          row.email?.toLowerCase().includes(q),
+          row.email?.toLowerCase().includes(q)
       );
     }
 
@@ -157,37 +156,37 @@ function PrfManagePage() {
   // 승인대기목록 관리 함수
   const handlePendingList = () =>
     navigate(
-      `/admin/prfmanage/prfapporve${branchId ? `?branchId=${branchId}` : ""}`,
+      `/admin/prfmanage/prfapporve${branchId ? `?branchId=${branchId}` : ''}`
     );
 
   const columns = useMemo(() => {
     // 넘버링
     const no = {
-      key: "_no",
-      label: "No.",
+      key: '_no',
+      label: 'No.',
       render: (_, row) => row.index + 1,
     };
 
     // 이름
-    const name = { key: "name", label: "이름" };
+    const name = { key: 'name', label: '이름' };
 
     // 연락처
-    const phone = { key: "phone", label: "연락처" };
+    const phone = { key: 'phone', label: '연락처' };
 
     // 가입일
     const joinedAt = {
-      key: "createdAt",
-      label: "가입일",
+      key: 'createdAt',
+      label: '가입일',
       render: (val) => signDate(val),
     };
 
     // 이메일
-    const email = { key: "email", label: "이메일" };
+    const email = { key: 'email', label: '이메일' };
 
     // 상태값
     const status = {
-      key: "isApproved",
-      label: "상태",
+      key: 'isApproved',
+      label: '상태',
       render: (val) => {
         const cls =
           val === "approve"
@@ -197,7 +196,7 @@ function PrfManagePage() {
               : styles["prfManagePage-status-pending"];
         const label = val === "approve" ? "승인됨" : val === "reject" ? "거부됨" : "대기중";
         return (
-          <span className={`${styles["prfManagePage-status"]} ${cls}`}>
+          <span className={`${styles['prfManagePage-status']} ${cls}`}>
             {label}
           </span>
         );
@@ -206,11 +205,11 @@ function PrfManagePage() {
 
     // 조회하기 버튼
     const viewBtn = {
-      key: "_view",
-      label: "조회",
+      key: '_view',
+      label: '조회',
       render: (_, row) => (
         <button
-          className={styles["prfManagePage-view-button"]}
+          className={styles['prfManagePage-view-button']}
           onClick={() => handleView(row.id)}
         >
           <img src={adminBranchEye} alt="눈 이미지" />
@@ -221,20 +220,20 @@ function PrfManagePage() {
 
     // 비활성화/활성화 버튼
     const deactivateBtn = {
-      key: "_action",
-      label: "",
+      key: '_action',
+      label: '',
       render: (_, row) => {
         const isActive = row.isactivate !== false;
         return (
           <button
             className={
               isActive
-                ? styles["prfManagePage-deactivate-button"]
-                : styles["prfManagePage-activate-button"]
+                ? styles['prfManagePage-deactivate-button']
+                : styles['prfManagePage-activate-button']
             }
             onClick={() => handleDeactivate(row)}
           >
-            {isActive ? "비활성화" : "활성화"}
+            {isActive ? '비활성화' : '활성화'}
           </button>
         );
       },
@@ -246,15 +245,15 @@ function PrfManagePage() {
   // 필터 관리 함수
   const filterBarProps = useMemo(
     () => ({
-      searchPlaceholder: "이름, 이메일 검색",
-      actionButton: { label: "승인 대기 목록", onClick: handlePendingList },
+      searchPlaceholder: '이름, 이메일 검색',
+      actionButton: { label: '승인 대기 목록', onClick: handlePendingList },
       selects: [
         {
           value: filters.sortOrder,
-          onChange: set("sortOrder"),
+          onChange: set('sortOrder'),
           options: [
-            { value: "desc", label: "최신순" },
-            { value: "asc", label: "오래된순" },
+            { value: 'desc', label: '최신순' },
+            { value: 'asc', label: '오래된순' },
           ],
         },
       ],
@@ -272,26 +271,26 @@ function PrfManagePage() {
           onClick: () => toggleApproval("approve"),
         },
         {
-          label: "거부됨",
-          value: "reject",
-          active: filters.approval === "reject",
-          onClick: () => toggleApproval("reject"),
+          label: '거부됨',
+          value: 'reject',
+          active: filters.approval === 'reject',
+          onClick: () => toggleApproval('reject'),
         },
       ],
     }),
-    [filters],
+    [filters]
   );
 
   return (
-    <div className={styles["prfManagePage-ct"]}>
-      <div className={styles["prfManagePage-header-ct"]}>
+    <div className={styles['prfManagePage-ct']}>
+      <div className={styles['prfManagePage-header-ct']}>
         <h2>강사 관리</h2>
         <p>소속 지점의 강사 정보를 조회하고 관리하세요</p>
       </div>
 
       <FileterBar
         searchValue={filters.search}
-        onSearchChange={set("search")}
+        onSearchChange={set('search')}
         onReset={handleReset}
         {...filterBarProps}
       />
@@ -306,7 +305,7 @@ function PrfManagePage() {
 
       {modal && !doneModal && (
         <Modal
-          title={modal.isactivate !== false ? "비활성화" : "활성화"}
+          title={modal.isactivate !== false ? '비활성화' : '활성화'}
           message={
             modal.isactivate !== false
               ? `${modal.name}님을 비활성화하시겠습니까?`

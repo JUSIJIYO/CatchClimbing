@@ -64,27 +64,32 @@ function BranchDetailPage() {
   }, []);
 
   useEffect(() => {
+    if (!branch) return;
+
     const fetchProfessors = async () => {
       try {
-        const q = query(
-          collection(db, 'users'),
-          where('role', '==', 'professor'),
-          where('branchId', '==', id),
-        );
+        const [snapByName, snapById] = await Promise.all([
+          getDocs(query(collection(db, 'users'), where('role', '==', 'professor'), where('branchId', '==', branch.name))),
+          getDocs(query(collection(db, 'users'), where('role', '==', 'professor'), where('branchId', '==', id))),
+        ]);
 
-        const querySnapshot = await getDocs(q);
-
-        const data = querySnapshot.docs.map((doc) => {
-          const d = doc.data();
-
-          return {
-            id: doc.id,
-            name: d.name,
-            level: d.level,
-            profile: d.profileImg,
-            career: d.career || [],
-          };
-        });
+        const seen = new Set();
+        const data = [...snapByName.docs, ...snapById.docs]
+          .filter((doc) => {
+            if (seen.has(doc.id)) return false;
+            seen.add(doc.id);
+            return true;
+          })
+          .map((doc) => {
+            const d = doc.data();
+            return {
+              id: doc.id,
+              name: d.name,
+              level: d.level,
+              profile: d.profileImg,
+              career: d.career || [],
+            };
+          });
 
         setPrfList(data);
       } catch (e) {
@@ -93,7 +98,7 @@ function BranchDetailPage() {
     };
 
     fetchProfessors();
-  }, [id]);
+  }, [branch]);
 
   useEffect(() => {
     const fetchBranch = async () => {

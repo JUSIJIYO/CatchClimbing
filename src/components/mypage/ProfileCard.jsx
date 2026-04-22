@@ -34,7 +34,10 @@ function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
   const remain = point % 4 === 0 && point !== 0 ? 0 : 4 - (point % 4);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-
+  const roleLabel =
+    userData?.role === 'student'
+      ? '수강생'
+      : branchMap[userData?.branchId] || '';
   return (
     <div className={styles.card}>
       <div className={styles.top}>
@@ -46,7 +49,7 @@ function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
 
           <div className={styles.info}>
             <p className={styles.name}>
-              {name} ({branch})
+              {name} ({roleLabel})
             </p>
             <span className={styles.level}>레벨 {level}</span>
           </div>
