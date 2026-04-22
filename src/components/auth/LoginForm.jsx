@@ -79,7 +79,7 @@ function LoginForm() {
         return;
       }
 
-      if (userData?.role === "professor" && userData?.isApproved !== true) {
+      if (userData?.role === "professor" && userData?.isApproved !== "approve" && userData?.isApproved !== true) {
         await signOut(auth);
         setUnapprovedModal(true);
         return;

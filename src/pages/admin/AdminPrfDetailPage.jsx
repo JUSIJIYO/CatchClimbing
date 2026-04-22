@@ -203,9 +203,9 @@ function AdminPrfDetailPage() {
             {professor.name}
           </p>
           <p
-            className={`${styles["adminPrfDetailPage-status"]} ${professor.isApproved ? styles["adminPrfDetailPage-status-approved"] : styles["adminPrfDetailPage-status-pending"]}`}
+            className={`${styles["adminPrfDetailPage-status"]} ${professor.isApproved === "approve" ? styles["adminPrfDetailPage-status-approved"] : styles["adminPrfDetailPage-status-pending"]}`}
           >
-            {professor.isApproved ? "승인됨" : "대기중"}
+            {professor.isApproved === "approve" ? "승인됨" : professor.isApproved === "reject" ? "거부됨" : "대기중"}
           </p>
 
           <div className={styles["adminPrfDetailPage-professor-info-ct"]}>

@@ -36,7 +36,7 @@ function PrfApproveItem({ professor, onStatusChange }) {
   const handleConfirm = async () => {
     setProcessing(true);
     try {
-      const isApproved = modal === "approve" ? true : "reject";
+      const isApproved = modal === "approve" ? "approve" : "reject";
       await updateDoc(doc(db, "users", professor.id), { isApproved });
       const type = modal;
       setModal(null);

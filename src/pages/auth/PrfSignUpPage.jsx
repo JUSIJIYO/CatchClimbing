@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import imageCompression from 'browser-image-compression';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -74,23 +75,32 @@ function PrfSignUpPage() {
   // 확인 모달 상태관리
   const [confirmModalInfo, setConfirmModalInfo] = useState({ show: false });
 
-  // 프로필 업로드 관리 함수
-  const handleProfileUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) {
-      return;
-    }
-    const reader = new FileReader(); // 파일 읽어서 다양한 형태로 변환해주는 내장 API
-    reader.onloadend = () => setProfileImg(reader.result); // 읽기 완료되면 프로필 상태 변환
-    reader.readAsDataURL(file); // 파일 읽어서 사용자가 바로 볼 수 있ㄱ ㅔ하기
+  const COMPRESSION_OPTIONS = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1280,
+    useWebWorker: true,
+    fileType: 'image/webp',
   };
 
-  const handleQualificationUpload = (e) => {
+  // 프로필 업로드 관리 함수
+  const handleProfileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const compressed = await imageCompression(file, COMPRESSION_OPTIONS);
+    const reader = new FileReader();
+    reader.onloadend = () => setProfileImg(reader.result);
+    reader.readAsDataURL(compressed);
+  };
+
+  const handleQualificationUpload = async (e) => {
     const file = e.target.files[0];
     if (!file || qualifications.length >= 2) return;
     const now = new Date();
     const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
-    setQualifications([...qualifications, { name: file.name, date: dateStr, file }]);
+    const processedFile = file.type.startsWith('image/')
+      ? await imageCompression(file, COMPRESSION_OPTIONS)
+      : file;
+    setQualifications([...qualifications, { name: file.name, date: dateStr, file: processedFile }]);
     e.target.value = '';
   };
 
@@ -199,7 +209,7 @@ function PrfSignUpPage() {
           branchId,
           career: [],
           qualifications: uploadedQualifications,
-          isApproved: false,
+          isApproved: "pending",
           profileImg,
           autoLogin: false,
           createdAt: serverTimestamp(),
