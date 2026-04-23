@@ -23,9 +23,20 @@ function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
     theclimb_yeonnam: '연남점',
   };
 
+  const getBranchName = (branchId) => {
+    if (!branchId) return '';
+
+    //  한글이면 그대로 처리
+    if (branchId.startsWith('더클라임')) {
+      return branchId.replace(/^더클라임\s*/, '');
+    }
+
+    //  영문 key면 map 사용
+    return branchMap[branchId] || '';
+  };
+
   const navigate = useNavigate();
   const name = userData?.name || '사용자';
-  const branch = branchMap[userData?.branchId] || '';
   const level = userData?.level || 'V0';
   const levelNumber = parseInt(level.replace('V', '')) || 0;
   const nextLevel = `V${levelNumber + 1}`;
@@ -34,10 +45,10 @@ function ProfileCard({ userData, showButtons = true, attemptCount = 0 }) {
   const remain = point % 4 === 0 && point !== 0 ? 0 : 4 - (point % 4);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const branch = getBranchName(userData?.branchId);
+
   const roleLabel =
-    userData?.role === 'student'
-      ? '수강생'
-      : branchMap[userData?.branchId] || '';
+    userData?.role === 'student' ? '수강생' : `강사 · ${branch}`;
   return (
     <div className={styles.card}>
       <div className={styles.top}>

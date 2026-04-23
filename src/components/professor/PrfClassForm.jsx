@@ -49,7 +49,10 @@ function PrfClassForm({ onSuccess, onCancle }) {
 
   useEffect(() => {
     const fetchBranches = async () => {
-      const q = query(collection(db, 'branches'), where('status', '==', 'approved'));
+      const q = query(
+        collection(db, 'branches'),
+        where('status', '==', 'approved')
+      );
       const snap = await getDocs(q);
       setBranches(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     };
@@ -65,14 +68,26 @@ function PrfClassForm({ onSuccess, onCancle }) {
 
       if (snap.exists()) {
         const data = snap.data();
+
         if (data.branchId) {
-          setForm((prev) => ({ ...prev, branchId: data.branchId }));
+          const matchedBranch = branches.find(
+            (b) =>
+              b.id === data.branchId || // 정상 케이스
+              b.name === data.branchId // 문제 케이스 (한글)
+          );
+
+          if (matchedBranch) {
+            setForm((prev) => ({
+              ...prev,
+              branchId: matchedBranch.id, // ← 무조건 id로 통일
+            }));
+          }
         }
       }
     };
 
     fetchUser();
-  }, [editData]);
+  }, [branches, editData]);
 
   const [error, setError] = useState({});
 

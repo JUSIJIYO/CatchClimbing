@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import styles from "../../styles/css/community/CommentForm.module.css";
-import CommentItem from "../../components/community/CommentItem";
-import { db } from "../../firebase/config";
+import React, { useState, useEffect } from 'react';
+import styles from '../../styles/css/community/CommentForm.module.css';
+import CommentItem from '../../components/community/CommentItem';
+import { db } from '../../firebase/config';
 import {
   collection,
   addDoc,
@@ -12,15 +12,15 @@ import {
   updateDoc,
   increment,
   serverTimestamp,
-} from "firebase/firestore";
-import Modal from "../../components/common/Modal";
-import CheckModal from "../common/ChkModal";
-import { useAuth } from "../../context/AuthContext";
-import { doc, getDoc } from "firebase/firestore";
+} from 'firebase/firestore';
+import Modal from '../../components/common/Modal';
+import CheckModal from '../common/ChkModal';
+import { useAuth } from '../../context/AuthContext';
+import { doc, getDoc } from 'firebase/firestore';
 // 부모 컴포넌트로부터 postId를 넘겨받는다고 가정합니다.
 function CommentForm({ postId }) {
   const [comments, setComments] = useState([]);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -37,16 +37,16 @@ function CommentForm({ postId }) {
       try {
         setLoading(true);
         const q = query(
-          collection(db, "comments"),
-          where("postId", "==", postId),
-          orderBy("createdAt", "asc"),
+          collection(db, 'comments'),
+          where('postId', '==', postId),
+          orderBy('createdAt', 'asc')
         );
 
         const querySnapshot = await getDocs(q);
 
         const fetchedComments = querySnapshot.docs.map((doc) => {
           const data = doc.data();
-          let timeString = "방금 전";
+          let timeString = '방금 전';
 
           if (data.createdAt) {
             const date = data.createdAt.toDate
@@ -64,7 +64,7 @@ function CommentForm({ postId }) {
 
         setComments(fetchedComments);
       } catch (e) {
-        console.error("댓글 불러오기 실패:", e);
+        console.error('댓글 불러오기 실패:', e);
       } finally {
         setLoading(false);
       }
@@ -79,48 +79,45 @@ function CommentForm({ postId }) {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
+
     try {
-      let name = "이름 없음";
+      let name = '이름 없음';
 
       if (!isAnonymous && currentUser?.uid) {
-        const q = query(
-          collection(db, "users"),
-          where("uid", "==", currentUser.uid),
-        );
+        const userSnap = await getDoc(doc(db, 'users', currentUser.uid));
 
-        const snapshot = await getDocs(q);
-
-        if (!snapshot.empty) {
-          name = snapshot.docs[0].data().name;
+        if (userSnap.exists()) {
+          name = userSnap.data().name;
         }
       }
 
       const newComment = {
         postId,
         authorId: currentUser?.uid,
-        authorName: isAnonymous ? "익명" : name,
+        authorName: isAnonymous ? '익명' : name,
         authorRole: role,
         isAnonymous,
         content: text,
         createdAt: new Date(),
       };
 
-      const docRef = await addDoc(collection(db, "comments"), newComment);
-await updateDoc(doc(db, "posts", postId), {
-  commentCount: increment(1),
-});
+      const docRef = await addDoc(collection(db, 'comments'), newComment);
+
+      await updateDoc(doc(db, 'posts', postId), {
+        commentCount: increment(1),
+      });
 
       setComments((prev) => [
         ...prev,
-        { id: docRef.id, ...newComment, createdAt: "방금 전" },
+        { id: docRef.id, ...newComment, createdAt: '방금 전' },
       ]);
 
-      setText("");
+      setText('');
       setIsConfirmModalOpen(true);
     } catch (e) {
-      console.error("댓글 등록 실패:", e);
-    }finally {
-    setIsSubmitting(false); 
+      console.error('댓글 등록 실패:', e);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -131,7 +128,7 @@ await updateDoc(doc(db, "posts", postId), {
   };
 
   return (
-    <div className={styles["comment-container"]}>
+    <div className={styles['comment-container']}>
       {/* 확인모달 */}
       {isModalOpen && (
         <Modal
@@ -154,8 +151,8 @@ await updateDoc(doc(db, "posts", postId), {
           onConfirm={() => setIsConfirmModalOpen(false)}
         />
       )}
-      <h3 className={styles["comment-title"]}>댓글 {comments.length}</h3>
-      <div className={styles["comment-list"]}>
+      <h3 className={styles['comment-title']}>댓글 {comments.length}</h3>
+      <div className={styles['comment-list']}>
         {loading ? (
           <p>댓글을 불러오는 중...</p>
         ) : (
@@ -174,15 +171,15 @@ await updateDoc(doc(db, "posts", postId), {
           ))
         )}
       </div>
-      <div className={styles["comment-inputbox"]}>
+      <div className={styles['comment-inputbox']}>
         <textarea
           placeholder="댓글을 입력하세요..."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
       </div>
-      <div className={styles["comment-footer"]}>
-        <label className={styles["anonymous"]}>
+      <div className={styles['comment-footer']}>
+        <label className={styles['anonymous']}>
           <input
             type="checkbox"
             checked={isAnonymous}
@@ -192,7 +189,7 @@ await updateDoc(doc(db, "posts", postId), {
         </label>
 
         <button
-          className={styles["comment-submitbtn"]}
+          className={styles['comment-submitbtn']}
           onClick={handleOpenModal}
         >
           작성하기
@@ -203,3 +200,4 @@ await updateDoc(doc(db, "posts", postId), {
 }
 
 export default CommentForm;
+

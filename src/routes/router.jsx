@@ -30,7 +30,7 @@ const CommuPostPage = lazy(() => import('../pages/community/CommuPostPage'));
 const CommuReviewPage = lazy(() => import('../pages/community/CommuReviewPage'));
 const PostDetailPage = lazy(() => import('../pages/community/PostDetailpage'));
 const PostFormPage = lazy(() => import('../pages/community/PostFormPage'));
-const ReviewDetailPage = lazy(() => import('../pages/community/ReviewDetailPage'));
+// const ReviewDetailPage = lazy(() => import('../pages/community/ReviewDetailPage'));
 const ReviewFormPage = lazy(() => import('../pages/community/ReviewFormPage'));
 const ClassListPage = lazy(() => import('../pages/class/ClassListPage'));
 const ClassDetailPage = lazy(() => import('../pages/class/ClassDetailPage'));
@@ -54,8 +54,8 @@ const BranchManagePage = lazy(() => import('../pages/admin/BranchManagePage'));
 const MemberManagePage = lazy(() => import('../pages/admin/total/MemberManagePage'));
 const ClassManagePage = lazy(() => import('../pages/admin/ClassManagePage'));
 const CommuManagePage = lazy(() => import('../pages/admin/CommuManagePage'));
-const SystemManagePage = lazy(() => import('../pages/admin/total/SystemManagePage'));
-const OperateSettingPage = lazy(() => import('../pages/admin/total/OperateSettingPage'));
+// const SystemManagePage = lazy(() => import('../pages/admin/total/SystemManagePage'));
+// const OperateSettingPage = lazy(() => import('../pages/admin/total/OperateSettingPage'));
 const PrfManagePage = lazy(() => import('../pages/admin/branch/PrfManagePage'));
 const AdminPrfApprovePage = lazy(() => import('../pages/admin/AdminPrfApprovePage'));
 const BranchForm = lazy(() => import('../components/admin/BranchForm'));
@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
       { path: '/post/:id', element: sus(PostDetailPage) },
       { path: '/post/edit/:postId', element: sus(PostFormPage) },
       { path: '/postform', element: sus(PostFormPage) },
-      { path: '/reviewdetail', element: sus(ReviewDetailPage) },
+      // { path: '/reviewdetail', element: sus(ReviewDetailPage) },
       { path: '/reviewform', element: sus(ReviewFormPage) },
       { path: 'class', element: sus(ClassListPage) },
       { path: 'class/:id', element: sus(ClassDetailPage) },
@@ -141,8 +141,8 @@ export const router = createBrowserRouter([
       { path: 'branchmanage/:id', element: sus(AdminBranchDetailPage) },
       { path: 'classmanage', element: sus(ClassManagePage) },
       { path: 'community', element: sus(CommuManagePage) },
-      { path: 'system', element: sus(SystemManagePage) },
-      { path: 'operation', element: sus(OperateSettingPage) },
+      // { path: 'system', element: sus(SystemManagePage) },
+      // { path: 'operation', element: sus(OperateSettingPage) },
     ],
   },
 ]);

@@ -3,10 +3,12 @@ import styles from '../../styles/css/mypage/LevelCard.module.css';
 import levelIcon from '../../assets/icon/mypageLevelup.svg';
 
 function LevelCard({ userData, attemptCount = 0 }) {
-  const levelNumber = parseInt(userData?.level?.replace('V', '')) || 0;
-
   const total = 4;
+
+  // 7회 = 1포인트
   const point = Math.floor(attemptCount / 7);
+
+  // 남은 포인트 계산 (ProfileCard랑 동일)
   const remain =
     point % total === 0 && point !== 0 ? 0 : total - (point % total);
 

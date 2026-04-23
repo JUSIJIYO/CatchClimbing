@@ -90,7 +90,7 @@ function MyLevelSystemPage() {
 
           <div className={styles.row}>
             <LevelGuide />
-            <LevelCard userData={userData} />
+            <LevelCard userData={userData} attemptCount={attemptCount} />
           </div>
         </div>
       </div>

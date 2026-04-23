@@ -15,7 +15,7 @@ function CommuPostPage() {
         <p>클라이머들과 소통해보세요</p>
       </div>
 
-      {branchId && <p>선택된 지점 : {branchId}</p>}
+      {/* {branchId && <p>선택된 지점 : {branchId}</p>} */}
 
       <CommuList branchId={branchId} />
     </div>

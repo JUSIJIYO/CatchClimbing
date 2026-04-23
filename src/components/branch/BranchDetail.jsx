@@ -49,8 +49,8 @@ function BranchDetail({ branch }) {
     branchData.longitude ?? branchData.longtitude ?? branchData.logitude
   );
 
-  console.log('lat:', lat, typeof lat);
-  console.log('lng:', lng, typeof lng);
+  // console.log('lat:', lat, typeof lat);
+  // console.log('lng:', lng, typeof lng);
 
   const coords = !isNaN(lat) && !isNaN(lng) ? { lat, lng } : null;
   const [rating, setRating] = useState(0);

@@ -79,6 +79,6 @@
   font-size: 15px;
   color: #333;
   line-height: 1.6;
-  white-space: pre-wrap;
+  /* white-space: pre-wrap; */
 }
 

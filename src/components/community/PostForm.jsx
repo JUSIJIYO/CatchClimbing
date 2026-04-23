@@ -175,7 +175,7 @@ export default function PostForm() {
               <option value="">지점 선택</option>
               {branches.map((branch) => (
                 <option key={branch.id} value={branch.name}>
-                  {b.name}
+                  {branch.name}
                 </option>
               ))}
             </select>
